@@ -1,3 +1,59 @@
+<script>
+	import { onMount } from 'svelte';
+
+	onMount(() => {
+		const cards = document.getElementsByClassName('card');
+
+		for (let i = 0; i < cards.length; i++) {
+			dragElement(cards[i]);
+		}
+
+		function dragElement(elmnt) {
+			var pos1 = 0,
+				pos2 = 0,
+				pos3 = 0,
+				pos4 = 0;
+			if (document.getElementById(elmnt.id + 'header')) {
+				// if present, the header is where you move the DIV from:
+				document.getElementById(elmnt.id + 'header').onmousedown = dragMouseDown;
+			} else {
+				// otherwise, move the DIV from anywhere inside the DIV:
+				elmnt.onmousedown = dragMouseDown;
+			}
+
+			function dragMouseDown(e) {
+				e = e || window.event;
+				e.preventDefault();
+				// get the mouse cursor position at startup:
+				pos3 = e.clientX;
+				pos4 = e.clientY;
+				document.onmouseup = closeDragElement;
+				// call a function whenever the cursor moves:
+				document.onmousemove = elementDrag;
+			}
+
+			function elementDrag(e) {
+				e = e || window.event;
+				e.preventDefault();
+				// calculate the new cursor position:
+				pos1 = pos3 - e.clientX;
+				pos2 = pos4 - e.clientY;
+				pos3 = e.clientX;
+				pos4 = e.clientY;
+				// set the element's new position:
+				elmnt.style.top = elmnt.offsetTop - pos2 + 'px';
+				elmnt.style.left = elmnt.offsetLeft - pos1 + 'px';
+			}
+
+			function closeDragElement() {
+				// stop moving when mouse button is released:
+				document.onmouseup = null;
+				document.onmousemove = null;
+			}
+		}
+	});
+</script>
+
 <div class="main min-h-[100vh] min-w-[100vw] flex">
 	<div class="sidebar z-[100]">
 		<aside
@@ -69,10 +125,9 @@
 		>
 			{#each [1, 2, 3, 4] as card}
 				<div
-					draggable="true"
-					class="bg-[#fcfcfc] w-[10vw] rounded-lg h-[10vh] border-2 flex justify-center items-center p-[10px] m-[10px]"
+					class="card cursor-move absolute z-[9] h-[100px] w-[200px] bg-[#f1f1f1] flex justify-center items-center"
 				>
-					<p>Card {card}</p>
+					<div id="cardheader">Card {card}</div>
 				</div>
 			{/each}
 		</div>
