@@ -25,7 +25,8 @@
 		cardElement.style.top = '20px';
 
 		const titleElement = document.createElement('p');
-		titleElement.className = 'title bg-[#dddddd] w-[100%] text-center rounded-xl rounded-b-none';
+		titleElement.className =
+			'title absolute top-0 bg-[#dddddd] w-[100%] text-center rounded-xl rounded-b-none';
 		titleElement.innerText = `${card.name}`;
 
 		const contentElement = document.createElement('p');
@@ -34,9 +35,22 @@
 
 		const spanElement1 = document.createElement('span');
 		spanElement1.innerText = 'I/P';
+		spanElement1.className = 'input-anchors left flex flex-start items-center pl-[10px]';
 
 		const spanElement2 = document.createElement('span');
 		spanElement2.innerText = 'O/P';
+		spanElement2.className = 'input-anchors left flex flex-start items-center pr-[10px]';
+
+		const spanElement3 = document.createElement('span');
+		spanElement3.className =
+			'h-[10px] w-[10px] rounded-full bg-[#ff0000] absolute left-[-5px] text-start hover:cursor-default';
+
+		const spanElement4 = document.createElement('span');
+		spanElement4.className =
+			'h-[10px] w-[10px] rounded-full bg-[#ff0000] absolute right-[-5px] text-start hover:cursor-default';
+
+		spanElement1.appendChild(spanElement3);
+		spanElement2.appendChild(spanElement4);
 
 		contentElement.appendChild(spanElement1);
 		contentElement.appendChild(spanElement2);
@@ -182,19 +196,27 @@
 	</div>
 	<div class="flex flex-col w-[100%]">
 		<div class="canvas w-[100%] h-[75%] overflow-scroll p-[10px]">
-			<Svelvet width={canvasWidth - 15} height={canvasHeight - 15} theme="white" minimap>
+			<!-- <Svelvet width={canvasWidth - 15} height={canvasHeight - 15} theme="white">
 				<Node
-					id="node-id"
+					id={`node${0}`}
 					inputs={1}
 					outputs={1}
-					position={{ x: 0, y: 0 }}
+					position={{ x: 10, y: 10 }}
 					height={100}
 					width={200}
 				/>
-			</Svelvet>
+				<Node
+					id={`node${1}`}
+					inputs={1}
+					outputs={1}
+					position={{ x: 10, y: 10 }}
+					height={100}
+					width={200}
+				/>
+			</Svelvet> -->
 		</div>
 		<div
-			class="absolute overflow-x-auto grid-container z-[40] bottom-0 h-[25%] w-[100%] bg-[#eeeeee] items-center border-t-[1px] border-[#dddddd] p-[10px] sm:justify-center usm:justify-start"
+			class="absolute grid-container overflow-auto z-[40] bottom-0 h-[25%] w-[100%] bg-[#eeeeee] items-center border-t-[1px] border-[#dddddd] p-[10px] sm:justify-center usm:justify-start"
 		>
 			{#each cards as card, index}
 				<button
@@ -203,11 +225,21 @@
 						cloneAndDragCard(cards[index]);
 					}}
 				>
-					<p class="title bg-[#dddddd] w-[100%] text-center rounded-xl rounded-b-none">
+					<p
+						class="title absolute top-0 bg-[#dddddd] w-[100%] text-center rounded-xl rounded-b-none"
+					>
 						{card.name}
 					</p>
 					<p class="flex w-[100%] h-[100%] justify-between items-center text-[0.8rem] font-[600]">
-						<span>I/P</span><span>O/P</span>
+						<span class="input-anchors left flex flex-start items-center pl-[10px]"
+							><span
+								class="h-[10px] w-[10px] rounded-full bg-[#ff0000] absolute left-[-5px] text-start hover:cursor-default'"
+							/>I/P</span
+						><span class="input-anchors right flex flex-start items-center pr-[10px]"
+							>O/P<span
+								class="h-[10px] w-[10px] rounded-full bg-[#ff0000] absolute right-[-5px] text-start hover:cursor-default'"
+							/></span
+						>
 					</p>
 				</button>
 			{/each}
