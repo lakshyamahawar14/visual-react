@@ -9,7 +9,7 @@
 		{ name: 'onKeyDown' }
 	];
 	let hooksCards = [{ name: 'useState' }, { name: 'useEffect' }, { name: 'useRef' }];
-	let cards = listenersCards;
+	let cards = hooksCards;
 
 	onMount(() => {
 		const cardsElements = document.getElementsByClassName('card');
@@ -107,10 +107,10 @@
 	});
 </script>
 
-<div class="main min-h-[100vh] min-w-[100vw] h-[auto] w-[auto] flex">
+<div class="main min-h-[100vh] min-w-[100vw] flex">
 	<div class="sidebar z-[100]">
 		<aside
-			class="flex flex-col w-[15%] min-w-[200px] h-screen px-5 py-8 overflow-y-auto bg-[#dddddd] border-[#dddddd] border-r-[1px]"
+			class="flex flex-col w-[15%] min-w-[200px] h-screen px-5 py-8 bg-[#dddddd] border-[#dddddd] border-r-[1px]"
 		>
 			<a href="/">
 				<h1 class="cursor-default font-[600] tracking-wide">
@@ -177,15 +177,14 @@
 		</aside>
 	</div>
 	<div class="flex flex-col w-[100%]">
-		<div class="canvas w-[100%] h-[100%]" />
+		<div class="canvas w-[100%] h-[75%]" />
 
 		<div
-			class="absolute z-[40] bottom-0 h-[25%] w-[100%] bg-[#ffffff] flex items-center justify-center border-t-[1px] border-[#dddddd]"
+			class="absolute overflow-y-scroll grid-container z-[40] bottom-0 h-[25%] w-[100%] bg-[#eeeeee] items-center border-t-[1px] border-[#dddddd] p-[10px]"
 		>
 			{#each cards as card, index}
 				<div
-					class={`card flex-col rounded-xl cursor-move absolute z-[9] h-[100px] w-[200px] bg-[#fcfcfc] bg-opacity-[0.4] shadow-md flex justify-start items-center backdrop-blur-[4px]`}
-					style="left: {210 * index + 10}px;"
+					class={`card m-[10px] flex-col rounded-xl cursor-move relative z-[9] h-[100px] w-[200px] min-w-[200px] min-h-[100px] bg-[#fcfcfc] bg-opacity-[0.4] shadow-md flex justify-center items-start backdrop-blur-[4px]`}
 				>
 					<p class="title bg-[#dddddd] w-[100%] text-center rounded-xl rounded-b-none">
 						Card {card.name}

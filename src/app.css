@@ -44,3 +44,12 @@
 ::-webkit-scrollbar-thumb.vertical:hover {
 	background-color: #555;
 }
+
+.grid-container {
+	/* display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+	gap: 20px; */
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-start;
+}
