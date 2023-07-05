@@ -1,11 +1,12 @@
 <script>
 	import { onMount } from 'svelte';
+	let cards = [{ name: 'component1' }, { name: 'component2' }];
 
 	onMount(() => {
-		const cards = document.getElementsByClassName('card');
+		const cardsElements = document.getElementsByClassName('card');
 
-		for (let i = 0; i < cards.length; i++) {
-			dragElement(cards[i]);
+		for (let i = 0; i < cardsElements.length; i++) {
+			dragElement(cardsElements[i]);
 		}
 
 		function dragElement(elmnt) {
@@ -14,39 +15,32 @@
 				pos3 = 0,
 				pos4 = 0;
 			if (document.getElementById(elmnt.id + 'header')) {
-				// if present, the header is where you move the DIV from:
 				document.getElementById(elmnt.id + 'header').onmousedown = dragMouseDown;
 			} else {
-				// otherwise, move the DIV from anywhere inside the DIV:
 				elmnt.onmousedown = dragMouseDown;
 			}
 
 			function dragMouseDown(e) {
 				e = e || window.event;
 				e.preventDefault();
-				// get the mouse cursor position at startup:
 				pos3 = e.clientX;
 				pos4 = e.clientY;
 				document.onmouseup = closeDragElement;
-				// call a function whenever the cursor moves:
 				document.onmousemove = elementDrag;
 			}
 
 			function elementDrag(e) {
 				e = e || window.event;
 				e.preventDefault();
-				// calculate the new cursor position:
 				pos1 = pos3 - e.clientX;
 				pos2 = pos4 - e.clientY;
 				pos3 = e.clientX;
 				pos4 = e.clientY;
-				// set the element's new position:
 				elmnt.style.top = elmnt.offsetTop - pos2 + 'px';
 				elmnt.style.left = elmnt.offsetLeft - pos1 + 'px';
 			}
 
 			function closeDragElement() {
-				// stop moving when mouse button is released:
 				document.onmouseup = null;
 				document.onmousemove = null;
 			}
@@ -123,11 +117,13 @@
 		<div
 			class="absolute bottom-0 h-[25%] w-[100%] bg=[#fcfcfc] flex items-center justify-center border-t-[1px] border-[#dddddd]"
 		>
-			{#each [1, 2, 3, 4] as card}
+			{#each cards as card, index}
 				<div
-					class="card cursor-move absolute z-[9] h-[100px] w-[200px] bg-[#f1f1f1] flex justify-center items-center"
+					class={`card flex-col cursor-move absolute z-[9] h-[100px] w-[200px] bg-[#f1f1f1] flex justify-start items-center`}
+					style="left: {210 * index + 10}px;"
 				>
-					<div id="cardheader">Card {card}</div>
+					<p class="title bg-[#dddddd] w-[100%] text-center">Card {card.name}</p>
+					<p class="m-auto">Component Card</p>
 				</div>
 			{/each}
 		</div>
