@@ -169,7 +169,7 @@
 		<div class="canvas w-[100%] h-[75%] overflow-auto" />
 
 		<div
-			class="absolute overflow-x-auto grid-container z-[40] bottom-0 h-[25%] w-[100%] bg-[#eeeeee] items-center border-t-[1px] border-[#dddddd] p-[10px]"
+			class="absolute overflow-x-auto grid-container z-[40] bottom-0 h-[25%] w-[100%] bg-[#eeeeee] items-center border-t-[1px] border-[#dddddd] p-[10px] sm:justify-center usm:justify-start"
 		>
 			{#each cards as card, index}
 				<button
