@@ -21,11 +21,20 @@
 
 		const titleElement = document.createElement('p');
 		titleElement.className = 'title bg-[#dddddd] w-[100%] text-center rounded-xl rounded-b-none';
-		titleElement.innerText = `Card ${card.name}`;
+		titleElement.innerText = `${card.name}`;
 
 		const contentElement = document.createElement('p');
-		contentElement.className = 'm-auto';
-		contentElement.innerText = 'Component Card';
+		contentElement.className =
+			'flex w-[100%] h-[100%] justify-between items-center text-[0.8rem] font-[600]';
+
+		const spanElement1 = document.createElement('span');
+		spanElement1.innerText = 'I/P';
+
+		const spanElement2 = document.createElement('span');
+		spanElement2.innerText = 'O/P';
+
+		contentElement.appendChild(spanElement1);
+		contentElement.appendChild(spanElement2);
 
 		cardElement.appendChild(titleElement);
 		cardElement.appendChild(contentElement);
@@ -118,48 +127,43 @@
 							<span class="mx-2 text-sm font-medium">New Canvas</span>
 						</p>
 
-						<a
-							class="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:text-gray-200"
-							href="/"
+						<button
+							class="flex w-[100%] items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:text-gray-200"
 						>
 							<span class="mx-2 text-sm font-medium">+ Add Canvas</span>
-						</a>
+						</button>
 					</div>
 
 					<div class="space-y-3">
 						<h2 class="px-3 text-xs uppercase text-[#101010]">cards</h2>
 
-						<a
-							class="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:text-gray-200"
-							href="/"
+						<button
+							class="flex w-[100%] items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:text-gray-200"
 							id="routes"
 						>
 							<span class="mx-2 text-sm font-medium">Routes</span>
-						</a>
+						</button>
 
-						<a
-							class="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:text-gray-200"
-							href="/"
+						<button
+							class="flex w-[100%] items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:text-gray-200"
 							id="components"
 						>
 							<span class="mx-2 text-sm font-medium">Components</span>
-						</a>
+						</button>
 
-						<a
-							class="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:text-gray-200"
-							href="/"
+						<button
+							class="flex w-[100%] items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:text-gray-200"
 							id="hooks"
 						>
 							<span class="mx-2 text-sm font-medium">Hooks</span>
-						</a>
+						</button>
 
-						<a
-							class="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:text-gray-200"
-							href="/"
+						<button
+							class="flex w-[100%] items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:text-gray-200"
 							id="listeners"
 						>
 							<span class="mx-2 text-sm font-medium">Event Listeners</span>
-						</a>
+						</button>
 					</div>
 				</nav>
 			</div>
@@ -179,9 +183,11 @@
 					}}
 				>
 					<p class="title bg-[#dddddd] w-[100%] text-center rounded-xl rounded-b-none">
-						Card {card.name}
+						{card.name}
 					</p>
-					<p class="m-auto">Component Card</p>
+					<p class="flex w-[100%] h-[100%] justify-between items-center text-[0.8rem] font-[600]">
+						<span>I/P</span><span>O/P</span>
+					</p>
 				</button>
 			{/each}
 		</div>
