@@ -1,24 +1,55 @@
 <script>
 	import { onMount } from 'svelte';
-	let cards = [{ name: 'component1' }, { name: 'component2' }];
+	let routesCards = [{ name: 'route' }];
+	let componentsCards = [{ name: 'components' }];
+	let listenersCards = [
+		{ name: 'onClick' },
+		{ name: 'onSubmit' },
+		{ name: 'onKeyUp' },
+		{ name: 'onKeyDown' }
+	];
+	let hooksCards = [{ name: 'useState' }, { name: 'useEffect' }, { name: 'useRef' }];
+	let cards = listenersCards;
 
 	onMount(() => {
 		const cardsElements = document.getElementsByClassName('card');
 
-		for (let i = 0; i < cardsElements.length; i++) {
-			dragElement(cardsElements[i]);
+		for (let i = 0; i < cardsElements.length; ++i) {
+			cardsElements[i].addEventListener('click', () => {
+				cloneAndDragCard(cards[i]);
+			});
+		}
+
+		function cloneAndDragCard(card) {
+			const cardsContainer = document.querySelector('.canvas');
+			const cardElement = document.createElement('div');
+			cardElement.className =
+				'card flex-col rounded-xl cursor-move absolute z-[0] h-[100px] w-[200px] bg-[#f1f1f1] flex justify-start items-center';
+			cardElement.style.left = '0';
+			cardElement.style.top = '0';
+
+			const titleElement = document.createElement('p');
+			titleElement.className = 'title bg-[#dddddd] w-[100%] text-center rounded-xl rounded-b-none';
+			titleElement.innerText = `Card ${card.name}`;
+
+			const contentElement = document.createElement('p');
+			contentElement.className = 'm-auto';
+			contentElement.innerText = 'Component Card';
+
+			cardElement.appendChild(titleElement);
+			cardElement.appendChild(contentElement);
+			console.log(cardElement);
+
+			cardsContainer.appendChild(cardElement);
+			dragElement(cardElement);
 		}
 
 		function dragElement(elmnt) {
-			var pos1 = 0,
+			let pos1 = 0,
 				pos2 = 0,
 				pos3 = 0,
 				pos4 = 0;
-			if (document.getElementById(elmnt.id + 'header')) {
-				document.getElementById(elmnt.id + 'header').onmousedown = dragMouseDown;
-			} else {
-				elmnt.onmousedown = dragMouseDown;
-			}
+			elmnt.onmousedown = dragMouseDown;
 
 			function dragMouseDown(e) {
 				e = e || window.event;
@@ -44,6 +75,34 @@
 				document.onmouseup = null;
 				document.onmousemove = null;
 			}
+		}
+
+		const routesElement = document.getElementById('routes');
+		if (routesElement) {
+			routesElement.addEventListener('click', () => {
+				cards = routesCards;
+			});
+		}
+
+		const componentsElement = document.getElementById('components');
+		if (componentsElement) {
+			componentsElement.addEventListener('click', () => {
+				cards = componentsCards;
+			});
+		}
+
+		const hooksElement = document.getElementById('hooks');
+		if (hooksElement) {
+			hooksElement.addEventListener('click', () => {
+				cards = hooksCards;
+			});
+		}
+
+		const listenersElement = document.getElementById('listeners');
+		if (listenersElement) {
+			listenersElement.addEventListener('click', () => {
+				cards = listenersCards;
+			});
 		}
 	});
 </script>
@@ -84,6 +143,7 @@
 						<a
 							class="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:text-gray-200"
 							href="/"
+							id="routes"
 						>
 							<span class="mx-2 text-sm font-medium">Routes</span>
 						</a>
@@ -91,6 +151,7 @@
 						<a
 							class="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:text-gray-200"
 							href="/"
+							id="components"
 						>
 							<span class="mx-2 text-sm font-medium">Components</span>
 						</a>
@@ -98,6 +159,7 @@
 						<a
 							class="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:text-gray-200"
 							href="/"
+							id="hooks"
 						>
 							<span class="mx-2 text-sm font-medium">Hooks</span>
 						</a>
@@ -105,6 +167,7 @@
 						<a
 							class="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:text-gray-200"
 							href="/"
+							id="listeners"
 						>
 							<span class="mx-2 text-sm font-medium">Event Listeners</span>
 						</a>
@@ -115,14 +178,16 @@
 	</div>
 	<div class="canvas w-[100%]">
 		<div
-			class="absolute bottom-0 h-[25%] w-[100%] bg=[#fcfcfc] flex items-center justify-center border-t-[1px] border-[#dddddd]"
+			class="absolute z-[40] bottom-0 h-[25%] w-[100%] bg=[#fcfcfc] flex items-center justify-center border-t-[1px] border-[#dddddd]"
 		>
 			{#each cards as card, index}
 				<div
-					class={`card flex-col cursor-move absolute z-[9] h-[100px] w-[200px] bg-[#f1f1f1] flex justify-start items-center`}
+					class={`card flex-col rounded-xl cursor-move absolute z-[9] h-[100px] w-[200px] bg-[#f1f1f1] flex justify-start items-center`}
 					style="left: {210 * index + 10}px;"
 				>
-					<p class="title bg-[#dddddd] w-[100%] text-center">Card {card.name}</p>
+					<p class="title bg-[#dddddd] w-[100%] text-center rounded-xl rounded-b-none">
+						Card {card.name}
+					</p>
 					<p class="m-auto">Component Card</p>
 				</div>
 			{/each}
