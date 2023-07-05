@@ -1,5 +1,10 @@
 <script>
 	import { onMount } from 'svelte';
+	import { Svelvet, Node, Anchor, Edge, Controls } from 'svelvet';
+
+	let canvasHeight = 500,
+		canvasWidth = 500;
+
 	let routesCards = [{ name: 'route' }];
 	let componentsCards = [{ name: 'components' }];
 	let listenersCards = [
@@ -77,6 +82,12 @@
 	}
 
 	onMount(() => {
+		const canvasElement = document.getElementsByClassName('canvas')[0];
+		if (canvasElement) {
+			canvasHeight = canvasElement.scrollHeight;
+			canvasWidth = canvasElement.scrollWidth;
+		}
+
 		const routesElement = document.getElementById('routes');
 		if (routesElement) {
 			routesElement.addEventListener('click', () => {
@@ -107,7 +118,7 @@
 	});
 </script>
 
-<div class="main min-h-[100vh] min-w-[100vw] flex">
+<div class="main min-h-[100vh] min-w-[100vw] flex overflow-hidden">
 	<div class="sidebar z-[100] min-w-[200px] overflow-hidden">
 		<aside class="flex flex-col h-screen px-5 py-8 bg-[#dddddd] border-[#dddddd] border-r-[1px]">
 			<a href="/">
@@ -170,8 +181,18 @@
 		</aside>
 	</div>
 	<div class="flex flex-col w-[100%]">
-		<div class="canvas w-[100%] h-[75%] overflow-auto" />
-
+		<div class="canvas w-[100%] h-[75%] overflow-scroll p-[10px]">
+			<Svelvet width={canvasWidth - 15} height={canvasHeight - 15} theme="white" minimap>
+				<Node
+					id="node-id"
+					inputs={1}
+					outputs={1}
+					position={{ x: 0, y: 0 }}
+					height={100}
+					width={200}
+				/>
+			</Svelvet>
+		</div>
 		<div
 			class="absolute overflow-x-auto grid-container z-[40] bottom-0 h-[25%] w-[100%] bg-[#eeeeee] items-center border-t-[1px] border-[#dddddd] p-[10px] sm:justify-center usm:justify-start"
 		>
