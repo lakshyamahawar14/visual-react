@@ -11,72 +11,63 @@
 	let hooksCards = [{ name: 'useState' }, { name: 'useEffect' }, { name: 'useRef' }];
 	let cards = hooksCards;
 
+	function cloneAndDragCard(card) {
+		const cardsContainer = document.querySelector('.canvas');
+		const cardElement = document.createElement('button');
+		cardElement.className =
+			'card flex-col rounded-xl cursor-move absolute z-[9] h-[100px] w-[200px] bg-[#fcfcfc] bg-opacity-[0.4] shadow-md flex justify-start items-center backdrop-blur-[4px]';
+		cardElement.style.left = '20px';
+		cardElement.style.top = '20px';
+
+		const titleElement = document.createElement('p');
+		titleElement.className = 'title bg-[#dddddd] w-[100%] text-center rounded-xl rounded-b-none';
+		titleElement.innerText = `Card ${card.name}`;
+
+		const contentElement = document.createElement('p');
+		contentElement.className = 'm-auto';
+		contentElement.innerText = 'Component Card';
+
+		cardElement.appendChild(titleElement);
+		cardElement.appendChild(contentElement);
+
+		cardsContainer.appendChild(cardElement);
+		dragElement(cardElement);
+	}
+
+	function dragElement(elmnt) {
+		let pos1 = 0,
+			pos2 = 0,
+			pos3 = 0,
+			pos4 = 0;
+		elmnt.onmousedown = dragMouseDown;
+
+		function dragMouseDown(e) {
+			e = e || window.event;
+			e.preventDefault();
+			pos3 = e.clientX;
+			pos4 = e.clientY;
+			document.onmouseup = closeDragElement;
+			document.onmousemove = elementDrag;
+		}
+
+		function elementDrag(e) {
+			e = e || window.event;
+			e.preventDefault();
+			pos1 = pos3 - e.clientX;
+			pos2 = pos4 - e.clientY;
+			pos3 = e.clientX;
+			pos4 = e.clientY;
+			elmnt.style.top = elmnt.offsetTop - pos2 + 'px';
+			elmnt.style.left = elmnt.offsetLeft - pos1 + 'px';
+		}
+
+		function closeDragElement() {
+			document.onmouseup = null;
+			document.onmousemove = null;
+		}
+	}
+
 	onMount(() => {
-		const cardsElements = document.getElementsByClassName('card');
-
-		for (let i = 0; i < cardsElements.length; ++i) {
-			cardsElements[i].addEventListener('click', () => {
-				cloneAndDragCard(cards[i]);
-			});
-		}
-
-		function cloneAndDragCard(card) {
-			const cardsContainer = document.querySelector('.canvas');
-			const cardElement = document.createElement('div');
-			cardElement.className =
-				'card flex-col rounded-xl cursor-move absolute z-[9] h-[100px] w-[200px] bg-[#fcfcfc] bg-opacity-[0.4] shadow-md flex justify-start items-center backdrop-blur-[4px]';
-			cardElement.style.left = '0';
-			cardElement.style.top = '0';
-
-			const titleElement = document.createElement('p');
-			titleElement.className = 'title bg-[#dddddd] w-[100%] text-center rounded-xl rounded-b-none';
-			titleElement.innerText = `Card ${card.name}`;
-
-			const contentElement = document.createElement('p');
-			contentElement.className = 'm-auto';
-			contentElement.innerText = 'Component Card';
-
-			cardElement.appendChild(titleElement);
-			cardElement.appendChild(contentElement);
-			console.log(cardElement);
-
-			cardsContainer.appendChild(cardElement);
-			dragElement(cardElement);
-		}
-
-		function dragElement(elmnt) {
-			let pos1 = 0,
-				pos2 = 0,
-				pos3 = 0,
-				pos4 = 0;
-			elmnt.onmousedown = dragMouseDown;
-
-			function dragMouseDown(e) {
-				e = e || window.event;
-				e.preventDefault();
-				pos3 = e.clientX;
-				pos4 = e.clientY;
-				document.onmouseup = closeDragElement;
-				document.onmousemove = elementDrag;
-			}
-
-			function elementDrag(e) {
-				e = e || window.event;
-				e.preventDefault();
-				pos1 = pos3 - e.clientX;
-				pos2 = pos4 - e.clientY;
-				pos3 = e.clientX;
-				pos4 = e.clientY;
-				elmnt.style.top = elmnt.offsetTop - pos2 + 'px';
-				elmnt.style.left = elmnt.offsetLeft - pos1 + 'px';
-			}
-
-			function closeDragElement() {
-				document.onmouseup = null;
-				document.onmousemove = null;
-			}
-		}
-
 		const routesElement = document.getElementById('routes');
 		if (routesElement) {
 			routesElement.addEventListener('click', () => {
@@ -108,10 +99,8 @@
 </script>
 
 <div class="main min-h-[100vh] min-w-[100vw] flex">
-	<div class="sidebar z-[100]">
-		<aside
-			class="flex flex-col w-[15%] min-w-[200px] h-screen px-5 py-8 bg-[#dddddd] border-[#dddddd] border-r-[1px]"
-		>
+	<div class="sidebar z-[100] min-w-[200px] overflow-hidden">
+		<aside class="flex flex-col h-screen px-5 py-8 bg-[#dddddd] border-[#dddddd] border-r-[1px]">
 			<a href="/">
 				<h1 class="cursor-default font-[600] tracking-wide">
 					Visual React <span class="version font-[400]">v1.0</span>
@@ -177,20 +166,23 @@
 		</aside>
 	</div>
 	<div class="flex flex-col w-[100%]">
-		<div class="canvas w-[100%] h-[75%]" />
+		<div class="canvas w-[100%] h-[75%] overflow-auto" />
 
 		<div
-			class="absolute overflow-y-scroll grid-container z-[40] bottom-0 h-[25%] w-[100%] bg-[#eeeeee] items-center border-t-[1px] border-[#dddddd] p-[10px]"
+			class="absolute overflow-x-auto grid-container z-[40] bottom-0 h-[25%] w-[100%] bg-[#eeeeee] items-center border-t-[1px] border-[#dddddd] p-[10px]"
 		>
 			{#each cards as card, index}
-				<div
+				<button
 					class={`card m-[10px] flex-col rounded-xl cursor-move relative z-[9] h-[100px] w-[200px] min-w-[200px] min-h-[100px] bg-[#fcfcfc] bg-opacity-[0.4] shadow-md flex justify-center items-start backdrop-blur-[4px]`}
+					on:click={() => {
+						cloneAndDragCard(cards[index]);
+					}}
 				>
 					<p class="title bg-[#dddddd] w-[100%] text-center rounded-xl rounded-b-none">
 						Card {card.name}
 					</p>
 					<p class="m-auto">Component Card</p>
-				</div>
+				</button>
 			{/each}
 		</div>
 	</div>
