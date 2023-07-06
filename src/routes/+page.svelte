@@ -148,8 +148,9 @@
 		const startElement = document.elementFromPoint(event.clientX, event.clientY);
 
 		if (startElement && startElement.classList.contains('outputs')) {
-			startX = startElement.getBoundingClientRect().left;
-			startY = startElement.getBoundingClientRect().right;
+			const startRect = startElement.getBoundingClientRect();
+			startX = startRect.left + startRect.width / 2 - 200 - 10;
+			startY = startRect.top + startRect.height / 2 - 10;
 		}
 	}
 
@@ -157,8 +158,9 @@
 		event.preventDefault();
 		const targetElement = document.elementFromPoint(event.clientX, event.clientY);
 		if (targetElement?.classList.contains('inputs')) {
-			endX = targetElement.getBoundingClientRect().left;
-			endY = targetElement.getBoundingClientRect().right;
+			const targetRect = targetElement.getBoundingClientRect();
+			endX = targetRect.left + targetRect.width / 2 - 200 - 10;
+			endY = targetRect.top + targetRect.height / 2 - 10;
 
 			drawLine(startX, startY, endX, endY);
 			(startX = 0), (startY = 0), (endX = 0), (endY = 0);
