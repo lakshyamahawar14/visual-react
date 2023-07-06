@@ -12,8 +12,8 @@ const CanvasSizeStore = writable([500, 500]);
 
 function initializeCardsMap() {
 	const cardsMap = [];
-	for (let i = 0; i < 10; i++) {
-		cardsMap[i] = [-1, -1];
+	for (let i = 0; i < 20; i++) {
+		cardsMap[i] = [[], []];
 	}
 	return cardsMap;
 }

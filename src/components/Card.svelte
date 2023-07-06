@@ -143,12 +143,10 @@
 	});
 
 	function addLine(inputNode, outputNode) {
-		console.log('new', [inputNode, outputNode]);
 		CardMapStore.update((prevValue) => {
 			const newCardMap = [...prevValue];
-			console.log('old', [newCardMap[inputNode][0], newCardMap[outputNode][1]]);
-			newCardMap[inputNode][0] = outputNode;
-			newCardMap[outputNode][1] = inputNode;
+			newCardMap[inputNode][0].push(outputNode);
+			newCardMap[outputNode][1].push(inputNode);
 			return newCardMap;
 		});
 	}
@@ -157,9 +155,11 @@
 		const tempLines = [];
 
 		for (let i = 0; i < cardMap.length; ++i) {
-			if (cardMap[i][0] !== -1) {
+			const outputConnections = cardMap[i][0];
+			const inputConnections = cardMap[i][1];
+
+			outputConnections.forEach((outputCardNumber) => {
 				const inputCardNumber = i;
-				const outputCardNumber = cardMap[i][0];
 				const start = [0, 0];
 				const end = [0, 0];
 
@@ -178,11 +178,10 @@
 				}
 
 				tempLines.push({ location: { start: start, end: end } });
-			}
+			});
 
-			if (cardMap[i][1] !== -1) {
+			inputConnections.forEach((inputCardNumber) => {
 				const outputCardNumber = i;
-				const inputCardNumber = cardMap[i][1];
 				const start = [0, 0];
 				const end = [0, 0];
 
@@ -201,7 +200,7 @@
 				}
 
 				tempLines.push({ location: { start: start, end: end } });
-			}
+			});
 		}
 
 		LinesStore.update((prevLines) => [...tempLines]);
