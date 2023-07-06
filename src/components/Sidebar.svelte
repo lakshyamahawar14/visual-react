@@ -1,5 +1,5 @@
 <script>
-	import { CardsStore } from '../stores/stores';
+	import { CanvasStore } from '../stores/stores';
 
 	let routesCards = [{ name: 'route' }];
 	let componentsCards = [{ name: 'components' }];
@@ -10,6 +10,15 @@
 		{ name: 'onKeyDown' }
 	];
 	let hooksCards = [{ name: 'useState' }, { name: 'useEffect' }, { name: 'useRef' }];
+
+	function storeCanvasData() {
+		let canvasData;
+		CanvasStore.subscribe((data) => {
+			canvasData = data;
+		});
+		// localStorage.setItem(`CanvasStore${0}`, JSON.stringify(canvasData));
+		console.log(localStorage.getItem(`CanvasStore${0}`));
+	}
 </script>
 
 <div class="sidebar z-[100] min-w-[200px] overflow-hidden">
@@ -32,6 +41,7 @@
 					</p>
 
 					<button
+						on:click={storeCanvasData}
 						class="flex w-[100%] items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:text-gray-200"
 					>
 						<span class="mx-2 text-sm font-medium">+ Add Canvas</span>
@@ -45,7 +55,27 @@
 						class="flex w-[100%] items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:text-gray-200"
 						id="routes"
 						on:click={() => {
-							CardsStore.update((prevCards) => routesCards);
+							CanvasStore.update((prevStore) => {
+								const {
+									cardStore,
+									linesStore,
+									cardsMapStore,
+									cardsNumberStore,
+									canvasSizeStore,
+									nodesStore
+								} = prevStore;
+
+								const updatedCards = routesCards;
+
+								return {
+									cardStore: updatedCards,
+									linesStore,
+									cardsMapStore,
+									cardsNumberStore,
+									canvasSizeStore,
+									nodesStore
+								};
+							});
 						}}
 					>
 						<span class="mx-2 text-sm font-medium">Routes</span>
@@ -55,7 +85,27 @@
 						class="flex w-[100%] items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:text-gray-200"
 						id="components"
 						on:click={() => {
-							CardsStore.update((prevCards) => componentsCards);
+							CanvasStore.update((prevStore) => {
+								const {
+									cardStore,
+									linesStore,
+									cardsMapStore,
+									cardsNumberStore,
+									canvasSizeStore,
+									nodesStore
+								} = prevStore;
+
+								const updatedCards = componentsCards;
+
+								return {
+									cardStore: updatedCards,
+									linesStore,
+									cardsMapStore,
+									cardsNumberStore,
+									canvasSizeStore,
+									nodesStore
+								};
+							});
 						}}
 					>
 						<span class="mx-2 text-sm font-medium">Components</span>
@@ -65,7 +115,27 @@
 						class="flex w-[100%] items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:text-gray-200"
 						id="hooks"
 						on:click={() => {
-							CardsStore.update((prevCards) => hooksCards);
+							CanvasStore.update((prevStore) => {
+								const {
+									cardStore,
+									linesStore,
+									cardsMapStore,
+									cardsNumberStore,
+									canvasSizeStore,
+									nodesStore
+								} = prevStore;
+
+								const updatedCards = hooksCards;
+
+								return {
+									cardStore: updatedCards,
+									linesStore,
+									cardsMapStore,
+									cardsNumberStore,
+									canvasSizeStore,
+									nodesStore
+								};
+							});
 						}}
 					>
 						<span class="mx-2 text-sm font-medium">Hooks</span>
@@ -75,7 +145,27 @@
 						class="flex w-[100%] items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:text-gray-200"
 						id="listeners"
 						on:click={() => {
-							CardsStore.update((prevCards) => listenersCards);
+							CanvasStore.update((prevStore) => {
+								const {
+									cardStore,
+									linesStore,
+									cardsMapStore,
+									cardsNumberStore,
+									canvasSizeStore,
+									nodesStore
+								} = prevStore;
+
+								const updatedCards = listenersCards;
+
+								return {
+									cardStore: updatedCards,
+									linesStore,
+									cardsMapStore,
+									cardsNumberStore,
+									canvasSizeStore,
+									nodesStore
+								};
+							});
 						}}
 					>
 						<span class="mx-2 text-sm font-medium">Event Listeners</span>

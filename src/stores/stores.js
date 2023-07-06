@@ -12,7 +12,7 @@ const CanvasSizeStore = writable([500, 500]);
 
 function initializeCardsMap() {
 	const cardsMap = [];
-	for (let i = 0; i < 20; i++) {
+	for (let i = 0; i < 5; i++) {
 		cardsMap[i] = [[], []];
 	}
 	return cardsMap;
@@ -22,4 +22,21 @@ const NodesStore = writable([-1, -1]);
 
 const CardMapStore = writable(initializeCardsMap());
 
-export { CardsStore, LinesStore, CardMapStore, CardsNumberStore, CanvasSizeStore, NodesStore };
+const CanvasStore = writable({
+	cardStore: hooksCards,
+	linesStore: [],
+	cardsMapStore: initializeCardsMap(),
+	cardsNumberStore: 0,
+	canvasSizeStore: [500, 500],
+	nodesStore: [-1, -1]
+});
+
+export {
+	CardsStore,
+	LinesStore,
+	CardMapStore,
+	CardsNumberStore,
+	CanvasSizeStore,
+	NodesStore,
+	CanvasStore
+};

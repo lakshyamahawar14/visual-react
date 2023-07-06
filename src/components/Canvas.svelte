@@ -1,15 +1,15 @@
 <script>
 	import { onMount } from 'svelte';
-	import { CanvasSizeStore, LinesStore } from '../stores/stores';
+	import { CanvasStore } from '../stores/stores';
 
 	let canvasSize;
-	CanvasSizeStore.subscribe((data) => {
-		canvasSize = data;
+	CanvasStore.subscribe((data) => {
+		canvasSize = data.canvasSizeStore;
 	});
 
 	let lines;
-	LinesStore.subscribe((data) => {
-		lines = data;
+	CanvasStore.subscribe((data) => {
+		lines = data.linesStore;
 	});
 
 	let canvasRef;
@@ -19,8 +19,26 @@
 			const canvasHeight = canvasRef.scrollHeight;
 			const canvasWidth = canvasRef.scrollWidth;
 
-			CanvasSizeStore.update((prevSize) => {
-				return [canvasHeight, canvasWidth];
+			CanvasStore.update((prevStore) => {
+				const {
+					cardStore,
+					linesStore,
+					cardsMapStore,
+					cardsNumberStore,
+					canvasSizeStore,
+					nodesStore
+				} = prevStore;
+
+				const updatedCanvasSizeStore = [canvasHeight, canvasWidth];
+
+				return {
+					cardStore,
+					linesStore,
+					cardsMapStore,
+					cardsNumberStore,
+					canvasSizeStore: updatedCanvasSizeStore,
+					nodesStore
+				};
 			});
 		}
 	});
@@ -33,8 +51,8 @@
 				<path
 					class="line z-[30] absolute top-0 left-0"
 					d={`M ${line.location.start[0]} ${line.location.start[1]}
-                Q ${(line.location.start[0] + line.location.end[0]) / 2} ${line.location.start[1]}
-                ${line.location.end[0]} ${line.location.end[1]}`}
+					Q ${(line.location.start[0] + line.location.end[0]) / 2} ${line.location.start[1]}
+					${line.location.end[0]} ${line.location.end[1]}`}
 					style="stroke: rgb(255, 0, 0); stroke-width: 2; fill: transparent;"
 				/>
 			{/each}

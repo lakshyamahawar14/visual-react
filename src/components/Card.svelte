@@ -1,16 +1,16 @@
 <script>
-	import { CardMapStore, CardsNumberStore, LinesStore, NodesStore } from '../stores/stores';
+	import { CanvasStore } from '../stores/stores';
 
 	let cardsNumber;
-	CardsNumberStore.subscribe((data) => {
-		cardsNumber = data;
+	CanvasStore.subscribe((data) => {
+		cardsNumber = data.cardsNumberStore;
 	});
 
 	export let card;
 
 	let nodes;
-	NodesStore.subscribe((data) => {
-		nodes = data;
+	CanvasStore.subscribe((data) => {
+		nodes = data.nodesStore;
 	});
 
 	function cloneAndDragCard(card) {
@@ -112,11 +112,49 @@
 		const startElement = document.elementFromPoint(event.clientX, event.clientY);
 		if (startElement && startElement.classList.contains('outputs')) {
 			const outputNode = getCardNumber('output', startElement.id);
-			NodesStore.update((prevNode) => {
-				return [prevNode[0], outputNode];
+			CanvasStore.update((prevStore) => {
+				const {
+					cardStore,
+					linesStore,
+					cardsMapStore,
+					cardsNumberStore,
+					canvasSizeStore,
+					nodesStore
+				} = prevStore;
+
+				const updatedNodes = [nodesStore[0], outputNode];
+
+				return {
+					cardStore,
+					linesStore,
+					cardsMapStore,
+					cardsNumberStore,
+					canvasSizeStore,
+					nodesStore: updatedNodes
+				};
 			});
 		} else {
-			NodesStore.set([-1, -1]);
+			CanvasStore.update((prevStore) => {
+				const {
+					cardStore,
+					linesStore,
+					cardsMapStore,
+					cardsNumberStore,
+					canvasSizeStore,
+					nodesStore
+				} = prevStore;
+
+				const updatedNodes = [-1, -1];
+
+				return {
+					cardStore,
+					linesStore,
+					cardsMapStore,
+					cardsNumberStore,
+					canvasSizeStore,
+					nodesStore: updatedNodes
+				};
+			});
 		}
 	}
 
@@ -125,8 +163,26 @@
 		const targetElement = document.elementFromPoint(event.clientX, event.clientY);
 		if (targetElement?.classList.contains('inputs')) {
 			const inputNode = getCardNumber('input', targetElement.id);
-			NodesStore.update((prevNode) => {
-				return [inputNode, prevNode[1]];
+			CanvasStore.update((prevStore) => {
+				const {
+					cardStore,
+					linesStore,
+					cardsMapStore,
+					cardsNumberStore,
+					canvasSizeStore,
+					nodesStore
+				} = prevStore;
+
+				const updatedNodes = [inputNode, nodesStore[1]];
+
+				return {
+					cardStore,
+					linesStore,
+					cardsMapStore,
+					cardsNumberStore,
+					canvasSizeStore,
+					nodesStore: updatedNodes
+				};
 			});
 
 			if (nodes[1] !== -1 && nodes[0] !== -1) {
@@ -134,20 +190,57 @@
 				drawLines();
 			}
 		}
-		NodesStore.set([-1, -1]);
+		CanvasStore.update((prevStore) => {
+			const {
+				cardStore,
+				linesStore,
+				cardsMapStore,
+				cardsNumberStore,
+				canvasSizeStore,
+				nodesStore
+			} = prevStore;
+
+			const updatedNodes = [-1, -1];
+
+			return {
+				cardStore,
+				linesStore,
+				cardsMapStore,
+				cardsNumberStore,
+				canvasSizeStore,
+				nodesStore: updatedNodes
+			};
+		});
 	}
 
 	let cardMap;
-	CardMapStore.subscribe((data) => {
-		cardMap = data;
+	CanvasStore.subscribe((data) => {
+		cardMap = data.cardsMapStore;
 	});
 
 	function addLine(inputNode, outputNode) {
-		CardMapStore.update((prevValue) => {
-			const newCardMap = [...prevValue];
-			newCardMap[inputNode][0].push(outputNode);
-			newCardMap[outputNode][1].push(inputNode);
-			return newCardMap;
+		CanvasStore.update((prevStore) => {
+			const {
+				cardStore,
+				linesStore,
+				cardsMapStore,
+				cardsNumberStore,
+				canvasSizeStore,
+				nodesStore
+			} = prevStore;
+
+			const updatedCardsMap = [...cardsMapStore];
+			updatedCardsMap[inputNode][0].push(outputNode);
+			updatedCardsMap[outputNode][1].push(inputNode);
+
+			return {
+				cardStore,
+				linesStore,
+				cardsMapStore: updatedCardsMap,
+				cardsNumberStore,
+				canvasSizeStore,
+				nodesStore
+			};
 		});
 	}
 
@@ -203,7 +296,27 @@
 			});
 		}
 
-		LinesStore.update((prevLines) => [...tempLines]);
+		CanvasStore.update((prevStore) => {
+			const {
+				cardStore,
+				linesStore,
+				cardsMapStore,
+				cardsNumberStore,
+				canvasSizeStore,
+				nodesStore
+			} = prevStore;
+
+			const newLines = [...tempLines];
+
+			return {
+				cardStore,
+				linesStore: newLines,
+				cardsMapStore,
+				cardsNumberStore,
+				canvasSizeStore,
+				nodesStore
+			};
+		});
 	}
 </script>
 
@@ -211,8 +324,26 @@
 	class={`card m-[10px] flex-col rounded-xl cursor-pointer relative z-[90] h-[100px] w-[200px] min-w-[200px] min-h-[100px] bg-[#fcfcfc] bg-opacity-[0.4] shadow-md flex justify-center items-start backdrop-blur-[4px]`}
 	on:click={() => {
 		cloneAndDragCard(card);
-		CardsNumberStore.update((prevNumber) => {
-			return prevNumber + 1;
+		CanvasStore.update((prevStore) => {
+			const {
+				cardStore,
+				linesStore,
+				cardsMapStore,
+				cardsNumberStore,
+				canvasSizeStore,
+				nodesStore
+			} = prevStore;
+
+			const newCardsNumber = cardsNumberStore + 1;
+
+			return {
+				cardStore,
+				linesStore,
+				cardsMapStore,
+				cardsNumberStore: newCardsNumber,
+				canvasSizeStore,
+				nodesStore
+			};
 		});
 	}}
 >
