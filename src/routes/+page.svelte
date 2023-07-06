@@ -1,6 +1,8 @@
 <script>
 	import { onMount } from 'svelte';
-	import { CardsStore, LinesStore } from '../stores';
+	import { CardsStore, LinesStore, CardMapStore } from '../stores';
+
+	let cardsNumber = 0;
 
 	let cards;
 
@@ -23,13 +25,14 @@
 	];
 	let hooksCards = [{ name: 'useState' }, { name: 'useEffect' }, { name: 'useRef' }];
 
-	function cloneAndDragCard(card) {
+	function cloneAndDragCard(card, index) {
 		const cardsContainer = document.querySelector('.canvas');
 		const cardElement = document.createElement('button');
 		cardElement.className =
 			'card flex-col rounded-xl cursor-default absolute z-[90] h-[100px] w-[200px] bg-[#fcfcfc] bg-opacity-[0.4] shadow-md flex justify-start items-center backdrop-blur-[4px]';
 		cardElement.style.left = '20px';
 		cardElement.style.top = '20px';
+		cardElement.id = `card_${cardsNumber}`;
 
 		const titleElement = document.createElement('p');
 		titleElement.className =
@@ -52,11 +55,13 @@
 		spanElement3.className =
 			'inputs h-[10px] w-[10px] rounded-full bg-[#ff0000] absolute left-[-5px] text-start  cursor-pointer';
 		spanElement3.addEventListener('mouseup', endDrag);
+		spanElement3.id = `input_${cardsNumber}`;
 
 		const spanElement4 = document.createElement('span');
 		spanElement4.className =
 			'outputs h-[10px] w-[10px] rounded-full bg-[#ff0000] absolute right-[-5px] text-start  cursor-pointer';
 		spanElement4.addEventListener('mousedown', startDrag);
+		spanElement4.id = `output_${cardsNumber}`;
 
 		spanElement1.appendChild(spanElement3);
 		spanElement2.appendChild(spanElement4);
@@ -114,6 +119,9 @@
 		endX = 0,
 		endY = 0;
 
+	let inputNode = -1,
+		outputNode = -1;
+
 	onMount(() => {
 		const canvasElement = document.getElementsByClassName('canvas')[0];
 
@@ -151,6 +159,15 @@
 		}
 	});
 
+	function getCardNumber(regString, cardId) {
+		const numberRegex = new RegExp(`${regString}_(\\d+)`);
+		const matches = cardId.match(numberRegex);
+		if (matches && matches[1]) {
+			return parseInt(matches[1]);
+		}
+		return -1;
+	}
+
 	function startDrag(event) {
 		event.preventDefault();
 
@@ -160,6 +177,7 @@
 			const startRect = startElement.getBoundingClientRect();
 			startX = startRect.left + startRect.width / 2 - 200 - 10;
 			startY = startRect.top + startRect.height / 2 - 10;
+			outputNode = getCardNumber('output', startElement.id);
 		}
 	}
 
@@ -170,26 +188,86 @@
 			const targetRect = targetElement.getBoundingClientRect();
 			endX = targetRect.left + targetRect.width / 2 - 200 - 10;
 			endY = targetRect.top + targetRect.height / 2 - 10;
+			inputNode = getCardNumber('input', targetElement.id);
 
-			addLine(startX, startY, endX, endY);
-
+			if (startX === 0 && startY === 0) {
+				(startX = 0), (startY = 0), (endX = 0), (endY = 0);
+				(inputNode = -1), (outputNode = -1);
+				return;
+			}
+			addLine(inputNode, outputNode);
+			drawLines();
 			(startX = 0), (startY = 0), (endX = 0), (endY = 0);
+			(inputNode = -1), (outputNode = -1);
 		}
 	}
 
-	function addLine(x1, y1, x2, y2) {
-		const lineElement = document.createElement('line');
-		lineElement.className = 'line z-[30] absolute top-0 left-0';
-		lineElement.style.stroke = 'rgb(255,0,0)';
-		lineElement.style.strokeWidth = '2';
+	let cardMap;
+	CardMapStore.subscribe((data) => {
+		cardMap = data;
+	});
 
-		lineElement.setAttribute('x1', x1);
-		lineElement.setAttribute('y1', y1);
-		lineElement.setAttribute('x2', x2);
-		lineElement.setAttribute('y2', y2);
+	function addLine(inputNode, outputNode) {
+		CardMapStore.update((prevValue) => {
+			const newCardMap = [...prevValue];
+			newCardMap[inputNode][0] = outputNode;
+			newCardMap[outputNode][1] = inputNode;
+			return newCardMap;
+		});
+	}
 
-		LinesStore.update((prevValue) => {
-			return [...prevValue, lineElement];
+	function drawLines() {
+		let tempLines = [];
+		for (let i = 0; i < cardMap.length; ++i) {
+			if (cardMap[i][0] === -1 && cardMap[i][1] === -1) {
+				continue;
+			}
+			if (cardMap[i][0] !== -1) {
+				const inputCardNumber = i,
+					outputCardNumber = cardMap[i][0];
+				const start = [0, 0],
+					end = [0, 0];
+
+				const inputCardElement = document.getElementById(`input_${inputCardNumber}`);
+				if (inputCardElement) {
+					const startRect = inputCardElement.getBoundingClientRect();
+					start[0] = startRect.left + startRect.width / 2 - 200 - 10;
+					start[1] = startRect.top + startRect.height / 2 - 10;
+				}
+
+				const outputCardElement = document.getElementById(`output_${outputCardNumber}`);
+				if (outputCardElement) {
+					const endRect = outputCardElement.getBoundingClientRect();
+					end[0] = endRect.left + endRect.width / 2 - 200 - 10;
+					end[1] = endRect.top + endRect.height / 2 - 10;
+				}
+
+				tempLines.push({ location: { start: start, end: end } });
+			}
+
+			if (cardMap[i][1] !== -1) {
+				const outputCardNumber = i,
+					inputCardNumber = cardMap[i][1];
+				const start = [0, 0],
+					end = [0, 0];
+				const inputCardElement = document.getElementById(`input_${inputCardNumber}`);
+				if (inputCardElement) {
+					const startRect = inputCardElement.getBoundingClientRect();
+					start[0] = startRect.left + startRect.width / 2 - 200 - 10;
+					start[1] = startRect.top + startRect.height / 2 - 10;
+				}
+
+				const outputCardElement = document.getElementById(`output_${outputCardNumber}`);
+				if (outputCardElement) {
+					const endRect = outputCardElement.getBoundingClientRect();
+					end[0] = endRect.left + endRect.width / 2 - 200 - 10;
+					end[1] = endRect.top + endRect.height / 2 - 10;
+				}
+				tempLines.push({ location: { start: start, end: end } });
+			}
+		}
+		LinesStore.update((prevLines) => {
+			return [...tempLines];
 		});
 	}
 </script>
@@ -262,10 +340,10 @@
 				{#each lines as line, index}
 					<line
 						class="line z-[30] absolute top-0 left-0"
-						x1={line.getAttribute('x1')}
-						y1={line.getAttribute('y1')}
-						x2={line.getAttribute('x2')}
-						y2={line.getAttribute('y2')}
+						x1={line.location.start[0]}
+						y1={line.location.start[1]}
+						x2={line.location.end[0]}
+						y2={line.location.end[1]}
 						style="stroke: rgb(255, 0, 0); stroke-width: 2;"
 					/>
 				{/each}
@@ -278,7 +356,8 @@
 				<button
 					class={`card m-[10px] flex-col rounded-xl cursor-pointer relative z-[90] h-[100px] w-[200px] min-w-[200px] min-h-[100px] bg-[#fcfcfc] bg-opacity-[0.4] shadow-md flex justify-center items-start backdrop-blur-[4px]`}
 					on:click={() => {
-						cloneAndDragCard(cards[index]);
+						cloneAndDragCard(cards[index], index);
+						cardsNumber += 1;
 					}}
 				>
 					<p
