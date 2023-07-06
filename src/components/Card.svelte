@@ -8,11 +8,6 @@
 
 	export let card;
 
-	let lines;
-	LinesStore.subscribe((data) => {
-		lines = data;
-	});
-
 	let nodes;
 	NodesStore.subscribe((data) => {
 		nodes = data;
@@ -148,9 +143,10 @@
 	});
 
 	function addLine(inputNode, outputNode) {
-		console.log(inputNode, outputNode);
+		console.log('new', [inputNode, outputNode]);
 		CardMapStore.update((prevValue) => {
 			const newCardMap = [...prevValue];
+			console.log('old', [newCardMap[inputNode][0], newCardMap[outputNode][1]]);
 			newCardMap[inputNode][0] = outputNode;
 			newCardMap[outputNode][1] = inputNode;
 			return newCardMap;
@@ -158,16 +154,14 @@
 	}
 
 	function drawLines() {
-		let tempLines = [];
+		const tempLines = [];
+
 		for (let i = 0; i < cardMap.length; ++i) {
-			if (cardMap[i][0] === -1 && cardMap[i][1] === -1) {
-				continue;
-			}
 			if (cardMap[i][0] !== -1) {
-				const inputCardNumber = i,
-					outputCardNumber = cardMap[i][0];
-				const start = [0, 0],
-					end = [0, 0];
+				const inputCardNumber = i;
+				const outputCardNumber = cardMap[i][0];
+				const start = [0, 0];
+				const end = [0, 0];
 
 				const inputCardElement = document.getElementById(`input_${inputCardNumber}`);
 				if (inputCardElement) {
@@ -187,10 +181,11 @@
 			}
 
 			if (cardMap[i][1] !== -1) {
-				const outputCardNumber = i,
-					inputCardNumber = cardMap[i][1];
-				const start = [0, 0],
-					end = [0, 0];
+				const outputCardNumber = i;
+				const inputCardNumber = cardMap[i][1];
+				const start = [0, 0];
+				const end = [0, 0];
+
 				const inputCardElement = document.getElementById(`input_${inputCardNumber}`);
 				if (inputCardElement) {
 					const startRect = inputCardElement.getBoundingClientRect();
@@ -204,12 +199,12 @@
 					end[0] = endRect.left + endRect.width / 2 - 200;
 					end[1] = endRect.top + endRect.height / 2;
 				}
+
 				tempLines.push({ location: { start: start, end: end } });
 			}
 		}
-		LinesStore.update((prevLines) => {
-			return [...tempLines];
-		});
+
+		LinesStore.update((prevLines) => [...tempLines]);
 	}
 </script>
 
