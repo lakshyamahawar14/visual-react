@@ -1,5 +1,12 @@
 <script>
 	import { onMount } from 'svelte';
+	import { CardsStore, LinesStore } from '../stores';
+
+	let cards;
+
+	CardsStore.subscribe((data) => {
+		cards = data;
+	});
 
 	let canvasRef;
 
@@ -15,7 +22,6 @@
 		{ name: 'onKeyDown' }
 	];
 	let hooksCards = [{ name: 'useState' }, { name: 'useEffect' }, { name: 'useRef' }];
-	let cards = hooksCards;
 
 	function cloneAndDragCard(card) {
 		const cardsContainer = document.querySelector('.canvas');
@@ -97,15 +103,18 @@
 		}
 	}
 
-	let line;
+	let lines;
+
+	LinesStore.subscribe((data) => {
+		lines = data;
+	});
+
 	let startX = 0,
 		startY = 0,
 		endX = 0,
 		endY = 0;
 
 	onMount(() => {
-		line = document.getElementById('line');
-
 		const canvasElement = document.getElementsByClassName('canvas')[0];
 
 		if (canvasElement) {
@@ -116,28 +125,28 @@
 		const routesElement = document.getElementById('routes');
 		if (routesElement) {
 			routesElement.addEventListener('click', () => {
-				cards = routesCards;
+				CardsStore.update((prevValue) => routesCards);
 			});
 		}
 
 		const componentsElement = document.getElementById('components');
 		if (componentsElement) {
 			componentsElement.addEventListener('click', () => {
-				cards = componentsCards;
+				CardsStore.update((prevValue) => componentsCards);
 			});
 		}
 
 		const hooksElement = document.getElementById('hooks');
 		if (hooksElement) {
 			hooksElement.addEventListener('click', () => {
-				cards = hooksCards;
+				CardsStore.update((prevValue) => hooksCards);
 			});
 		}
 
 		const listenersElement = document.getElementById('listeners');
 		if (listenersElement) {
 			listenersElement.addEventListener('click', () => {
-				cards = listenersCards;
+				CardsStore.update((prevValue) => listenersCards);
 			});
 		}
 	});
@@ -162,16 +171,26 @@
 			endX = targetRect.left + targetRect.width / 2 - 200 - 10;
 			endY = targetRect.top + targetRect.height / 2 - 10;
 
-			drawLine(startX, startY, endX, endY);
+			addLine(startX, startY, endX, endY);
+
 			(startX = 0), (startY = 0), (endX = 0), (endY = 0);
 		}
 	}
 
-	function drawLine(x1, y1, x2, y2) {
-		line.setAttribute('x1', x1);
-		line.setAttribute('y1', y1);
-		line.setAttribute('x2', x2);
-		line.setAttribute('y2', y2);
+	function addLine(x1, y1, x2, y2) {
+		const lineElement = document.createElement('line');
+		lineElement.className = 'line z-[30] absolute top-0 left-0';
+		lineElement.style.stroke = 'rgb(255,0,0)';
+		lineElement.style.strokeWidth = '2';
+
+		lineElement.setAttribute('x1', x1);
+		lineElement.setAttribute('y1', y1);
+		lineElement.setAttribute('x2', x2);
+		lineElement.setAttribute('y2', y2);
+
+		LinesStore.update((prevValue) => {
+			return [...prevValue, lineElement];
+		});
 	}
 </script>
 
@@ -239,12 +258,17 @@
 	</div>
 	<div class="flex flex-col w-[100%]">
 		<div class="canvas w-[100%] h-[75%] overflow-scroll p-[10px]" bind:this={canvasRef}>
-			<svg class="lines z-[0] overflow-scroll" height={canvasHeight - 15} width={canvasWidth - 15}>
-				<line
-					id="line"
-					class="line z-[30] absolute top-0 left-0"
-					style="stroke:rgb(255,0,0);stroke-width:2"
-				/>
+			<svg class="lines z-[0] overflow-scroll" height={canvasHeight - 20} width={canvasWidth - 20}>
+				{#each lines as line, index}
+					<line
+						class="line z-[30] absolute top-0 left-0"
+						x1={line.getAttribute('x1')}
+						y1={line.getAttribute('y1')}
+						x2={line.getAttribute('x2')}
+						y2={line.getAttribute('y2')}
+						style="stroke: rgb(255, 0, 0); stroke-width: 2;"
+					/>
+				{/each}
 			</svg>
 		</div>
 		<div
