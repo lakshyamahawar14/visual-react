@@ -1,6 +1,7 @@
 <script>
 	import { onMount } from 'svelte';
-	import { Svelvet, Node, Anchor, Edge, Controls } from 'svelvet';
+
+	let canvasRef;
 
 	let canvasHeight = 500,
 		canvasWidth = 500;
@@ -20,13 +21,13 @@
 		const cardsContainer = document.querySelector('.canvas');
 		const cardElement = document.createElement('button');
 		cardElement.className =
-			'card flex-col rounded-xl cursor-move absolute z-[9] h-[100px] w-[200px] bg-[#fcfcfc] bg-opacity-[0.4] shadow-md flex justify-start items-center backdrop-blur-[4px]';
+			'card flex-col rounded-xl cursor-default absolute z-[9] h-[100px] w-[200px] bg-[#fcfcfc] bg-opacity-[0.4] shadow-md flex justify-start items-center backdrop-blur-[4px]';
 		cardElement.style.left = '20px';
 		cardElement.style.top = '20px';
 
 		const titleElement = document.createElement('p');
 		titleElement.className =
-			'title absolute top-0 bg-[#dddddd] w-[100%] text-center rounded-xl rounded-b-none';
+			'title absolute top-0 bg-[#dddddd] w-[100%] z-[20] text-center rounded-xl rounded-b-none cursor-move';
 		titleElement.innerText = `${card.name}`;
 
 		const contentElement = document.createElement('p');
@@ -43,11 +44,11 @@
 
 		const spanElement3 = document.createElement('span');
 		spanElement3.className =
-			'h-[10px] w-[10px] rounded-full bg-[#ff0000] absolute left-[-5px] text-start hover:cursor-default';
+			'h-[10px] w-[10px] rounded-full bg-[#ff0000] absolute left-[-5px] text-start  cursor-pointer';
 
 		const spanElement4 = document.createElement('span');
 		spanElement4.className =
-			'h-[10px] w-[10px] rounded-full bg-[#ff0000] absolute right-[-5px] text-start hover:cursor-default';
+			'h-[10px] w-[10px] rounded-full bg-[#ff0000] absolute right-[-5px] text-start  cursor-pointer';
 
 		spanElement1.appendChild(spanElement3);
 		spanElement2.appendChild(spanElement4);
@@ -58,35 +59,35 @@
 		cardElement.appendChild(titleElement);
 		cardElement.appendChild(contentElement);
 
-		cardsContainer.appendChild(cardElement);
+		cardsContainer?.appendChild(cardElement);
 		dragElement(cardElement);
 	}
 
-	function dragElement(elmnt) {
+	function dragElement(element) {
 		let pos1 = 0,
 			pos2 = 0,
 			pos3 = 0,
 			pos4 = 0;
-		elmnt.onmousedown = dragMouseDown;
+		const titleElement = element.querySelector('.title');
+		titleElement.onmousedown = dragMouseDown;
 
 		function dragMouseDown(e) {
-			e = e || window.event;
 			e.preventDefault();
 			pos3 = e.clientX;
 			pos4 = e.clientY;
+			console.log(pos3, pos4);
 			document.onmouseup = closeDragElement;
 			document.onmousemove = elementDrag;
 		}
 
 		function elementDrag(e) {
-			e = e || window.event;
 			e.preventDefault();
 			pos1 = pos3 - e.clientX;
 			pos2 = pos4 - e.clientY;
 			pos3 = e.clientX;
 			pos4 = e.clientY;
-			elmnt.style.top = elmnt.offsetTop - pos2 + 'px';
-			elmnt.style.left = elmnt.offsetLeft - pos1 + 'px';
+			element.style.top = element.offsetTop - pos2 + 'px';
+			element.style.left = element.offsetLeft - pos1 + 'px';
 		}
 
 		function closeDragElement() {
@@ -97,6 +98,7 @@
 
 	onMount(() => {
 		const canvasElement = document.getElementsByClassName('canvas')[0];
+
 		if (canvasElement) {
 			canvasHeight = canvasElement.scrollHeight;
 			canvasWidth = canvasElement.scrollWidth;
@@ -195,47 +197,28 @@
 		</aside>
 	</div>
 	<div class="flex flex-col w-[100%]">
-		<div class="canvas w-[100%] h-[75%] overflow-scroll p-[10px]">
-			<!-- <Svelvet width={canvasWidth - 15} height={canvasHeight - 15} theme="white">
-				<Node
-					id={`node${0}`}
-					inputs={1}
-					outputs={1}
-					position={{ x: 10, y: 10 }}
-					height={100}
-					width={200}
-				/>
-				<Node
-					id={`node${1}`}
-					inputs={1}
-					outputs={1}
-					position={{ x: 10, y: 10 }}
-					height={100}
-					width={200}
-				/>
-			</Svelvet> -->
-		</div>
+		<div class="canvas w-[100%] h-[75%] overflow-scroll p-[10px]" bind:this={canvasRef} />
 		<div
 			class="absolute grid-container overflow-auto z-[40] bottom-0 h-[25%] w-[100%] bg-[#eeeeee] items-center border-t-[1px] border-[#dddddd] p-[10px] sm:justify-center usm:justify-start"
 		>
 			{#each cards as card, index}
 				<button
-					class={`card m-[10px] flex-col rounded-xl cursor-move relative z-[9] h-[100px] w-[200px] min-w-[200px] min-h-[100px] bg-[#fcfcfc] bg-opacity-[0.4] shadow-md flex justify-center items-start backdrop-blur-[4px]`}
+					class={`card m-[10px] flex-col rounded-xl cursor-pointer relative z-[9] h-[100px] w-[200px] min-w-[200px] min-h-[100px] bg-[#fcfcfc] bg-opacity-[0.4] shadow-md flex justify-center items-start backdrop-blur-[4px]`}
 					on:click={() => {
 						cloneAndDragCard(cards[index]);
 					}}
 				>
 					<p
-						class="title absolute top-0 bg-[#dddddd] w-[100%] text-center rounded-xl rounded-b-none"
+						class="title absolute top-0 bg-[#dddddd] z-[20] w-[100%] text-center rounded-xl rounded-b-none"
 					>
 						{card.name}
 					</p>
 					<p class="flex w-[100%] h-[100%] justify-between items-center text-[0.8rem] font-[600]">
-						<span class="input-anchors left flex flex-start items-center pl-[10px]"
+						<span class="left flex flex-start items-center pl-[10px]"
 							><span
 								class="h-[10px] w-[10px] rounded-full bg-[#ff0000] absolute left-[-5px] text-start hover:cursor-default'"
 							/>I/P</span
-						><span class="input-anchors right flex flex-start items-center pr-[10px]"
+						><span class="right flex flex-start items-center pr-[10px]"
 							>O/P<span
 								class="h-[10px] w-[10px] rounded-full bg-[#ff0000] absolute right-[-5px] text-start hover:cursor-default'"
 							/></span
