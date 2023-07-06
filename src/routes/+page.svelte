@@ -339,13 +339,12 @@
 		<div class="canvas w-[100%] h-[75%] overflow-scroll p-[10px]" bind:this={canvasRef}>
 			<svg class="lines z-[0] overflow-scroll" height={canvasHeight - 20} width={canvasWidth - 20}>
 				{#each lines as line, index}
-					<line
+					<path
 						class="line z-[30] absolute top-0 left-0"
-						x1={line.location.start[0]}
-						y1={line.location.start[1]}
-						x2={line.location.end[0]}
-						y2={line.location.end[1]}
-						style="stroke: rgb(255, 0, 0); stroke-width: 2;"
+						d={`M ${line.location.start[0]} ${line.location.start[1]}
+					Q ${(line.location.start[0] + line.location.end[0]) / 2} ${line.location.start[1]}
+					${line.location.end[0]} ${line.location.end[1]}`}
+						style="stroke: rgb(255, 0, 0); stroke-width: 2; fill: transparent;"
 					/>
 				{/each}
 			</svg>
