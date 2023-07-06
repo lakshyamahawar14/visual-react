@@ -21,7 +21,7 @@
 		const cardsContainer = document.querySelector('.canvas');
 		const cardElement = document.createElement('button');
 		cardElement.className =
-			'card flex-col rounded-xl cursor-default absolute z-[9] h-[100px] w-[200px] bg-[#fcfcfc] bg-opacity-[0.4] shadow-md flex justify-start items-center backdrop-blur-[4px]';
+			'card flex-col rounded-xl cursor-default absolute z-[90] h-[100px] w-[200px] bg-[#fcfcfc] bg-opacity-[0.4] shadow-md flex justify-start items-center backdrop-blur-[4px]';
 		cardElement.style.left = '20px';
 		cardElement.style.top = '20px';
 
@@ -36,19 +36,21 @@
 
 		const spanElement1 = document.createElement('span');
 		spanElement1.innerText = 'I/P';
-		spanElement1.className = 'input-anchors left flex flex-start items-center pl-[10px]';
+		spanElement1.className = 'left flex flex-start items-center pl-[10px]';
 
 		const spanElement2 = document.createElement('span');
 		spanElement2.innerText = 'O/P';
-		spanElement2.className = 'input-anchors left flex flex-start items-center pr-[10px]';
+		spanElement2.className = 'right flex flex-start items-center pr-[10px]';
 
 		const spanElement3 = document.createElement('span');
 		spanElement3.className =
-			'h-[10px] w-[10px] rounded-full bg-[#ff0000] absolute left-[-5px] text-start  cursor-pointer';
+			'inputs h-[10px] w-[10px] rounded-full bg-[#ff0000] absolute left-[-5px] text-start  cursor-pointer';
+		spanElement3.addEventListener('mouseup', endDrag);
 
 		const spanElement4 = document.createElement('span');
 		spanElement4.className =
-			'h-[10px] w-[10px] rounded-full bg-[#ff0000] absolute right-[-5px] text-start  cursor-pointer';
+			'outputs h-[10px] w-[10px] rounded-full bg-[#ff0000] absolute right-[-5px] text-start  cursor-pointer';
+		spanElement4.addEventListener('mousedown', startDrag);
 
 		spanElement1.appendChild(spanElement3);
 		spanElement2.appendChild(spanElement4);
@@ -75,7 +77,6 @@
 			e.preventDefault();
 			pos3 = e.clientX;
 			pos4 = e.clientY;
-			console.log(pos3, pos4);
 			document.onmouseup = closeDragElement;
 			document.onmousemove = elementDrag;
 		}
@@ -96,7 +97,15 @@
 		}
 	}
 
+	let line;
+	let startX = 0,
+		startY = 0,
+		endX = 0,
+		endY = 0;
+
 	onMount(() => {
+		line = document.getElementById('line');
+
 		const canvasElement = document.getElementsByClassName('canvas')[0];
 
 		if (canvasElement) {
@@ -132,6 +141,36 @@
 			});
 		}
 	});
+
+	function startDrag(event) {
+		event.preventDefault();
+
+		const startElement = document.elementFromPoint(event.clientX, event.clientY);
+
+		if (startElement && startElement.classList.contains('outputs')) {
+			startX = startElement.getBoundingClientRect().left;
+			startY = startElement.getBoundingClientRect().right;
+		}
+	}
+
+	function endDrag(event) {
+		event.preventDefault();
+		const targetElement = document.elementFromPoint(event.clientX, event.clientY);
+		if (targetElement?.classList.contains('inputs')) {
+			endX = targetElement.getBoundingClientRect().left;
+			endY = targetElement.getBoundingClientRect().right;
+
+			drawLine(startX, startY, endX, endY);
+			(startX = 0), (startY = 0), (endX = 0), (endY = 0);
+		}
+	}
+
+	function drawLine(x1, y1, x2, y2) {
+		line.setAttribute('x1', x1);
+		line.setAttribute('y1', y1);
+		line.setAttribute('x2', x2);
+		line.setAttribute('y2', y2);
+	}
 </script>
 
 <div class="main min-h-[100vh] min-w-[100vw] flex overflow-hidden">
@@ -197,13 +236,21 @@
 		</aside>
 	</div>
 	<div class="flex flex-col w-[100%]">
-		<div class="canvas w-[100%] h-[75%] overflow-scroll p-[10px]" bind:this={canvasRef} />
+		<div class="canvas w-[100%] h-[75%] overflow-scroll p-[10px]" bind:this={canvasRef}>
+			<svg class="lines z-[0] overflow-scroll" height={canvasHeight - 15} width={canvasWidth - 15}>
+				<line
+					id="line"
+					class="line z-[30] absolute top-0 left-0"
+					style="stroke:rgb(255,0,0);stroke-width:2"
+				/>
+			</svg>
+		</div>
 		<div
 			class="absolute grid-container overflow-auto z-[40] bottom-0 h-[25%] w-[100%] bg-[#eeeeee] items-center border-t-[1px] border-[#dddddd] p-[10px] sm:justify-center usm:justify-start"
 		>
 			{#each cards as card, index}
 				<button
-					class={`card m-[10px] flex-col rounded-xl cursor-pointer relative z-[9] h-[100px] w-[200px] min-w-[200px] min-h-[100px] bg-[#fcfcfc] bg-opacity-[0.4] shadow-md flex justify-center items-start backdrop-blur-[4px]`}
+					class={`card m-[10px] flex-col rounded-xl cursor-pointer relative z-[90] h-[100px] w-[200px] min-w-[200px] min-h-[100px] bg-[#fcfcfc] bg-opacity-[0.4] shadow-md flex justify-center items-start backdrop-blur-[4px]`}
 					on:click={() => {
 						cloneAndDragCard(cards[index]);
 					}}
@@ -229,3 +276,10 @@
 		</div>
 	</div>
 </div>
+
+<style>
+	.line {
+		color: red;
+		background-color: red;
+	}
+</style>
