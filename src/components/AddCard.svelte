@@ -16,8 +16,16 @@
 		cardIdMap = data.cardIdMap;
 	});
 
+	export function clearCanvas() {
+		const cardsContainer = document.querySelector('.canvas');
+		const svgElement = cardsContainer?.getElementsByTagName('svg')[0];
+		if (cardsContainer && svgElement) {
+			cardsContainer.innerHTML = ``;
+			cardsContainer.appendChild(svgElement);
+		}
+	}
+
 	export function addElement(card, cardNum = cardCount, cardLocation = [0, 0], isInput = false) {
-		console.log('cardCount: ', cardNum);
 		const cardsContainer = document.querySelector('.canvas');
 		// const cardElement = document.createElement('button');
 		// cardElement.className = `card flex-col rounded-xl cursor-default absolute z-[35] h-[100px] w-[200px] bg-[#fcfcfc] bg-opacity-[0.4] shadow-md flex justify-start items-center backdrop-blur-[4px] id_${card.id}`;
@@ -92,7 +100,6 @@
 	}
 
 	function dragElement(element) {
-		console.log('kheench');
 		let pos1 = 0,
 			pos2 = 0,
 			pos3 = 0,
@@ -236,7 +243,6 @@
 				});
 			});
 		}
-		console.log(tempLines);
 		updateCanvasStore('drawables', tempLines);
 	}
 </script>

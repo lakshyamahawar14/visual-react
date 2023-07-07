@@ -1,6 +1,11 @@
 <script>
 	import { onMount } from 'svelte';
-	import { getCanvasStore, updateCardStore, CanvasListStore } from '../stores/stores';
+	import {
+		getCanvasStore,
+		updateCardStore,
+		CanvasListStore,
+		resetCanvasStore
+	} from '../stores/stores';
 	import { loadCanvas } from './LoadCanvas.svelte';
 
 	let routesCards = [{ id: 0, name: 'route' }];
@@ -21,6 +26,10 @@
 		let canvasData = getCanvasStore();
 		const currentCanvasListNumber = Number.parseInt(canvasList[canvasList.length - 1].substring(6));
 		localStorage.setItem(`Canvas${currentCanvasListNumber}`, JSON.stringify(canvasData));
+		CanvasListStore.update((prevList) => {
+			return [...prevList, `Canvas${currentCanvasListNumber + 1}`];
+		});
+		loadCanvas(`Canvas${currentCanvasListNumber + 1}`);
 	}
 
 	let canvasList;
@@ -58,6 +67,10 @@
 
 					{#each canvasList as clist}
 						<button
+							on:click={() => {
+								resetCanvasStore();
+								loadCanvas(clist);
+							}}
 							class="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg dark:text-gray-200 cursor-pointer"
 						>
 							<span class="mx-2 text-sm font-medium">{clist}</span>

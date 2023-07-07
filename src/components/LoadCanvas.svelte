@@ -1,6 +1,6 @@
 <script context="module">
 	import { CanvasStore } from '../stores/stores';
-	import { addElement } from '../components/AddCard.svelte';
+	import { addElement, clearCanvas } from '../components/AddCard.svelte';
 
 	const allCards = [
 		{ id: 0, name: 'route' },
@@ -47,7 +47,6 @@
 			const cardLocation = cl.location;
 			const cardId = storedData.cardIdMap[cardNum];
 			const card = allCards[cardId];
-
 			addElement(card, cardNum, cardLocation, isInput);
 		});
 	}
@@ -58,6 +57,8 @@
 			CanvasStore.update((prevStore) => {
 				return storedData;
 			});
+			console.log('canvas', name, 'data', storedData);
+			clearCanvas();
 			loadCards(storedData);
 		}
 	}

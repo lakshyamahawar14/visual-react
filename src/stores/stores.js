@@ -107,6 +107,15 @@ function updateCanvasStore(property, value) {
 	});
 }
 
+function resetCanvasStore() {
+	CanvasStore.set({
+		drawables: [],
+		cardMap: initializeCardMap(),
+		cardIdMap: initializeCardIdMap(),
+		cardCount: 0
+	});
+}
+
 const CanvasListStore = writable(['Canvas1']);
 
 export {
@@ -123,5 +132,6 @@ export {
 	updateNodeStore,
 	resetNodeStore,
 	getCanvasStore,
-	updateCanvasStore
+	updateCanvasStore,
+	resetCanvasStore
 };
