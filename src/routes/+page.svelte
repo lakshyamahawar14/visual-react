@@ -35,11 +35,15 @@
 			cardsList.push([card.input, location.start]);
 			cardsList.push([card.output, location.end]);
 		});
-		cardsList.forEach((cl) => {
+		cardsList.forEach((cl, index) => {
 			const [cardNum, cardLocation] = cl;
 			const cardId = storedData.cardIdMap[cardNum];
 			const card = allCards[cardId];
-			addElement(card, cardNum, cardLocation);
+			if (index % 2 === 0) {
+				addElement(card, cardNum, cardLocation, true);
+			} else {
+				addElement(card, cardNum, cardLocation, false);
+			}
 		});
 		// const cardId = storedData.cardIdMap[0];
 		// const card = allCards[cardId];

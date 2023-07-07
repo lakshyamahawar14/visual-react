@@ -16,7 +16,7 @@
 		cardIdMap = data.cardIdMap;
 	});
 
-	export function addElement(card, cardNum = cardCount, cardLocation = [0, 0]) {
+	export function addElement(card, cardNum = cardCount, cardLocation = [0, 0], isInput = false) {
 		console.log('cardCount: ', cardNum);
 		const cardsContainer = document.querySelector('.canvas');
 		// const cardElement = document.createElement('button');
@@ -75,8 +75,12 @@
 		);
 		const cardElement = document.getElementById(`card_${cardNum}`);
 		if (cardLocation[0] !== 0 || cardLocation[1] !== 0) {
-			cardElement.style.left = `${cardLocation[0] - 200}px`;
 			cardElement.style.top = `${cardLocation[1] - 50}px`;
+			if (!isInput) {
+				cardElement.style.left = `${cardLocation[0] - 200}px`;
+			} else {
+				cardElement.style.left = `${cardLocation[0]}px`;
+			}
 		}
 		const cardOutputElement = document.getElementById(`output_${cardNum}`);
 		const cardInputElement = document.getElementById(`input_${cardNum}`);
@@ -232,6 +236,7 @@
 				});
 			});
 		}
+		console.log(tempLines);
 		updateCanvasStore('drawables', tempLines);
 	}
 </script>
