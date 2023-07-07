@@ -16,7 +16,9 @@
 		{ id: 5, name: 'onKeyDown' },
 		{ id: 6, name: 'useState' },
 		{ id: 7, name: 'useEffect' },
-		{ id: 8, name: 'useRef' }
+		{ id: 8, name: 'useRef' },
+		{ id: 9, name: 'const' },
+		{ id: 10, name: 'let' }
 	];
 
 	let currentCanvas;
@@ -27,7 +29,6 @@
 	export function autosaveCanvas() {
 		let canvasData = getCanvasStore();
 		localStorage.setItem(currentCanvas, JSON.stringify(canvasData));
-		console.log('autosaving canvas');
 	}
 
 	function getCanvasStoreValue(name) {

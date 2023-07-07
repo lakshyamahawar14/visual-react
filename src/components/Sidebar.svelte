@@ -26,6 +26,10 @@
 		{ id: 7, name: 'useEffect' },
 		{ id: 8, name: 'useRef' }
 	];
+	const variables = [
+		{ id: 9, name: 'const' },
+		{ id: 10, name: 'let' }
+	];
 
 	function addNewCanvas() {
 		const maxCanvasListNumber = Number.parseInt(canvasList[canvasList.length - 1].substring(6));
@@ -48,7 +52,6 @@
 	function getCanvasList() {
 		let i = 2;
 		while (localStorage.getItem(`Canvas${i}`)) {
-			console.log(localStorage.getItem(`Canvas${i}`));
 			CanvasListStore.update((prevList) => {
 				return [...prevList, `Canvas${i}`];
 			});
@@ -140,6 +143,16 @@
 						}}
 					>
 						<span class="mx-2 text-sm font-medium">Event Listeners</span>
+					</button>
+
+					<button
+						class="flex w-[100%] items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:text-gray-200"
+						id="variables"
+						on:click={() => {
+							updateCardStore(variables);
+						}}
+					>
+						<span class="mx-2 text-sm font-medium">Variables</span>
 					</button>
 				</div>
 			</nav>
