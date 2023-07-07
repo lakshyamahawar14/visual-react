@@ -16,7 +16,8 @@
 		cardIdMap = data.cardIdMap;
 	});
 
-	export function addElement(card) {
+	export function addElement(card, cardNum = cardCount, cardLocation = [0, 0]) {
+		console.log('cardCount: ', cardNum);
 		const cardsContainer = document.querySelector('.canvas');
 		// const cardElement = document.createElement('button');
 		// cardElement.className = `card flex-col rounded-xl cursor-default absolute z-[35] h-[100px] w-[200px] bg-[#fcfcfc] bg-opacity-[0.4] shadow-md flex justify-start items-center backdrop-blur-[4px] id_${card.id}`;
@@ -55,7 +56,7 @@
 			'beforeend',
 			`
                 <button class="card flex-col rounded-xl cursor-default absolute z-[35] h-[100px] w-[200px] bg-[#fcfcfc] bg-opacity-[0.4] shadow-md flex justify-start items-center backdrop-blur-[4px] id_${card.id}"
-                    id="card_${cardCount}"
+                    id="card_${cardNum}"
                     style="left: 20px; top: 20px;"
                     >
                     <p class="title absolute top-0 bg-[#dddddd] w-[100%] z-[20] text-center rounded-xl rounded-b-none cursor-move">
@@ -63,18 +64,22 @@
                     </p>
                     <p class="flex w-[100%] h-[100%] justify-between items-center text-[0.8rem] font-[600]">
                         <span class="left flex flex-start items-center pl-[10px]">
-                            I/P<span class="inputs h-[10px] w-[10px] z-[38] rounded-full bg-[#ff0000] absolute left-[-5px] text-start cursor-pointer id_${card.id}" id="input_${cardCount}"></span>
+                            I/P<span class="inputs h-[10px] w-[10px] z-[38] rounded-full bg-[#ff0000] absolute left-[-5px] text-start cursor-pointer id_${card.id}" id="input_${cardNum}"></span>
                         </span>
                         <span class="right flex flex-start items-center pr-[10px]">
-                            O/P<span class="outputs h-[10px] w-[10px] z-[38] rounded-full bg-[#ff0000] absolute right-[-5px] text-start cursor-pointer id_${card.id}" id="output_${cardCount}"></span>
+                            O/P<span class="outputs h-[10px] w-[10px] z-[38] rounded-full bg-[#ff0000] absolute right-[-5px] text-start cursor-pointer id_${card.id}" id="output_${cardNum}"></span>
                         </span>
                     </p>
                 </button>
             `
 		);
-		const cardElement = document.getElementById(`card_${cardCount}`);
-		const cardOutputElement = document.getElementById(`output_${cardCount}`);
-		const cardInputElement = document.getElementById(`input_${cardCount}`);
+		const cardElement = document.getElementById(`card_${cardNum}`);
+		if (cardLocation[0] !== 0 || cardLocation[1] !== 0) {
+			cardElement.style.left = `${cardLocation[0] - 200}px`;
+			cardElement.style.top = `${cardLocation[1] - 50}px`;
+		}
+		const cardOutputElement = document.getElementById(`output_${cardNum}`);
+		const cardInputElement = document.getElementById(`input_${cardNum}`);
 		if (cardOutputElement && cardInputElement) {
 			cardOutputElement.onmousedown = startDrag;
 			cardInputElement.onmouseup = endDrag;
@@ -83,6 +88,7 @@
 	}
 
 	function dragElement(element) {
+		console.log('kheench');
 		let pos1 = 0,
 			pos2 = 0,
 			pos3 = 0,

@@ -18,6 +18,7 @@
 	function storeCanvasData() {
 		let canvasData = getCanvasStore();
 		localStorage.setItem(`CanvasStore${0}`, JSON.stringify(canvasData));
+		console.log(canvasData);
 	}
 </script>
 
