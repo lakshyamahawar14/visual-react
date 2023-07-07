@@ -29,25 +29,31 @@
 	function loadCards(storedData) {
 		const drawables = storedData.drawables;
 		let cardsList = [];
+		const map = [];
+		for (let i = 0; i < 20; i++) {
+			map[i] = 0;
+		}
 		drawables.forEach((d) => {
 			const card = d.cards;
 			const location = d.location;
-			cardsList.push([card.input, location.start]);
-			cardsList.push([card.output, location.end]);
-		});
-		cardsList.forEach((cl, index) => {
-			const [cardNum, cardLocation] = cl;
-			const cardId = storedData.cardIdMap[cardNum];
-			const card = allCards[cardId];
-			if (index % 2 === 0) {
-				addElement(card, cardNum, cardLocation, true);
-			} else {
-				addElement(card, cardNum, cardLocation, false);
+			if (map[card.input] === 0) {
+				cardsList.push({ input: true, card: card.input, location: location.start });
+				map[card.input] = 1;
+			}
+			if (map[card.output] === 0) {
+				cardsList.push({ input: false, card: card.output, location: location.end });
+				map[card.output] = 1;
 			}
 		});
-		// const cardId = storedData.cardIdMap[0];
-		// const card = allCards[cardId];
-		// console.log('card: ', card);
+		cardsList.forEach((cl, index) => {
+			const isInput = cl.input;
+			const cardNum = cl.card;
+			const cardLocation = cl.location;
+			const cardId = storedData.cardIdMap[cardNum];
+			const card = allCards[cardId];
+
+			addElement(card, cardNum, cardLocation, isInput);
+		});
 	}
 
 	function loadCanvas() {
