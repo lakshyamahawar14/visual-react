@@ -1,14 +1,10 @@
 import { writable } from 'svelte/store';
 
-const hooksCards = [{ name: 'useState' }, { name: 'useEffect' }, { name: 'useRef' }];
-
-const CardsStore = writable(hooksCards);
-
-const LinesStore = writable([]);
-
-const CardsNumberStore = writable(0);
-
-const CanvasSizeStore = writable([500, 500]);
+const hooksCards = [
+	{ id: 6, name: 'useState' },
+	{ id: 7, name: 'useEffect' },
+	{ id: 8, name: 'useRef' }
+];
 
 function initializeCardsMap() {
 	const cardsMap = [];
@@ -18,25 +14,26 @@ function initializeCardsMap() {
 	return cardsMap;
 }
 
-const NodesStore = writable([-1, -1]);
-
-const CardMapStore = writable(initializeCardsMap());
+function initializeCardIdMap() {
+	const cardIdMap = [];
+	for (let i = 0; i < 20; i++) {
+		cardIdMap[i] = -1;
+	}
+	return cardIdMap;
+}
 
 const CanvasStore = writable({
 	cardStore: hooksCards,
+	addedCardsStore: [],
 	linesStore: [],
 	cardsMapStore: initializeCardsMap(),
+	cardsIdMapStore: initializeCardIdMap(),
 	cardsNumberStore: 0,
 	canvasSizeStore: [500, 500],
-	nodesStore: [-1, -1]
+	nodesStore: [
+		{ cardNum: -1, cardId: -1 },
+		{ cardNum: -1, cardId: -1 }
+	]
 });
 
-export {
-	CardsStore,
-	LinesStore,
-	CardMapStore,
-	CardsNumberStore,
-	CanvasSizeStore,
-	NodesStore,
-	CanvasStore
-};
+export { CanvasStore };

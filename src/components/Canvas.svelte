@@ -22,8 +22,10 @@
 			CanvasStore.update((prevStore) => {
 				const {
 					cardStore,
+					addedCardsStore,
 					linesStore,
 					cardsMapStore,
+					cardsIdMapStore,
 					cardsNumberStore,
 					canvasSizeStore,
 					nodesStore
@@ -33,8 +35,10 @@
 
 				return {
 					cardStore,
+					addedCardsStore,
 					linesStore,
 					cardsMapStore,
+					cardsIdMapStore,
 					cardsNumberStore,
 					canvasSizeStore: updatedCanvasSizeStore,
 					nodesStore

@@ -1,23 +1,26 @@
 <script>
 	import { CanvasStore } from '../stores/stores';
 
-	let routesCards = [{ name: 'route' }];
-	let componentsCards = [{ name: 'components' }];
+	let routesCards = [{ id: 0, name: 'route' }];
+	let componentsCards = [{ id: 1, name: 'components' }];
 	let listenersCards = [
-		{ name: 'onClick' },
-		{ name: 'onSubmit' },
-		{ name: 'onKeyUp' },
-		{ name: 'onKeyDown' }
+		{ id: 2, name: 'onClick' },
+		{ id: 3, name: 'onSubmit' },
+		{ id: 4, name: 'onKeyUp' },
+		{ id: 5, name: 'onKeyDown' }
 	];
-	let hooksCards = [{ name: 'useState' }, { name: 'useEffect' }, { name: 'useRef' }];
+	const hooksCards = [
+		{ id: 6, name: 'useState' },
+		{ id: 7, name: 'useEffect' },
+		{ id: 8, name: 'useRef' }
+	];
 
 	function storeCanvasData() {
 		let canvasData;
 		CanvasStore.subscribe((data) => {
 			canvasData = data;
 		});
-		// localStorage.setItem(`CanvasStore${0}`, JSON.stringify(canvasData));
-		console.log(localStorage.getItem(`CanvasStore${0}`));
+		localStorage.setItem(`CanvasStore${0}`, JSON.stringify(canvasData));
 	}
 </script>
 
@@ -58,8 +61,10 @@
 							CanvasStore.update((prevStore) => {
 								const {
 									cardStore,
+									addedCardsStore,
 									linesStore,
 									cardsMapStore,
+									cardsIdMapStore,
 									cardsNumberStore,
 									canvasSizeStore,
 									nodesStore
@@ -69,8 +74,10 @@
 
 								return {
 									cardStore: updatedCards,
+									addedCardsStore,
 									linesStore,
 									cardsMapStore,
+									cardsIdMapStore,
 									cardsNumberStore,
 									canvasSizeStore,
 									nodesStore
@@ -88,8 +95,10 @@
 							CanvasStore.update((prevStore) => {
 								const {
 									cardStore,
+									addedCardsStore,
 									linesStore,
 									cardsMapStore,
+									cardsIdMapStore,
 									cardsNumberStore,
 									canvasSizeStore,
 									nodesStore
@@ -99,8 +108,10 @@
 
 								return {
 									cardStore: updatedCards,
+									addedCardsStore,
 									linesStore,
 									cardsMapStore,
+									cardsIdMapStore,
 									cardsNumberStore,
 									canvasSizeStore,
 									nodesStore
@@ -118,8 +129,10 @@
 							CanvasStore.update((prevStore) => {
 								const {
 									cardStore,
+									addedCardsStore,
 									linesStore,
 									cardsMapStore,
+									cardsIdMapStore,
 									cardsNumberStore,
 									canvasSizeStore,
 									nodesStore
@@ -129,8 +142,10 @@
 
 								return {
 									cardStore: updatedCards,
+									addedCardsStore,
 									linesStore,
 									cardsMapStore,
+									cardsIdMapStore,
 									cardsNumberStore,
 									canvasSizeStore,
 									nodesStore
@@ -148,8 +163,10 @@
 							CanvasStore.update((prevStore) => {
 								const {
 									cardStore,
+									addedCardsStore,
 									linesStore,
 									cardsMapStore,
+									cardsIdMapStore,
 									cardsNumberStore,
 									canvasSizeStore,
 									nodesStore
@@ -159,8 +176,10 @@
 
 								return {
 									cardStore: updatedCards,
+									addedCardsStore,
 									linesStore,
 									cardsMapStore,
+									cardsIdMapStore,
 									cardsNumberStore,
 									canvasSizeStore,
 									nodesStore
