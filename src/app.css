@@ -39,3 +39,7 @@
 	flex-wrap: wrap;
 	justify-content: flex-start;
 }
+
+.active {
+	background-color: white;
+}

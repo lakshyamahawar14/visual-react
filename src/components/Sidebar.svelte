@@ -1,12 +1,17 @@
 <script>
 	import { onMount } from 'svelte';
 	import {
-		getCanvasStore,
 		updateCardStore,
 		CanvasListStore,
-		resetCanvasStore
+		resetCanvasStore,
+		CurrentCanvasStore
 	} from '../stores/stores';
-	import { loadCanvas } from './LoadCanvas.svelte';
+	import { autosaveCanvas, loadCanvas } from './LoadCanvas.svelte';
+
+	let currentCanvas;
+	CurrentCanvasStore.subscribe((data) => {
+		currentCanvas = data;
+	});
 
 	let routesCards = [{ id: 0, name: 'route' }];
 	let componentsCards = [{ id: 1, name: 'components' }];
@@ -22,14 +27,17 @@
 		{ id: 8, name: 'useRef' }
 	];
 
-	function storeCanvasData() {
-		let canvasData = getCanvasStore();
-		const currentCanvasListNumber = Number.parseInt(canvasList[canvasList.length - 1].substring(6));
-		localStorage.setItem(`Canvas${currentCanvasListNumber}`, JSON.stringify(canvasData));
+	function addNewCanvas() {
+		const maxCanvasListNumber = Number.parseInt(canvasList[canvasList.length - 1].substring(6));
 		CanvasListStore.update((prevList) => {
-			return [...prevList, `Canvas${currentCanvasListNumber + 1}`];
+			return [...prevList, `Canvas${maxCanvasListNumber + 1}`];
 		});
-		loadCanvas(`Canvas${currentCanvasListNumber + 1}`);
+		CurrentCanvasStore.update((prevCanvas) => {
+			return `Canvas${maxCanvasListNumber + 1}`;
+		});
+		resetCanvasStore();
+		loadCanvas(`Canvas${maxCanvasListNumber + 1}`);
+		autosaveCanvas();
 	}
 
 	let canvasList;
@@ -39,7 +47,8 @@
 
 	function getCanvasList() {
 		let i = 2;
-		while (localStorage.getItem(`Canvas${i}`) !== null) {
+		while (localStorage.getItem(`Canvas${i}`)) {
+			console.log(localStorage.getItem(`Canvas${i}`));
 			CanvasListStore.update((prevList) => {
 				return [...prevList, `Canvas${i}`];
 			});
@@ -69,16 +78,21 @@
 						<button
 							on:click={() => {
 								resetCanvasStore();
+								CurrentCanvasStore.update((prevCanvas) => {
+									return clist;
+								});
 								loadCanvas(clist);
 							}}
-							class="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg dark:text-gray-200 cursor-pointer"
+							class={`flex items-center w-[100%] px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg dark:text-gray-200 cursor-pointer ${
+								clist === currentCanvas ? 'active' : ''
+							}`}
 						>
 							<span class="mx-2 text-sm font-medium">{clist}</span>
 						</button>
 					{/each}
 
 					<button
-						on:click={storeCanvasData}
+						on:click={addNewCanvas}
 						class="flex w-[100%] items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:text-gray-200"
 					>
 						<span class="mx-2 text-sm font-medium">+ Add Canvas</span>

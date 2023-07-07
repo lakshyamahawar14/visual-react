@@ -1,11 +1,14 @@
 <script context="module">
 	import {
 		CanvasStore,
+		CurrentCanvasStore,
 		getNodeStore,
 		resetNodeStore,
 		updateCanvasStore,
 		updateNodeStore
 	} from '../stores/stores';
+	import { autosaveCanvas } from './LoadCanvas.svelte';
+
 	let cardCount;
 	let cardMap;
 	let cardIdMap;
@@ -129,6 +132,7 @@
 			document.onmouseup = null;
 			document.onmousemove = null;
 			drawLines();
+			autosaveCanvas();
 		}
 	}
 
@@ -244,5 +248,6 @@
 			});
 		}
 		updateCanvasStore('drawables', tempLines);
+		autosaveCanvas();
 	}
 </script>

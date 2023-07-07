@@ -69,7 +69,7 @@ function resetNodeStore() {
 
 function initializeCardMap() {
 	const cardsMap = [];
-	for (let i = 0; i < 20; i++) {
+	for (let i = 0; i < 100; i++) {
 		cardsMap[i] = [[], []];
 	}
 	return cardsMap;
@@ -77,7 +77,7 @@ function initializeCardMap() {
 
 function initializeCardIdMap() {
 	const cardIdMap = [];
-	for (let i = 0; i < 20; i++) {
+	for (let i = 0; i < 100; i++) {
 		cardIdMap[i] = -1;
 	}
 	return cardIdMap;
@@ -118,12 +118,15 @@ function resetCanvasStore() {
 
 const CanvasListStore = writable(['Canvas1']);
 
+const CurrentCanvasStore = writable('Canvas1');
+
 export {
 	CardStore,
 	CanvasSizeStore,
 	NodeStore,
 	CanvasStore,
 	CanvasListStore,
+	CurrentCanvasStore,
 	getCardStore,
 	updateCardStore,
 	getCanvasSizeStore,

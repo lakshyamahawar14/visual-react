@@ -1,5 +1,10 @@
 <script context="module">
-	import { CanvasStore, resetCanvasStore } from '../stores/stores';
+	import {
+		CanvasStore,
+		CurrentCanvasStore,
+		getCanvasStore,
+		resetCanvasStore
+	} from '../stores/stores';
 	import { addElement, clearCanvas } from '../components/AddCard.svelte';
 
 	const allCards = [
@@ -13,6 +18,17 @@
 		{ id: 7, name: 'useEffect' },
 		{ id: 8, name: 'useRef' }
 	];
+
+	let currentCanvas;
+	CurrentCanvasStore.subscribe((data) => {
+		currentCanvas = data;
+	});
+
+	export function autosaveCanvas() {
+		let canvasData = getCanvasStore();
+		localStorage.setItem(currentCanvas, JSON.stringify(canvasData));
+		console.log('autosaving canvas');
+	}
 
 	function getCanvasStoreValue(name) {
 		if (localStorage.getItem(name)) {
