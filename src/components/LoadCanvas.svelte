@@ -1,5 +1,5 @@
 <script context="module">
-	import { CanvasStore } from '../stores/stores';
+	import { CanvasStore, resetCanvasStore } from '../stores/stores';
 	import { addElement, clearCanvas } from '../components/AddCard.svelte';
 
 	const allCards = [
@@ -52,13 +52,14 @@
 	}
 
 	export function loadCanvas(name) {
+		clearCanvas();
 		const storedData = getCanvasStoreValue(name);
-		if (storedData !== null) {
+		if (storedData === null) {
+			resetCanvasStore();
+		} else {
 			CanvasStore.update((prevStore) => {
 				return storedData;
 			});
-			console.log('canvas', name, 'data', storedData);
-			clearCanvas();
 			loadCards(storedData);
 		}
 	}
