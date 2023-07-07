@@ -15,65 +15,70 @@
 		cardMap = data.cardMap;
 		cardIdMap = data.cardIdMap;
 	});
+
 	export function addElement(card) {
-		// <button
-		// 	class={`card flex-col rounded-xl cursor-default absolute z-[35] h-[100px] w-[200px] bg-[#fcfcfc] bg-opacity-[0.4] shadow-md flex justify-start items-center backdrop-blur-[4px] id_${card.id}`}
-		// 	id={`card_${cardCount}`}
-		// 	style="left: 20px; top: 20px;"
-		// 	bind:this={draggableRef}
-		// 	><p
-		// 		class="title absolute top-0 bg-[#dddddd] w-[100%] z-[20] text-center rounded-xl rounded-b-none cursor-move"
-		// 	>
-		// 		{card.name}
-		// 	</p>
-		// 	<p class="flex w-[100%] h-[100%] justify-between items-center text-[0.8rem] font-[600]">
-		// 		<span class="left flex flex-start items-center pl-[10px]"
-		// 			>I/P<span
-		// 				class={`inputs h-[10px] w-[10px] z-[38] rounded-full bg-[#ff0000] absolute left-[-5px] text-start cursor-pointer id_${card.id}`}
-		// 				id={`input_${cardCount}`}
-		// 			/></span
-		// 		><span class="right flex flex-start items-center pr-[10px]"
-		// 			>O/P<span
-		// 				class={`outputs h-[10px] w-[10px] z-[38] rounded-full bg-[#ff0000] absolute right-[-5px] text-start cursor-pointer id_${card.id}`}
-		// 				id={`output_${cardCount}`}
-		// 			/></span
-		// 		>
-		// 	</p>
-		// </button>
 		const cardsContainer = document.querySelector('.canvas');
-		const cardElement = document.createElement('button');
-		cardElement.className = `card flex-col rounded-xl cursor-default absolute z-[35] h-[100px] w-[200px] bg-[#fcfcfc] bg-opacity-[0.4] shadow-md flex justify-start items-center backdrop-blur-[4px] id_${card.id}`;
-		cardElement.style.left = '20px';
-		cardElement.style.top = '20px';
-		cardElement.id = `card_${cardCount}`;
-		const titleElement = document.createElement('p');
-		titleElement.className =
-			'title absolute top-0 bg-[#dddddd] w-[100%] z-[20] text-center rounded-xl rounded-b-none cursor-move';
-		titleElement.innerText = `${card.name}`;
-		const contentElement = document.createElement('p');
-		contentElement.className =
-			'flex w-[100%] h-[100%] justify-between items-center text-[0.8rem] font-[600]';
-		const spanElement1 = document.createElement('span');
-		spanElement1.innerText = 'I/P';
-		spanElement1.className = 'left flex flex-start items-center pl-[10px]';
-		const spanElement2 = document.createElement('span');
-		spanElement2.innerText = 'O/P';
-		spanElement2.className = 'right flex flex-start items-center pr-[10px]';
-		const spanElement3 = document.createElement('span');
-		spanElement3.className = `inputs h-[10px] w-[10px] z-[38] rounded-full bg-[#ff0000] absolute left-[-5px] text-start  cursor-pointer id_${card.id}`;
-		spanElement3.addEventListener('mouseup', endDrag);
-		spanElement3.id = `input_${cardCount}`;
-		const spanElement4 = document.createElement('span');
-		spanElement4.className = `outputs h-[10px] w-[10px] z-[38] rounded-full bg-[#ff0000] absolute right-[-5px] text-start  cursor-pointer id_${card.id}`;
-		spanElement4.addEventListener('mousedown', startDrag);
-		spanElement4.id = `output_${cardCount}`;
-		spanElement1.appendChild(spanElement3);
-		spanElement2.appendChild(spanElement4);
-		contentElement.appendChild(spanElement1);
-		contentElement.appendChild(spanElement2);
-		cardElement.appendChild(titleElement);
-		cardElement.appendChild(contentElement);
-		cardsContainer?.appendChild(cardElement);
+		// const cardElement = document.createElement('button');
+		// cardElement.className = `card flex-col rounded-xl cursor-default absolute z-[35] h-[100px] w-[200px] bg-[#fcfcfc] bg-opacity-[0.4] shadow-md flex justify-start items-center backdrop-blur-[4px] id_${card.id}`;
+		// cardElement.style.left = '20px';
+		// cardElement.style.top = '20px';
+		// cardElement.id = `card_${cardCount}`;
+		// const titleElement = document.createElement('p');
+		// titleElement.className =
+		// 	'title absolute top-0 bg-[#dddddd] w-[100%] z-[20] text-center rounded-xl rounded-b-none cursor-move';
+		// titleElement.innerText = `${card.name}`;
+		// const contentElement = document.createElement('p');
+		// contentElement.className =
+		// 	'flex w-[100%] h-[100%] justify-between items-center text-[0.8rem] font-[600]';
+		// const spanElement1 = document.createElement('span');
+		// spanElement1.innerText = 'I/P';
+		// spanElement1.className = 'left flex flex-start items-center pl-[10px]';
+		// const spanElement2 = document.createElement('span');
+		// spanElement2.innerText = 'O/P';
+		// spanElement2.className = 'right flex flex-start items-center pr-[10px]';
+		// const spanElement3 = document.createElement('span');
+		// spanElement3.className = `inputs h-[10px] w-[10px] z-[38] rounded-full bg-[#ff0000] absolute left-[-5px] text-start  cursor-pointer id_${card.id}`;
+		// spanElement3.addEventListener('mouseup', endDrag);
+		// spanElement3.id = `input_${cardCount}`;
+		// const spanElement4 = document.createElement('span');
+		// spanElement4.className = `outputs h-[10px] w-[10px] z-[38] rounded-full bg-[#ff0000] absolute right-[-5px] text-start  cursor-pointer id_${card.id}`;
+		// spanElement4.addEventListener('mousedown', startDrag);
+		// spanElement4.id = `output_${cardCount}`;
+		// spanElement1.appendChild(spanElement3);
+		// spanElement2.appendChild(spanElement4);
+		// contentElement.appendChild(spanElement1);
+		// contentElement.appendChild(spanElement2);
+		// cardElement.appendChild(titleElement);
+		// cardElement.appendChild(contentElement);
+		// cardsContainer?.appendChild(cardElement);
+		cardsContainer?.insertAdjacentHTML(
+			'beforeend',
+			`
+                <button class="card flex-col rounded-xl cursor-default absolute z-[35] h-[100px] w-[200px] bg-[#fcfcfc] bg-opacity-[0.4] shadow-md flex justify-start items-center backdrop-blur-[4px] id_${card.id}"
+                    id="card_${cardCount}"
+                    style="left: 20px; top: 20px;"
+                    >
+                    <p class="title absolute top-0 bg-[#dddddd] w-[100%] z-[20] text-center rounded-xl rounded-b-none cursor-move">
+                        ${card.name}
+                    </p>
+                    <p class="flex w-[100%] h-[100%] justify-between items-center text-[0.8rem] font-[600]">
+                        <span class="left flex flex-start items-center pl-[10px]">
+                            I/P<span class="inputs h-[10px] w-[10px] z-[38] rounded-full bg-[#ff0000] absolute left-[-5px] text-start cursor-pointer id_${card.id}" id="input_${cardCount}"></span>
+                        </span>
+                        <span class="right flex flex-start items-center pr-[10px]">
+                            O/P<span class="outputs h-[10px] w-[10px] z-[38] rounded-full bg-[#ff0000] absolute right-[-5px] text-start cursor-pointer id_${card.id}" id="output_${cardCount}"></span>
+                        </span>
+                    </p>
+                </button>
+            `
+		);
+		const cardElement = document.getElementById(`card_${cardCount}`);
+		const cardOutputElement = document.getElementById(`output_${cardCount}`);
+		const cardInputElement = document.getElementById(`input_${cardCount}`);
+		if (cardOutputElement && cardInputElement) {
+			cardOutputElement.onmousedown = startDrag;
+			cardInputElement.onmouseup = endDrag;
+		}
 		dragElement(cardElement);
 	}
 
