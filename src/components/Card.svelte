@@ -279,7 +279,8 @@
 				};
 			});
 
-			if (nodes[1] !== -1 && nodes[0] !== -1) {
+			if (nodes[0] !== undefined && nodes[1] !== undefined && nodes[1] !== -1 && nodes[0] !== -1) {
+				console.log(nodes);
 				addLine(nodes, ids);
 				drawLines();
 			}
