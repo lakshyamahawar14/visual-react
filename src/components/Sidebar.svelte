@@ -1,5 +1,7 @@
 <script>
-	import { getCanvasStore, updateCardStore } from '../stores/stores';
+	import { onMount } from 'svelte';
+	import { getCanvasStore, updateCardStore, CanvasListStore } from '../stores/stores';
+	import { loadCanvas } from './LoadCanvas.svelte';
 
 	let routesCards = [{ id: 0, name: 'route' }];
 	let componentsCards = [{ id: 1, name: 'components' }];
@@ -17,9 +19,28 @@
 
 	function storeCanvasData() {
 		let canvasData = getCanvasStore();
-		localStorage.setItem(`CanvasStore${0}`, JSON.stringify(canvasData));
-		console.log(canvasData);
+		const currentCanvasListNumber = Number.parseInt(canvasList[canvasList.length - 1].substring(6));
+		localStorage.setItem(`Canvas${currentCanvasListNumber}`, JSON.stringify(canvasData));
 	}
+
+	let canvasList;
+	CanvasListStore.subscribe((data) => {
+		canvasList = data;
+	});
+
+	function getCanvasList() {
+		let i = 2;
+		while (localStorage.getItem(`Canvas${i}`) !== null) {
+			CanvasListStore.update((prevList) => {
+				return [...prevList, `Canvas${i}`];
+			});
+			i++;
+		}
+	}
+
+	onMount(() => {
+		getCanvasList();
+	});
 </script>
 
 <div class="sidebar z-[100] min-w-[200px] overflow-hidden">
@@ -35,11 +56,13 @@
 				<div class="space-y-3">
 					<h2 class="px-3 text-xs uppercase text-[#101010]">canvas</h2>
 
-					<p
-						class="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg dark:text-gray-200"
-					>
-						<span class="mx-2 text-sm font-medium">New Canvas</span>
-					</p>
+					{#each canvasList as clist}
+						<button
+							class="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg dark:text-gray-200 cursor-pointer"
+						>
+							<span class="mx-2 text-sm font-medium">{clist}</span>
+						</button>
+					{/each}
 
 					<button
 						on:click={storeCanvasData}

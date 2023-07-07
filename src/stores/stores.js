@@ -107,11 +107,14 @@ function updateCanvasStore(property, value) {
 	});
 }
 
+const CanvasListStore = writable(['Canvas1']);
+
 export {
 	CardStore,
 	CanvasSizeStore,
 	NodeStore,
 	CanvasStore,
+	CanvasListStore,
 	getCardStore,
 	updateCardStore,
 	getCanvasSizeStore,
