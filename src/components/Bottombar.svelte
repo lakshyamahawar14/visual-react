@@ -1,10 +1,10 @@
 <script>
 	import Card from './Card.svelte';
-	import { CanvasStore } from '../stores/stores';
-	let cards;
+	import { CardStore } from '../stores/stores';
 
-	CanvasStore.subscribe((data) => {
-		cards = data.cardStore;
+	let cards;
+	CardStore.subscribe((data) => {
+		cards = data;
 	});
 </script>
 

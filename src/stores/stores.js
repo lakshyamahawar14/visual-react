@@ -6,9 +6,70 @@ const hooksCards = [
 	{ id: 8, name: 'useRef' }
 ];
 
-function initializeCardsMap() {
+const CardStore = writable(hooksCards);
+
+function getCardStore() {
+	let cardStore;
+	CardStore.subscribe((data) => {
+		cardStore = data;
+	});
+	return cardStore;
+}
+
+function updateCardStore(value) {
+	CardStore.update((prevStore) => {
+		return value;
+	});
+}
+
+const CanvasSizeStore = writable([500, 500]);
+
+function getCanvasSizeStore() {
+	let canvasSizeStore;
+	CanvasSizeStore.subscribe((data) => {
+		canvasSizeStore = data;
+	});
+	return canvasSizeStore;
+}
+
+function updateCanvasSizeStore(value) {
+	CanvasSizeStore.update((prevStore) => {
+		return value;
+	});
+}
+
+const NodeStore = writable({
+	input: { cardNum: -1, cardId: -1 },
+	output: { cardNum: -1, cardId: -1 }
+});
+
+function getNodeStore() {
+	let nodeStore;
+	NodeStore.subscribe((data) => {
+		nodeStore = data;
+	});
+	return nodeStore;
+}
+
+function updateNodeStore(property, value) {
+	NodeStore.update((prevStore) => {
+		return {
+			...prevStore,
+			[property]: value
+		};
+	});
+}
+
+function resetNodeStore() {
+	NodeStore.set({
+		input: { cardNum: -1, cardId: -1 },
+		output: { cardNum: -1, cardId: -1 }
+	});
+}
+
+function initializeCardMap() {
 	const cardsMap = [];
-	for (let i = 0; i < 5; i++) {
+	for (let i = 0; i < 20; i++) {
 		cardsMap[i] = [[], []];
 	}
 	return cardsMap;
@@ -23,17 +84,41 @@ function initializeCardIdMap() {
 }
 
 const CanvasStore = writable({
-	cardStore: hooksCards,
-	addedCardsStore: [],
-	linesStore: [],
-	cardsMapStore: initializeCardsMap(),
-	cardsIdMapStore: initializeCardIdMap(),
-	cardsNumberStore: 0,
-	canvasSizeStore: [500, 500],
-	nodesStore: [
-		{ cardNum: -1, cardId: -1 },
-		{ cardNum: -1, cardId: -1 }
-	]
+	drawables: [],
+	cardMap: initializeCardMap(),
+	cardIdMap: initializeCardIdMap(),
+	cardCount: 0
 });
 
-export { CanvasStore };
+function getCanvasStore() {
+	let canvasStore;
+	CanvasStore.subscribe((data) => {
+		canvasStore = data;
+	});
+	return canvasStore;
+}
+
+function updateCanvasStore(property, value) {
+	CanvasStore.update((prevStore) => {
+		return {
+			...prevStore,
+			[property]: value
+		};
+	});
+}
+
+export {
+	CardStore,
+	CanvasSizeStore,
+	NodeStore,
+	CanvasStore,
+	getCardStore,
+	updateCardStore,
+	getCanvasSizeStore,
+	updateCanvasSizeStore,
+	getNodeStore,
+	updateNodeStore,
+	resetNodeStore,
+	getCanvasStore,
+	updateCanvasStore
+};

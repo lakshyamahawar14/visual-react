@@ -2,8 +2,8 @@
 	import Sidebar from '../components/Sidebar.svelte';
 	import Bottombar from '../components/Bottombar.svelte';
 	import Canvas from '../components/Canvas.svelte';
-	import { CanvasStore } from '../stores/stores';
 	import { onMount } from 'svelte';
+	import { updateCanvasStore } from '../stores/stores';
 
 	function getCanvasStoreDefaultValue() {
 		if (localStorage.getItem(`CanvasStore${0}`)) {
@@ -15,9 +15,7 @@
 	onMount(() => {
 		let storedData = getCanvasStoreDefaultValue();
 		if (storedData !== null) {
-			CanvasStore.update((prevStore) => {
-				return storedData;
-			});
+			updateCanvasStore(storedData);
 		}
 	});
 </script>

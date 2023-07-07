@@ -1,28 +1,31 @@
 <script>
-	import { CanvasStore } from '../stores/stores';
-
-	let cardsNumber;
-	CanvasStore.subscribe((data) => {
-		cardsNumber = data.cardsNumberStore;
-	});
+	import {
+		CanvasStore,
+		getNodeStore,
+		resetNodeStore,
+		updateCanvasStore,
+		updateNodeStore
+	} from '../stores/stores';
 
 	export let card;
 
-	let nodes;
-	let ids;
+	let cardCount;
+	let cardMap;
+	let cardIdMap;
 
 	CanvasStore.subscribe((data) => {
-		nodes = [data.nodesStore[0].cardNum, data.nodesStore[1].cardNum];
-		ids = [data.nodesStore[0].cardId, data.nodesStore[1].cardId];
+		cardCount = data.cardCount;
+		cardMap = data.cardMap;
+		cardIdMap = data.cardIdMap;
 	});
 
 	function cloneAndDragCard(card) {
 		const cardsContainer = document.querySelector('.canvas');
 		const cardElement = document.createElement('button');
-		cardElement.className = `card flex-col rounded-xl cursor-default absolute z-[35] h-[100px] w-[200px] bg-[#fcfcfc] bg-opacity-[0.4] shadow-md flex justify-start items-center backdrop-blur-[4px]`;
+		cardElement.className = `card flex-col rounded-xl cursor-default absolute z-[35] h-[100px] w-[200px] bg-[#fcfcfc] bg-opacity-[0.4] shadow-md flex justify-start items-center backdrop-blur-[4px] id_${card.id}`;
 		cardElement.style.left = '20px';
 		cardElement.style.top = '20px';
-		cardElement.id = `card_${cardsNumber}`;
+		cardElement.id = `card_${cardCount}`;
 
 		const titleElement = document.createElement('p');
 		titleElement.className =
@@ -44,12 +47,12 @@
 		const spanElement3 = document.createElement('span');
 		spanElement3.className = `inputs h-[10px] w-[10px] z-[38] rounded-full bg-[#ff0000] absolute left-[-5px] text-start  cursor-pointer id_${card.id}`;
 		spanElement3.addEventListener('mouseup', endDrag);
-		spanElement3.id = `input_${cardsNumber}`;
+		spanElement3.id = `input_${cardCount}`;
 
 		const spanElement4 = document.createElement('span');
 		spanElement4.className = `outputs h-[10px] w-[10px] z-[38] rounded-full bg-[#ff0000] absolute right-[-5px] text-start  cursor-pointer id_${card.id}`;
 		spanElement4.addEventListener('mousedown', startDrag);
-		spanElement4.id = `output_${cardsNumber}`;
+		spanElement4.id = `output_${cardCount}`;
 
 		spanElement1.appendChild(spanElement3);
 		spanElement2.appendChild(spanElement4);
@@ -106,37 +109,13 @@
 		return -1;
 	}
 
-	function startDrag(event) {
-		event.preventDefault();
+	function startDrag(e) {
+		e.preventDefault();
 
-		const startElement = document.elementFromPoint(event.clientX, event.clientY);
+		const startElement = document.elementFromPoint(e.clientX, e.clientY);
 		if (startElement && startElement.classList.contains('outputs')) {
 			const outputNode = getCardNumber('output', startElement.id);
-			CanvasStore.update((prevStore) => {
-				const {
-					cardStore,
-					addedCardsStore,
-					linesStore,
-					cardsMapStore,
-					cardsIdMapStore,
-					cardsNumberStore,
-					canvasSizeStore,
-					nodesStore
-				} = prevStore;
 
-				const updatedNodes = [nodesStore[0], { cardId: nodesStore[1].cardId, cardNum: outputNode }];
-
-				return {
-					cardStore,
-					addedCardsStore,
-					linesStore,
-					cardsMapStore,
-					cardsIdMapStore,
-					cardsNumberStore,
-					canvasSizeStore,
-					nodesStore: updatedNodes
-				};
-			});
 			let outputCardClass = '';
 
 			startElement.classList.forEach((name) => {
@@ -148,96 +127,17 @@
 
 			const outputCardId = getCardNumber('id', outputCardClass);
 
-			CanvasStore.update((prevStore) => {
-				const {
-					cardStore,
-					addedCardsStore,
-					linesStore,
-					cardsMapStore,
-					cardsIdMapStore,
-					cardsNumberStore,
-					canvasSizeStore,
-					nodesStore
-				} = prevStore;
-
-				const updatedIds = [
-					nodesStore[0],
-					{ cardId: outputCardId, cardNum: nodesStore[1].cardNum }
-				];
-
-				return {
-					cardStore,
-					addedCardsStore,
-					linesStore,
-					cardsMapStore,
-					cardsIdMapStore,
-					cardsNumberStore,
-					canvasSizeStore,
-					nodesStore: updatedIds
-				};
-			});
+			updateNodeStore('output', { cardNum: outputNode, cardId: outputCardId });
 		} else {
-			CanvasStore.update((prevStore) => {
-				const {
-					cardStore,
-					addedCardsStore,
-					linesStore,
-					cardsMapStore,
-					cardsIdMapStore,
-					cardsNumberStore,
-					canvasSizeStore,
-					nodesStore
-				} = prevStore;
-
-				const updatedNodes = [
-					{ cardNum: -1, cardId: -1 },
-					{ cardNum: -1, cardId: -1 }
-				];
-
-				return {
-					cardStore,
-					addedCardsStore,
-					linesStore,
-					cardsMapStore,
-					cardsIdMapStore,
-					cardsNumberStore,
-					canvasSizeStore,
-					nodesStore: updatedNodes
-				};
-			});
+			resetNodeStore();
 		}
 	}
 
-	function endDrag(event) {
-		event.preventDefault();
-		const targetElement = document.elementFromPoint(event.clientX, event.clientY);
+	function endDrag(e) {
+		e.preventDefault();
+		const targetElement = document.elementFromPoint(e.clientX, e.clientY);
 		if (targetElement?.classList.contains('inputs')) {
 			const inputNode = getCardNumber('input', targetElement.id);
-			CanvasStore.update((prevStore) => {
-				const {
-					cardStore,
-					addedCardsStore,
-					linesStore,
-					cardsMapStore,
-					cardsIdMapStore,
-					cardsNumberStore,
-					canvasSizeStore,
-					nodesStore
-				} = prevStore;
-
-				const updatedNodes = [{ cardId: nodesStore[0].cardId, cardNum: inputNode }, nodesStore[1]];
-
-				return {
-					cardStore,
-					addedCardsStore,
-					linesStore,
-					cardsMapStore,
-					cardsIdMapStore,
-					cardsNumberStore,
-					canvasSizeStore,
-					nodesStore: updatedNodes
-				};
-			});
 
 			let inputCardClass = '';
 
@@ -250,112 +150,35 @@
 
 			const inputCardId = getCardNumber('id', inputCardClass);
 
-			CanvasStore.update((prevStore) => {
-				const {
-					cardStore,
-					addedCardsStore,
-					linesStore,
-					cardsMapStore,
-					cardsIdMapStore,
-					cardsNumberStore,
-					canvasSizeStore,
-					nodesStore
-				} = prevStore;
+			updateNodeStore('input', { cardNum: inputNode, cardId: inputCardId });
 
-				const updatedNodes = [
-					{ cardId: inputCardId, cardNum: nodesStore[0].cardNum },
-					nodesStore[1]
-				];
+			const nodeStore = getNodeStore();
+			const nodes = [nodeStore.input.cardNum, nodeStore.output.cardNum];
+			const ids = [nodeStore.input.cardId, nodeStore.output.cardId];
 
-				return {
-					cardStore,
-					addedCardsStore,
-					linesStore,
-					cardsMapStore,
-					cardsIdMapStore,
-					cardsNumberStore,
-					canvasSizeStore,
-					nodesStore: updatedNodes
-				};
-			});
-
-			if (nodes[0] !== undefined && nodes[1] !== undefined && nodes[1] !== -1 && nodes[0] !== -1) {
-				console.log(nodes);
+			if (nodes[0] !== undefined && nodes[1] !== undefined && nodes[0] !== -1 && nodes[1] !== -1) {
 				addLine(nodes, ids);
 				drawLines();
 			}
 		}
-		CanvasStore.update((prevStore) => {
-			const {
-				cardStore,
-				addedCardsStore,
-				linesStore,
-				cardsMapStore,
-				cardsIdMapStore,
-				cardsNumberStore,
-				canvasSizeStore,
-				nodesStore
-			} = prevStore;
-
-			const updatedNodes = [-1, -1];
-
-			return {
-				cardStore,
-				addedCardsStore,
-				linesStore,
-				cardsMapStore,
-				cardsIdMapStore,
-				cardsNumberStore,
-				canvasSizeStore,
-				nodesStore: updatedNodes
-			};
-		});
+		resetNodeStore();
 	}
-
-	let cardMap;
-	CanvasStore.subscribe((data) => {
-		cardMap = data.cardsMapStore;
-	});
-
-	let cardIdMap;
-	CanvasStore.subscribe((data) => {
-		cardIdMap = data.cardsIdMapStore;
-	});
 
 	function addLine(nodes, ids) {
 		const [inputNode, outputNode] = nodes;
 		const [inputCardId, outputCardId] = ids;
-		CanvasStore.update((prevStore) => {
-			const {
-				cardStore,
-				addedCardsStore,
-				linesStore,
-				cardsMapStore,
-				cardsIdMapStore,
-				cardsNumberStore,
-				canvasSizeStore,
-				nodesStore
-			} = prevStore;
 
-			const updatedCardsMap = [...cardsMapStore];
-			updatedCardsMap[inputNode][0].push(outputNode);
-			updatedCardsMap[outputNode][1].push(inputNode);
+		const updatedCardMap = [...cardMap];
+		updatedCardMap[inputNode][0].push(outputNode);
+		updatedCardMap[outputNode][1].push(inputNode);
 
-			const updatedCradIdMap = [...cardsIdMapStore];
-			updatedCradIdMap[inputNode] = inputCardId;
-			updatedCradIdMap[outputNode] = outputCardId;
+		updateCanvasStore('cardMap', updatedCardMap);
 
-			return {
-				cardStore,
-				addedCardsStore,
-				linesStore,
-				cardsMapStore: updatedCardsMap,
-				cardsIdMapStore: updatedCradIdMap,
-				cardsNumberStore,
-				canvasSizeStore,
-				nodesStore
-			};
-		});
+		const updatedCardIdMap = [...cardIdMap];
+		updatedCardIdMap[inputNode] = inputCardId;
+		updatedCardIdMap[outputNode] = outputCardId;
+
+		updateCanvasStore('cardIdMap', updatedCardIdMap);
 	}
 
 	function drawLines() {
@@ -363,12 +186,10 @@
 
 		for (let i = 0; i < cardMap.length; ++i) {
 			const outputConnections = cardMap[i][0];
-			const inputConnections = cardMap[i][1];
+			// const inputConnections = cardMap[i][1];
 
 			outputConnections.forEach((outputCardNumber) => {
 				const inputCardNumber = i;
-				const inputId = cardIdMap[inputCardNumber];
-				const outputId = cardIdMap[outputCardNumber];
 				const start = [0, 0];
 				const end = [0, 0];
 
@@ -388,63 +209,36 @@
 
 				tempLines.push({
 					location: { start: start, end: end },
-					cards: { input: inputId, output: outputId }
+					cards: { input: inputCardNumber, output: outputCardNumber }
 				});
 			});
 
-			inputConnections.forEach((inputCardNumber) => {
-				const outputCardNumber = i;
-				const inputId = cardIdMap[inputCardNumber];
-				const outputId = cardIdMap[outputCardNumber];
-				const start = [0, 0];
-				const end = [0, 0];
+			// inputConnections.forEach((inputCardNumber) => {
+			// 	const outputCardNumber = i;
+			// 	const start = [0, 0];
+			// 	const end = [0, 0];
 
-				const inputCardElement = document.getElementById(`input_${inputCardNumber}`);
-				if (inputCardElement) {
-					const startRect = inputCardElement.getBoundingClientRect();
-					start[0] = startRect.left + startRect.width / 2 - 200;
-					start[1] = startRect.top + startRect.height / 2;
-				}
+			// 	const inputCardElement = document.getElementById(`input_${inputCardNumber}`);
+			// 	if (inputCardElement) {
+			// 		const startRect = inputCardElement.getBoundingClientRect();
+			// 		start[0] = startRect.left + startRect.width / 2 - 200;
+			// 		start[1] = startRect.top + startRect.height / 2;
+			// 	}
 
-				const outputCardElement = document.getElementById(`output_${outputCardNumber}`);
-				if (outputCardElement) {
-					const endRect = outputCardElement.getBoundingClientRect();
-					end[0] = endRect.left + endRect.width / 2 - 200;
-					end[1] = endRect.top + endRect.height / 2;
-				}
+			// 	const outputCardElement = document.getElementById(`output_${outputCardNumber}`);
+			// 	if (outputCardElement) {
+			// 		const endRect = outputCardElement.getBoundingClientRect();
+			// 		end[0] = endRect.left + endRect.width / 2 - 200;
+			// 		end[1] = endRect.top + endRect.height / 2;
+			// 	}
 
-				tempLines.push({
-					location: { start: start, end: end },
-					cards: { input: inputId, output: outputId }
-				});
-			});
+			// 	tempLines.push({
+			// 		location: { start: start, end: end },
+			// 		cards: { input: inputCardNumber, output: outputCardNumber }
+			// 	});
+			// });
 		}
-
-		CanvasStore.update((prevStore) => {
-			const {
-				cardStore,
-				addedCardsStore,
-				linesStore,
-				cardsMapStore,
-				cardsIdMapStore,
-				cardsNumberStore,
-				canvasSizeStore,
-				nodesStore
-			} = prevStore;
-
-			const newLines = [...tempLines];
-
-			return {
-				cardStore,
-				addedCardsStore,
-				linesStore: newLines,
-				cardsMapStore,
-				cardsIdMapStore,
-				cardsNumberStore,
-				canvasSizeStore,
-				nodesStore
-			};
-		});
+		updateCanvasStore('drawables', tempLines);
 	}
 </script>
 
@@ -452,31 +246,7 @@
 	class={`card m-[10px] flex-col rounded-xl cursor-pointer relative z-[90] h-[100px] w-[200px] min-w-[200px] min-h-[100px] bg-[#fcfcfc] bg-opacity-[0.4] shadow-md flex justify-center items-start backdrop-blur-[4px]`}
 	on:click={() => {
 		cloneAndDragCard(card);
-		CanvasStore.update((prevStore) => {
-			const {
-				cardStore,
-				addedCardsStore,
-				linesStore,
-				cardsMapStore,
-				cardsIdMapStore,
-				cardsNumberStore,
-				canvasSizeStore,
-				nodesStore
-			} = prevStore;
-
-			const newCardsNumber = cardsNumberStore + 1;
-
-			return {
-				cardStore,
-				addedCardsStore,
-				linesStore,
-				cardsMapStore,
-				cardsIdMapStore,
-				cardsNumberStore: newCardsNumber,
-				canvasSizeStore,
-				nodesStore
-			};
-		});
+		updateCanvasStore('cardCount', cardCount + 1);
 	}}
 >
 	<p

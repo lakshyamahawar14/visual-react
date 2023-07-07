@@ -1,49 +1,23 @@
 <script>
 	import { onMount } from 'svelte';
-	import { CanvasStore } from '../stores/stores';
+	import { CanvasSizeStore, CanvasStore, updateCanvasSizeStore } from '../stores/stores';
 
 	let canvasSize;
-	CanvasStore.subscribe((data) => {
-		canvasSize = data.canvasSizeStore;
+	CanvasSizeStore.subscribe((data) => {
+		canvasSize = data;
 	});
 
-	let lines;
+	let drawables;
 	CanvasStore.subscribe((data) => {
-		lines = data.linesStore;
+		drawables = data.drawables;
 	});
 
 	let canvasRef;
 
 	onMount(() => {
 		if (canvasRef) {
-			const canvasHeight = canvasRef.scrollHeight;
-			const canvasWidth = canvasRef.scrollWidth;
-
-			CanvasStore.update((prevStore) => {
-				const {
-					cardStore,
-					addedCardsStore,
-					linesStore,
-					cardsMapStore,
-					cardsIdMapStore,
-					cardsNumberStore,
-					canvasSizeStore,
-					nodesStore
-				} = prevStore;
-
-				const updatedCanvasSizeStore = [canvasHeight, canvasWidth];
-
-				return {
-					cardStore,
-					addedCardsStore,
-					linesStore,
-					cardsMapStore,
-					cardsIdMapStore,
-					cardsNumberStore,
-					canvasSizeStore: updatedCanvasSizeStore,
-					nodesStore
-				};
-			});
+			const newCanvasSize = [canvasRef.scrollHeight, canvasRef.scrollWidth];
+			updateCanvasSizeStore(newCanvasSize);
 		}
 	});
 </script>
@@ -51,7 +25,7 @@
 <div class="flex flex-col w-[100%] overflow-auto">
 	<div class="canvas w-[100%] h-[75%] overflow-auto" bind:this={canvasRef}>
 		<svg class="lines z-[0]" height={canvasSize[0]} width={canvasSize[1]}>
-			{#each lines as line}
+			{#each drawables as line}
 				<path
 					class="line z-[30] absolute top-0 left-0"
 					d={`M ${line.location.start[0]} ${line.location.start[1]}

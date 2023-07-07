@@ -1,5 +1,5 @@
 <script>
-	import { CanvasStore } from '../stores/stores';
+	import { getCanvasStore, updateCardStore } from '../stores/stores';
 
 	let routesCards = [{ id: 0, name: 'route' }];
 	let componentsCards = [{ id: 1, name: 'components' }];
@@ -16,10 +16,7 @@
 	];
 
 	function storeCanvasData() {
-		let canvasData;
-		CanvasStore.subscribe((data) => {
-			canvasData = data;
-		});
+		let canvasData = getCanvasStore();
 		localStorage.setItem(`CanvasStore${0}`, JSON.stringify(canvasData));
 	}
 </script>
@@ -58,31 +55,7 @@
 						class="flex w-[100%] items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:text-gray-200"
 						id="routes"
 						on:click={() => {
-							CanvasStore.update((prevStore) => {
-								const {
-									cardStore,
-									addedCardsStore,
-									linesStore,
-									cardsMapStore,
-									cardsIdMapStore,
-									cardsNumberStore,
-									canvasSizeStore,
-									nodesStore
-								} = prevStore;
-
-								const updatedCards = routesCards;
-
-								return {
-									cardStore: updatedCards,
-									addedCardsStore,
-									linesStore,
-									cardsMapStore,
-									cardsIdMapStore,
-									cardsNumberStore,
-									canvasSizeStore,
-									nodesStore
-								};
-							});
+							updateCardStore(routesCards);
 						}}
 					>
 						<span class="mx-2 text-sm font-medium">Routes</span>
@@ -92,31 +65,7 @@
 						class="flex w-[100%] items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:text-gray-200"
 						id="components"
 						on:click={() => {
-							CanvasStore.update((prevStore) => {
-								const {
-									cardStore,
-									addedCardsStore,
-									linesStore,
-									cardsMapStore,
-									cardsIdMapStore,
-									cardsNumberStore,
-									canvasSizeStore,
-									nodesStore
-								} = prevStore;
-
-								const updatedCards = componentsCards;
-
-								return {
-									cardStore: updatedCards,
-									addedCardsStore,
-									linesStore,
-									cardsMapStore,
-									cardsIdMapStore,
-									cardsNumberStore,
-									canvasSizeStore,
-									nodesStore
-								};
-							});
+							updateCardStore(componentsCards);
 						}}
 					>
 						<span class="mx-2 text-sm font-medium">Components</span>
@@ -126,31 +75,7 @@
 						class="flex w-[100%] items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:text-gray-200"
 						id="hooks"
 						on:click={() => {
-							CanvasStore.update((prevStore) => {
-								const {
-									cardStore,
-									addedCardsStore,
-									linesStore,
-									cardsMapStore,
-									cardsIdMapStore,
-									cardsNumberStore,
-									canvasSizeStore,
-									nodesStore
-								} = prevStore;
-
-								const updatedCards = hooksCards;
-
-								return {
-									cardStore: updatedCards,
-									addedCardsStore,
-									linesStore,
-									cardsMapStore,
-									cardsIdMapStore,
-									cardsNumberStore,
-									canvasSizeStore,
-									nodesStore
-								};
-							});
+							updateCardStore(hooksCards);
 						}}
 					>
 						<span class="mx-2 text-sm font-medium">Hooks</span>
@@ -160,31 +85,7 @@
 						class="flex w-[100%] items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:text-gray-200"
 						id="listeners"
 						on:click={() => {
-							CanvasStore.update((prevStore) => {
-								const {
-									cardStore,
-									addedCardsStore,
-									linesStore,
-									cardsMapStore,
-									cardsIdMapStore,
-									cardsNumberStore,
-									canvasSizeStore,
-									nodesStore
-								} = prevStore;
-
-								const updatedCards = listenersCards;
-
-								return {
-									cardStore: updatedCards,
-									addedCardsStore,
-									linesStore,
-									cardsMapStore,
-									cardsIdMapStore,
-									cardsNumberStore,
-									canvasSizeStore,
-									nodesStore
-								};
-							});
+							updateCardStore(listenersCards);
 						}}
 					>
 						<span class="mx-2 text-sm font-medium">Event Listeners</span>
