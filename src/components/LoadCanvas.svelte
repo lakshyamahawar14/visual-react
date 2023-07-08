@@ -8,17 +8,18 @@
 	import { addElement, clearCanvas } from '../components/AddCard.svelte';
 
 	const allCards = [
-		{ id: 0, name: 'route' },
-		{ id: 1, name: 'components' },
-		{ id: 2, name: 'onClick' },
-		{ id: 3, name: 'onSubmit' },
-		{ id: 4, name: 'onKeyUp' },
-		{ id: 5, name: 'onKeyDown' },
-		{ id: 6, name: 'useState' },
-		{ id: 7, name: 'useEffect' },
-		{ id: 8, name: 'useRef' },
-		{ id: 9, name: 'const' },
-		{ id: 10, name: 'let' }
+		{ id: 0, name: 'route', placeholder: 'name' },
+		{ id: 1, name: 'components', placeholder: 'name' },
+		{ id: 2, name: 'onClick', placeholder: 'function' },
+		{ id: 3, name: 'onSubmit', placeholder: 'function' },
+		{ id: 4, name: 'onKeyUp', placeholder: 'function' },
+		{ id: 5, name: 'onKeyDown', placeholder: 'function' },
+		{ id: 6, name: 'useState', placeholder: 'initial value' },
+		{ id: 7, name: 'useEffect', placeholder: 'dependencies' },
+		{ id: 8, name: 'useRef', placeholder: 'initial value' },
+		{ id: 9, name: 'const', placeholder: 'value' },
+		{ id: 10, name: 'let', placeholder: 'value' },
+		{ id: 11, name: 'function', placeholder: 'argument' }
 	];
 
 	let currentCanvas;

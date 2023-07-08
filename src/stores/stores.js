@@ -1,9 +1,9 @@
 import { writable } from 'svelte/store';
 
 const hooksCards = [
-	{ id: 6, name: 'useState' },
-	{ id: 7, name: 'useEffect' },
-	{ id: 8, name: 'useRef' }
+	{ id: 6, name: 'useState', placeholder: 'initial value' },
+	{ id: 7, name: 'useEffect', placeholder: 'dependencies' },
+	{ id: 8, name: 'useRef', placeholder: 'initial value' }
 ];
 
 const CardStore = writable(hooksCards);

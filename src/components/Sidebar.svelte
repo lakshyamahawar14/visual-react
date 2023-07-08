@@ -13,23 +13,24 @@
 		currentCanvas = data;
 	});
 
-	let routesCards = [{ id: 0, name: 'route' }];
-	let componentsCards = [{ id: 1, name: 'components' }];
+	let routesCards = [{ id: 0, name: 'route', placeholder: 'name' }];
+	let componentsCards = [{ id: 1, name: 'components', placeholder: 'name' }];
 	let listenersCards = [
-		{ id: 2, name: 'onClick' },
-		{ id: 3, name: 'onSubmit' },
-		{ id: 4, name: 'onKeyUp' },
-		{ id: 5, name: 'onKeyDown' }
+		{ id: 2, name: 'onClick', placeholder: 'function' },
+		{ id: 3, name: 'onSubmit', placeholder: 'function' },
+		{ id: 4, name: 'onKeyUp', placeholder: 'function' },
+		{ id: 5, name: 'onKeyDown', placeholder: 'function' }
 	];
 	const hooksCards = [
-		{ id: 6, name: 'useState' },
-		{ id: 7, name: 'useEffect' },
-		{ id: 8, name: 'useRef' }
+		{ id: 6, name: 'useState', placeholder: 'initial value' },
+		{ id: 7, name: 'useEffect', placeholder: 'dependencies' },
+		{ id: 8, name: 'useRef', placeholder: 'initial value' }
 	];
 	const variables = [
-		{ id: 9, name: 'const' },
-		{ id: 10, name: 'let' }
+		{ id: 9, name: 'const', placeholder: 'value' },
+		{ id: 10, name: 'let', placeholder: 'value' }
 	];
+	const functions = [{ id: 11, name: 'function', placeholder: 'argument' }];
 
 	function addNewCanvas() {
 		const maxCanvasListNumber = Number.parseInt(canvasList[canvasList.length - 1].substring(6));
@@ -153,6 +154,16 @@
 						}}
 					>
 						<span class="mx-2 text-sm font-medium">Variables</span>
+					</button>
+
+					<button
+						class="flex w-[100%] items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:text-gray-200"
+						id="functions"
+						on:click={() => {
+							updateCardStore(functions);
+						}}
+					>
+						<span class="mx-2 text-sm font-medium">Functions</span>
 					</button>
 				</div>
 			</nav>

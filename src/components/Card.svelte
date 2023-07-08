@@ -9,16 +9,12 @@
 	CanvasStore.subscribe((data) => {
 		cardCount = data.cardCount;
 	});
-
-	function cloneElement(card) {
-		addElement(card);
-	}
 </script>
 
 <button
 	class={`card m-[10px] flex-col rounded-xl cursor-pointer relative z-[90] h-[100px] w-[200px] min-w-[200px] min-h-[100px] bg-[#fcfcfc] bg-opacity-[0.4] shadow-md flex justify-center items-start backdrop-blur-[4px]`}
 	on:click={() => {
-		cloneElement(card);
+		addElement(card);
 		updateCanvasStore('cardCount', cardCount + 1);
 	}}
 >

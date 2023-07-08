@@ -29,6 +29,7 @@
 	}
 
 	export function addElement(card, cardNum = cardCount, cardLocation = [0, 0], isInput = false) {
+		console.log(card);
 		const cardsContainer = document.querySelector('.canvas');
 		// const cardElement = document.createElement('button');
 		// cardElement.className = `card flex-col rounded-xl cursor-default absolute z-[35] h-[100px] w-[200px] bg-[#fcfcfc] bg-opacity-[0.4] shadow-md flex justify-start items-center backdrop-blur-[4px] id_${card.id}`;
@@ -77,6 +78,7 @@
                         <span class="left flex flex-start items-center pl-[10px]">
                             I/P<span class="inputs h-[10px] w-[10px] z-[38] rounded-full bg-[#ff0000] absolute left-[-5px] text-start cursor-pointer id_${card.id}" id="input_${cardNum}"></span>
                         </span>
+						<input type="text" maxLength="10" class="outline-none border-none rounded-lg bg-[#dddddd] bg-opacity-[0.8] text-[#101010] w-[120px] h-[30px] px-[5px] placeholder-[#333333] placeholder-opacity-[0.7]" placeholder=${card.placeholder}></input>
                         <span class="right flex flex-start items-center pr-[10px]">
                             O/P<span class="outputs h-[10px] w-[10px] z-[38] rounded-full bg-[#ff0000] absolute right-[-5px] text-start cursor-pointer id_${card.id}" id="output_${cardNum}"></span>
                         </span>
@@ -85,7 +87,7 @@
             `
 		);
 		const cardElement = document.getElementById(`card_${cardNum}`);
-		if (cardLocation[0] !== 0 || cardLocation[1] !== 0) {
+		if (cardElement && (cardLocation[0] !== 0 || cardLocation[1] !== 0)) {
 			cardElement.style.top = `${cardLocation[1] - 50}px`;
 			if (!isInput) {
 				cardElement.style.left = `${cardLocation[0] - 200}px`;
