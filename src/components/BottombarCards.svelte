@@ -13,7 +13,7 @@
 			id: 1,
 			name: 'components',
 			placeholder: 'name',
-			size: { height: 100, width: 200 },
+			size: { height: 200, width: 200 },
 			textarea: false
 		}
 	];
@@ -52,7 +52,7 @@
 			id: 6,
 			name: 'useState',
 			placeholder: 'initial value',
-			size: { height: 100, width: 200 },
+			size: { height: 200, width: 200 },
 			textarea: false
 		},
 		{
@@ -66,7 +66,7 @@
 			id: 8,
 			name: 'useRef',
 			placeholder: 'initial value',
-			size: { height: 100, width: 200 },
+			size: { height: 200, width: 200 },
 			textarea: false
 		}
 	];
@@ -75,14 +75,14 @@
 			id: 9,
 			name: 'const',
 			placeholder: 'value',
-			size: { height: 100, width: 200 },
+			size: { height: 200, width: 200 },
 			textarea: false
 		},
 		{
 			id: 10,
 			name: 'let',
 			placeholder: 'value',
-			size: { height: 100, width: 200 },
+			size: { height: 200, width: 200 },
 			textarea: false
 		}
 	];
@@ -113,6 +113,13 @@
 			placeholder: 'delay',
 			size: { height: 100, width: 200 },
 			textarea: false
+		},
+		{
+			id: 14,
+			name: 'setInterval',
+			placeholder: 'interval',
+			size: { height: 100, width: 200 },
+			textarea: false
 		}
 	];
 
@@ -128,7 +135,7 @@
 			id: 1,
 			name: 'components',
 			placeholder: 'name',
-			size: { height: 100, width: 200 },
+			size: { height: 200, width: 200 },
 			textarea: false
 		},
 		{
@@ -163,7 +170,7 @@
 			id: 6,
 			name: 'useState',
 			placeholder: 'initial value',
-			size: { height: 100, width: 200 },
+			size: { height: 200, width: 200 },
 			textarea: false
 		},
 		{
@@ -177,21 +184,21 @@
 			id: 8,
 			name: 'useRef',
 			placeholder: 'initial value',
-			size: { height: 100, width: 200 },
+			size: { height: 200, width: 200 },
 			textarea: false
 		},
 		{
 			id: 9,
 			name: 'const',
 			placeholder: 'value',
-			size: { height: 100, width: 200 },
+			size: { height: 200, width: 200 },
 			textarea: false
 		},
 		{
 			id: 10,
 			name: 'let',
 			placeholder: 'value',
-			size: { height: 100, width: 200 },
+			size: { height: 200, width: 200 },
 			textarea: false
 		},
 		{
@@ -212,6 +219,13 @@
 			id: 13,
 			name: 'setTimeout',
 			placeholder: 'delay',
+			size: { height: 100, width: 200 },
+			textarea: false
+		},
+		{
+			id: 14,
+			name: 'setInterval',
+			placeholder: 'interval',
 			size: { height: 100, width: 200 },
 			textarea: false
 		}

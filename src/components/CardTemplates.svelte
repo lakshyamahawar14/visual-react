@@ -9,7 +9,7 @@
 			return letTemplate(cardNum);
 		} else if (cardId === 6) {
 			return useStateTemplate(cardNum);
-		} else if (cardId === 7) {
+		} else if (cardId === 8) {
 			return useRefTemplate(cardNum);
 		} else if (cardId === 1) {
 			return componentsTemplate(cardNum);
