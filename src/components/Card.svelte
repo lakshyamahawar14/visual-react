@@ -5,7 +5,6 @@
 	export let card;
 
 	let cardCount;
-
 	CanvasStore.subscribe((data) => {
 		cardCount = data.cardCount;
 	});
@@ -14,7 +13,7 @@
 <button
 	class={`card m-[10px] flex-col rounded-xl cursor-pointer relative z-[90] h-[100px] w-[200px] min-w-[200px] min-h-[100px] bg-[#fcfcfc] bg-opacity-[0.4] shadow-md flex justify-center items-start backdrop-blur-[4px]`}
 	on:click={() => {
-		addElement(card);
+		addElement(card.id);
 		updateCanvasStore('cardCount', cardCount + 1);
 	}}
 >

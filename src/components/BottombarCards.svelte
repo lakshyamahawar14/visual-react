@@ -91,7 +91,7 @@
 			id: 11,
 			name: 'function',
 			placeholder: 'name',
-			size: { height: 100, width: 200 },
+			size: { height: 200, width: 200 },
 			textarea: false
 		}
 	];
@@ -188,7 +188,7 @@
 			id: 11,
 			name: 'function',
 			placeholder: 'name',
-			size: { height: 100, width: 200 },
+			size: { height: 200, width: 200 },
 			textarea: false
 		},
 		{

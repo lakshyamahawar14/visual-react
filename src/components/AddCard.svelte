@@ -30,26 +30,26 @@
 	}
 
 	export function addElement(
-		card,
+		cardId,
 		cardNum = cardCount,
 		cardLocation = [0, 0],
 		isInput = false,
-		inputText = ''
+		inputText = []
 	) {
+		const card = allCards[cardId];
+		console.log(card.name, inputText);
 		const cardsContainer = document.querySelector('.canvas');
 		const cardHtmlString = card.textarea
-			? generalTextareaCard(card, cardNum)
-			: generalInputCard(card, cardNum);
-		console.log(cardHtmlString);
+			? generalTextareaCard(cardId, cardNum)
+			: generalInputCard(cardId, cardNum);
 		cardsContainer?.insertAdjacentHTML('beforeend', cardHtmlString);
-		const cardElement = document.getElementById(`card_${cardNum}`);
-		const inputElement = document.getElementById(`text_${cardNum}`);
-		if (inputElement) {
-			if (inputElement) {
-				inputElement.value = inputText;
-			}
-		}
 
+		const inputTagsContainer = document.querySelectorAll(`.cardInputs_${cardNum}`);
+		inputText.forEach((text, index) => {
+			inputTagsContainer[index].value = text;
+		});
+
+		const cardElement = document.getElementById(`card_${cardNum}`);
 		if (cardElement && (cardLocation[0] !== 0 || cardLocation[1] !== 0)) {
 			cardElement.style.top = `${cardLocation[1] - card.size.height / 2}px`;
 			if (!isInput) {
@@ -190,21 +190,21 @@
 				const inputCardNumber = i;
 				const start = [0, 0];
 				const end = [0, 0];
-				let inputCardTextElement = document.getElementById(`text_${inputCardNumber}`);
-				let outputCardTextElement = document.getElementById(`text_${outputCardNumber}`);
-				let inputCardText = '',
-					outputCardText = '';
-				if (inputCardTextElement) {
-					inputCardText = inputCardTextElement.value;
-				}
-				if (outputCardTextElement) {
-					outputCardText = outputCardTextElement.value;
-				}
+				let inputCardText = [],
+					outputCardText = [];
+				const inputCardInputTags = document.querySelectorAll(`.cardInputs_${inputCardNumber}`);
+				inputCardInputTags?.forEach((inputTag) => {
+					inputCardText.push(inputTag.value);
+				});
+
+				const outputCardInputTags = document.querySelectorAll(`.cardInputs_${outputCardNumber}`);
+				outputCardInputTags?.forEach((outputTag) => {
+					outputCardText.push(outputTag.value);
+				});
+
 				const inputCardElement = document.getElementById(`input_${inputCardNumber}`);
 				if (inputCardElement) {
 					const startRect = inputCardElement.getBoundingClientRect();
-					const cardId = cardIdMap[inputCardNumber];
-					const card = allCards[cardId];
 					start[0] = startRect.left + startRect.width / 2 - 200;
 					start[1] = startRect.top + startRect.height / 2;
 				}
@@ -212,8 +212,6 @@
 				const outputCardElement = document.getElementById(`output_${outputCardNumber}`);
 				if (outputCardElement) {
 					const endRect = outputCardElement.getBoundingClientRect();
-					const cardId = cardIdMap[inputCardNumber];
-					const card = allCards[cardId];
 					end[0] = endRect.left + endRect.width / 2 - 200;
 					end[1] = endRect.top + endRect.height / 2;
 				}

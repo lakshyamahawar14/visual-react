@@ -6,7 +6,6 @@
 		resetCanvasStore
 	} from '../stores/stores';
 	import { addElement, clearCanvas } from '../components/AddCard.svelte';
-	import { allCards } from './BottombarCards.svelte';
 
 	let currentCanvas;
 	CurrentCanvasStore.subscribe((data) => {
@@ -53,8 +52,7 @@
 			const cardLocation = cl.location;
 			const text = cl.text;
 			const cardId = storedData.cardIdMap[cardNum];
-			const card = allCards[cardId];
-			addElement(card, cardNum, cardLocation, isInput, text);
+			addElement(cardId, cardNum, cardLocation, isInput, text);
 		});
 	}
 
