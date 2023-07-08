@@ -130,11 +130,13 @@
 			const card = d.cards;
 			const location = d.location;
 			if (map[card.input] === 0) {
-				cardsList.push({ input: true, card: card.input, location: location.start });
+				const text = d.inputs.input;
+				cardsList.push({ input: true, card: card.input, location: location.start, text: text });
 				map[card.input] = 1;
 			}
 			if (map[card.output] === 0) {
-				cardsList.push({ input: false, card: card.output, location: location.end });
+				const text = d.inputs.output;
+				cardsList.push({ input: false, card: card.output, location: location.end, text: text });
 				map[card.output] = 1;
 			}
 		});
@@ -142,9 +144,10 @@
 			const isInput = cl.input;
 			const cardNum = cl.card;
 			const cardLocation = cl.location;
+			const text = cl.text;
 			const cardId = storedData.cardIdMap[cardNum];
 			const card = allCards[cardId];
-			addElement(card, cardNum, cardLocation, isInput);
+			addElement(card, cardNum, cardLocation, isInput, text);
 		});
 	}
 

@@ -27,10 +27,16 @@
 		}
 	}
 
-	export function addElement(card, cardNum = cardCount, cardLocation = [0, 0], isInput = false) {
+	export function addElement(
+		card,
+		cardNum = cardCount,
+		cardLocation = [0, 0],
+		isInput = false,
+		inputText = ''
+	) {
 		const cardsContainer = document.querySelector('.canvas');
-		const inputElementString = `<input type="text" class="outline-none border-none rounded-lg bg-[#dddddd] bg-opacity-[0.8] text-[#101010] w-[80%] min-h-[30px] h-[50%] px-[5px] placeholder-[#333333] placeholder-opacity-[0.7]" placeholder=${card.placeholder}></input>`;
-		const textareaElementString = `<textarea class="outline-none border-none rounded-lg bg-[#dddddd] bg-opacity-[0.8] text-[#101010] w-[80%] min-h-[30px] h-[50%] px-[5px] placeholder-[#333333] placeholder-opacity-[0.7]" placeholder=${card.placeholder}></textarea>`;
+		const inputElementString = `<input id="text_${cardNum}" type="text" class="outline-none border-none rounded-lg bg-[#dddddd] bg-opacity-[0.8] text-[#101010] w-[80%] h-[30px] px-[5px] placeholder-[#333333] placeholder-opacity-[0.7]" placeholder="${card.placeholder}" value="${inputText}"></input>`;
+		const textareaElementString = `<textarea id="text_${cardNum}" class="outline-none border-none rounded-lg bg-[#dddddd] bg-opacity-[0.8] text-[#101010] w-[80%] h-[50%] max-h-[80%] min-h-[30%] p-[5px] placeholder-[#333333] placeholder-opacity-[0.7]" placeholder="${card.placeholder}" value="${inputText}"></textarea>`;
 		cardsContainer?.insertAdjacentHTML(
 			'beforeend',
 			`
@@ -62,6 +68,12 @@
             `
 		);
 		const cardElement = document.getElementById(`card_${cardNum}`);
+		if (card.textarea) {
+			const textareaElement = document.getElementById(`text_${cardNum}`);
+			if (textareaElement) {
+				textareaElement.value = inputText;
+			}
+		}
 		if (cardElement && (cardLocation[0] !== 0 || cardLocation[1] !== 0)) {
 			cardElement.style.top = `${cardLocation[1] - card.size.height / 2}px`;
 			if (!isInput) {
@@ -296,12 +308,20 @@
 				const inputCardNumber = i;
 				const start = [0, 0];
 				const end = [0, 0];
-
+				let inputCardTextElement = document.getElementById(`text_${inputCardNumber}`);
+				let outputCardTextElement = document.getElementById(`text_${outputCardNumber}`);
+				let inputCardText = '',
+					outputCardText = '';
+				if (inputCardTextElement) {
+					inputCardText = inputCardTextElement.value;
+				}
+				if (outputCardTextElement) {
+					outputCardText = outputCardTextElement.value;
+				}
 				const inputCardElement = document.getElementById(`input_${inputCardNumber}`);
 				if (inputCardElement) {
 					const startRect = inputCardElement.getBoundingClientRect();
 					const cardId = cardIdMap[inputCardNumber];
-					console.log('input card id ', cardId);
 					const card = allCards[cardId];
 					start[0] = startRect.left + startRect.width / 2 - 200;
 					start[1] = startRect.top + startRect.height / 2;
@@ -312,14 +332,14 @@
 					const endRect = outputCardElement.getBoundingClientRect();
 					const cardId = cardIdMap[inputCardNumber];
 					const card = allCards[cardId];
-					console.log('output card id ', cardId);
 					end[0] = endRect.left + endRect.width / 2 - 200;
 					end[1] = endRect.top + endRect.height / 2;
 				}
 
 				tempLines.push({
 					location: { start: start, end: end },
-					cards: { input: inputCardNumber, output: outputCardNumber }
+					cards: { input: inputCardNumber, output: outputCardNumber },
+					inputs: { input: inputCardText, output: outputCardText }
 				});
 			});
 		}
