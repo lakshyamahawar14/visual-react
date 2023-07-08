@@ -13,24 +13,30 @@
 		currentCanvas = data;
 	});
 
-	let routesCards = [{ id: 0, name: 'route', placeholder: 'name' }];
-	let componentsCards = [{ id: 1, name: 'components', placeholder: 'name' }];
+	let routesCards = [
+		{ id: 0, name: 'route', placeholder: 'name', size: { height: 100, width: 200 } }
+	];
+	let componentsCards = [
+		{ id: 1, name: 'components', placeholder: 'name', size: { height: 100, width: 200 } }
+	];
 	let listenersCards = [
-		{ id: 2, name: 'onClick', placeholder: 'function' },
-		{ id: 3, name: 'onSubmit', placeholder: 'function' },
-		{ id: 4, name: 'onKeyUp', placeholder: 'function' },
-		{ id: 5, name: 'onKeyDown', placeholder: 'function' }
+		{ id: 2, name: 'onClick', placeholder: 'function', size: { height: 100, width: 200 } },
+		{ id: 3, name: 'onSubmit', placeholder: 'function', size: { height: 100, width: 200 } },
+		{ id: 4, name: 'onKeyUp', placeholder: 'function', size: { height: 100, width: 200 } },
+		{ id: 5, name: 'onKeyDown', placeholder: 'function', size: { height: 100, width: 200 } }
 	];
 	const hooksCards = [
-		{ id: 6, name: 'useState', placeholder: 'initial value' },
-		{ id: 7, name: 'useEffect', placeholder: 'dependencies' },
-		{ id: 8, name: 'useRef', placeholder: 'initial value' }
+		{ id: 6, name: 'useState', placeholder: 'initial value', size: { height: 100, width: 200 } },
+		{ id: 7, name: 'useEffect', placeholder: 'dependencies', size: { height: 100, width: 200 } },
+		{ id: 8, name: 'useRef', placeholder: 'initial value', size: { height: 100, width: 200 } }
 	];
 	const variables = [
-		{ id: 9, name: 'const', placeholder: 'value' },
-		{ id: 10, name: 'let', placeholder: 'value' }
+		{ id: 9, name: 'const', placeholder: 'value', size: { height: 100, width: 200 } },
+		{ id: 10, name: 'let', placeholder: 'value', size: { height: 100, width: 200 } }
 	];
-	const functions = [{ id: 11, name: 'function', placeholder: 'argument' }];
+	const functions = [
+		{ id: 11, name: 'function', placeholder: 'argument', size: { height: 100, width: 200 } }
+	];
 
 	function addNewCanvas() {
 		const maxCanvasListNumber = Number.parseInt(canvasList[canvasList.length - 1].substring(6));
