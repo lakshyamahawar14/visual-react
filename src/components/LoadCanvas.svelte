@@ -27,6 +27,10 @@
 
 	function loadCards(storedData) {
 		const drawables = storedData.drawables;
+		if (drawables.length === 0) {
+			resetCanvasStore();
+			return;
+		}
 		let cardsList = [];
 		const map = [];
 		for (let i = 0; i < 20; i++) {

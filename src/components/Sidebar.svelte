@@ -14,7 +14,8 @@
 		listenersCards,
 		variables,
 		functions,
-		htmls
+		htmls,
+		timers
 	} from './BottombarCards.svelte';
 
 	let currentCanvas;
@@ -164,6 +165,16 @@
 						}}
 					>
 						<span class="mx-2 text-sm font-medium">HTMLs</span>
+					</button>
+
+					<button
+						class="flex w-[100%] items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:text-gray-200"
+						id="timers"
+						on:click={() => {
+							updateCardStore(timers);
+						}}
+					>
+						<span class="mx-2 text-sm font-medium">Timers</span>
 					</button>
 				</div>
 			</nav>

@@ -106,6 +106,16 @@
 		}
 	];
 
+	export const timers = [
+		{
+			id: 13,
+			name: 'setTimeout',
+			placeholder: 'delay',
+			size: { height: 100, width: 200 },
+			textarea: false
+		}
+	];
+
 	export const allCards = [
 		{
 			id: 0,
@@ -197,6 +207,13 @@
 			placeholder: 'html code',
 			size: { height: 300, width: 300 },
 			textarea: true
+		},
+		{
+			id: 13,
+			name: 'setTimeout',
+			placeholder: 'delay',
+			size: { height: 100, width: 200 },
+			textarea: false
 		}
 	];
 </script>
