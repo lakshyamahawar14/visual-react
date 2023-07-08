@@ -1,9 +1,27 @@
 import { writable } from 'svelte/store';
 
 const hooksCards = [
-	{ id: 6, name: 'useState', placeholder: 'initial value', size: { height: 100, width: 200 } },
-	{ id: 7, name: 'useEffect', placeholder: 'dependencies', size: { height: 100, width: 200 } },
-	{ id: 8, name: 'useRef', placeholder: 'initial value', size: { height: 100, width: 200 } }
+	{
+		id: 6,
+		name: 'useState',
+		placeholder: 'initial value',
+		size: { height: 100, width: 200 },
+		textarea: false
+	},
+	{
+		id: 7,
+		name: 'useEffect',
+		placeholder: 'dependencies',
+		size: { height: 100, width: 200 },
+		textarea: false
+	},
+	{
+		id: 8,
+		name: 'useRef',
+		placeholder: 'initial value',
+		size: { height: 100, width: 200 },
+		textarea: false
+	}
 ];
 
 const CardStore = writable(hooksCards);

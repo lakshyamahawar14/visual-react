@@ -29,56 +29,33 @@
 
 	export function addElement(card, cardNum = cardCount, cardLocation = [0, 0], isInput = false) {
 		const cardsContainer = document.querySelector('.canvas');
-		// const cardElement = document.createElement('button');
-		// cardElement.className = `card flex-col rounded-xl cursor-default absolute z-[35] h-[100px] w-[200px] bg-[#fcfcfc] bg-opacity-[0.4] shadow-md flex justify-start items-center backdrop-blur-[4px] id_${card.id}`;
-		// cardElement.style.left = '20px';
-		// cardElement.style.top = '20px';
-		// cardElement.id = `card_${cardCount}`;
-		// const titleElement = document.createElement('p');
-		// titleElement.className =
-		// 	'title absolute top-0 bg-[#dddddd] w-[100%] z-[20] text-center rounded-xl rounded-b-none cursor-move';
-		// titleElement.innerText = `${card.name}`;
-		// const contentElement = document.createElement('p');
-		// contentElement.className =
-		// 	'flex w-[100%] h-[100%] justify-between items-center text-[0.8rem] font-[600]';
-		// const spanElement1 = document.createElement('span');
-		// spanElement1.innerText = 'I/P';
-		// spanElement1.className = 'left flex flex-start items-center pl-[10px]';
-		// const spanElement2 = document.createElement('span');
-		// spanElement2.innerText = 'O/P';
-		// spanElement2.className = 'right flex flex-start items-center pr-[10px]';
-		// const spanElement3 = document.createElement('span');
-		// spanElement3.className = `inputs h-[10px] w-[10px] z-[38] rounded-full bg-[#ff0000] absolute left-[-5px] text-start  cursor-pointer id_${card.id}`;
-		// spanElement3.addEventListener('mouseup', endDrag);
-		// spanElement3.id = `input_${cardCount}`;
-		// const spanElement4 = document.createElement('span');
-		// spanElement4.className = `outputs h-[10px] w-[10px] z-[38] rounded-full bg-[#ff0000] absolute right-[-5px] text-start  cursor-pointer id_${card.id}`;
-		// spanElement4.addEventListener('mousedown', startDrag);
-		// spanElement4.id = `output_${cardCount}`;
-		// spanElement1.appendChild(spanElement3);
-		// spanElement2.appendChild(spanElement4);
-		// contentElement.appendChild(spanElement1);
-		// contentElement.appendChild(spanElement2);
-		// cardElement.appendChild(titleElement);
-		// cardElement.appendChild(contentElement);
-		// cardsContainer?.appendChild(cardElement);
+		const inputElementString = `<input type="text" class="outline-none border-none rounded-lg bg-[#dddddd] bg-opacity-[0.8] text-[#101010] w-[80%] min-h-[30px] h-[50%] px-[5px] placeholder-[#333333] placeholder-opacity-[0.7]" placeholder=${card.placeholder}></input>`;
+		const textareaElementString = `<textarea class="outline-none border-none rounded-lg bg-[#dddddd] bg-opacity-[0.8] text-[#101010] w-[80%] min-h-[30px] h-[50%] px-[5px] placeholder-[#333333] placeholder-opacity-[0.7]" placeholder=${card.placeholder}></textarea>`;
 		cardsContainer?.insertAdjacentHTML(
 			'beforeend',
 			`
-                <button class="card flex-col rounded-xl cursor-default absolute z-[35] h-[100px] w-[200px] bg-[#fcfcfc] bg-opacity-[0.4] shadow-md flex justify-start items-center backdrop-blur-[4px] id_${card.id}"
+                <button class="card flex-col rounded-xl cursor-default absolute z-[35] bg-[#fcfcfc] bg-opacity-[0.4] shadow-md flex justify-start items-center backdrop-blur-[4px] id_${
+									card.id
+								}"
                     id="card_${cardNum}"
-                    style="left: 20px; top: 20px;"
+                    style="left: 20px; top: 20px; height: ${card.size.height}px; width: ${
+				card.size.width
+			}px;"
                     >
                     <p class="title absolute top-0 bg-[#dddddd] w-[100%] z-[20] text-center rounded-xl rounded-b-none cursor-move">
                         ${card.name}
                     </p>
                     <p class="flex w-[100%] h-[100%] justify-between items-center text-[0.8rem] font-[600]">
                         <span class="left flex flex-start items-center pl-[10px]">
-                            I/P<span class="inputs h-[10px] w-[10px] z-[38] rounded-full bg-[#ff0000] absolute left-[-5px] text-start cursor-pointer id_${card.id}" id="input_${cardNum}"></span>
+                            I/P<span class="inputs h-[10px] w-[10px] z-[38] rounded-full bg-[#ff0000] absolute left-[-5px] text-start cursor-pointer id_${
+															card.id
+														}" id="input_${cardNum}"></span>
                         </span>
-						<input type="text" maxLength="10" class="outline-none border-none rounded-lg bg-[#dddddd] bg-opacity-[0.8] text-[#101010] w-[120px] h-[30px] px-[5px] placeholder-[#333333] placeholder-opacity-[0.7]" placeholder=${card.placeholder}></input>
+						${card.textarea ? textareaElementString : inputElementString}
                         <span class="right flex flex-start items-center pr-[10px]">
-                            O/P<span class="outputs h-[10px] w-[10px] z-[38] rounded-full bg-[#ff0000] absolute right-[-5px] text-start cursor-pointer id_${card.id}" id="output_${cardNum}"></span>
+                            O/P<span class="outputs h-[10px] w-[10px] z-[38] rounded-full bg-[#ff0000] absolute right-[-5px] text-start cursor-pointer id_${
+															card.id
+														}" id="output_${cardNum}"></span>
                         </span>
                     </p>
                 </button>
@@ -174,7 +151,6 @@
 		const targetElement = document.elementFromPoint(e.clientX, e.clientY);
 		if (targetElement?.classList.contains('inputs')) {
 			const inputNode = getCardNumber('input', targetElement.id);
-
 			let inputCardClass = '';
 
 			targetElement.classList.forEach((name) => {
@@ -218,18 +194,97 @@
 	}
 
 	const allCards = [
-		{ id: 0, name: 'route', placeholder: 'name', size: { height: 100, width: 200 } },
-		{ id: 1, name: 'components', placeholder: 'name', size: { height: 100, width: 200 } },
-		{ id: 2, name: 'onClick', placeholder: 'function', size: { height: 100, width: 200 } },
-		{ id: 3, name: 'onSubmit', placeholder: 'function', size: { height: 100, width: 200 } },
-		{ id: 4, name: 'onKeyUp', placeholder: 'function', size: { height: 100, width: 200 } },
-		{ id: 5, name: 'onKeyDown', placeholder: 'function', size: { height: 100, width: 200 } },
-		{ id: 6, name: 'useState', placeholder: 'initial value', size: { height: 100, width: 200 } },
-		{ id: 7, name: 'useEffect', placeholder: 'dependencies', size: { height: 100, width: 200 } },
-		{ id: 8, name: 'useRef', placeholder: 'initial value', size: { height: 100, width: 200 } },
-		{ id: 9, name: 'const', placeholder: 'value', size: { height: 100, width: 200 } },
-		{ id: 10, name: 'let', placeholder: 'value', size: { height: 100, width: 200 } },
-		{ id: 11, name: 'function', placeholder: 'argument', size: { height: 100, width: 200 } }
+		{
+			id: 0,
+			name: 'route',
+			placeholder: 'name',
+			size: { height: 100, width: 200 },
+			textarea: false
+		},
+		{
+			id: 1,
+			name: 'components',
+			placeholder: 'name',
+			size: { height: 100, width: 200 },
+			textarea: false
+		},
+		{
+			id: 2,
+			name: 'onClick',
+			placeholder: 'function',
+			size: { height: 100, width: 200 },
+			textarea: false
+		},
+		{
+			id: 3,
+			name: 'onSubmit',
+			placeholder: 'function',
+			size: { height: 100, width: 200 },
+			textarea: false
+		},
+		{
+			id: 4,
+			name: 'onKeyUp',
+			placeholder: 'function',
+			size: { height: 100, width: 200 },
+			textarea: false
+		},
+		{
+			id: 5,
+			name: 'onKeyDown',
+			placeholder: 'function',
+			size: { height: 100, width: 200 },
+			textarea: false
+		},
+		{
+			id: 6,
+			name: 'useState',
+			placeholder: 'initial value',
+			size: { height: 100, width: 200 },
+			textarea: false
+		},
+		{
+			id: 7,
+			name: 'useEffect',
+			placeholder: 'dependencies',
+			size: { height: 100, width: 200 },
+			textarea: false
+		},
+		{
+			id: 8,
+			name: 'useRef',
+			placeholder: 'initial value',
+			size: { height: 100, width: 200 },
+			textarea: false
+		},
+		{
+			id: 9,
+			name: 'const',
+			placeholder: 'value',
+			size: { height: 100, width: 200 },
+			textarea: false
+		},
+		{
+			id: 10,
+			name: 'let',
+			placeholder: 'value',
+			size: { height: 100, width: 200 },
+			textarea: false
+		},
+		{
+			id: 11,
+			name: 'function',
+			placeholder: 'argument',
+			size: { height: 100, width: 200 },
+			textarea: false
+		},
+		{
+			id: 12,
+			name: 'html',
+			placeholder: 'html code',
+			size: { height: 300, width: 300 },
+			textarea: true
+		}
 	];
 
 	function drawLines() {
@@ -246,8 +301,8 @@
 				if (inputCardElement) {
 					const startRect = inputCardElement.getBoundingClientRect();
 					const cardId = cardIdMap[inputCardNumber];
+					console.log('input card id ', cardId);
 					const card = allCards[cardId];
-					console.log('ye hai', card);
 					start[0] = startRect.left + startRect.width / 2 - 200;
 					start[1] = startRect.top + startRect.height / 2;
 				}
@@ -257,7 +312,8 @@
 					const endRect = outputCardElement.getBoundingClientRect();
 					const cardId = cardIdMap[inputCardNumber];
 					const card = allCards[cardId];
-					end[0] = endRect.left + endRect.width / 2 - card.size.width;
+					console.log('output card id ', cardId);
+					end[0] = endRect.left + endRect.width / 2 - 200;
 					end[1] = endRect.top + endRect.height / 2;
 				}
 

@@ -14,28 +14,110 @@
 	});
 
 	let routesCards = [
-		{ id: 0, name: 'route', placeholder: 'name', size: { height: 100, width: 200 } }
+		{
+			id: 0,
+			name: 'route',
+			placeholder: 'name',
+			size: { height: 100, width: 200 },
+			textarea: false
+		}
 	];
 	let componentsCards = [
-		{ id: 1, name: 'components', placeholder: 'name', size: { height: 100, width: 200 } }
+		{
+			id: 1,
+			name: 'components',
+			placeholder: 'name',
+			size: { height: 100, width: 200 },
+			textarea: false
+		}
 	];
 	let listenersCards = [
-		{ id: 2, name: 'onClick', placeholder: 'function', size: { height: 100, width: 200 } },
-		{ id: 3, name: 'onSubmit', placeholder: 'function', size: { height: 100, width: 200 } },
-		{ id: 4, name: 'onKeyUp', placeholder: 'function', size: { height: 100, width: 200 } },
-		{ id: 5, name: 'onKeyDown', placeholder: 'function', size: { height: 100, width: 200 } }
+		{
+			id: 2,
+			name: 'onClick',
+			placeholder: 'function',
+			size: { height: 100, width: 200 },
+			textarea: false
+		},
+		{
+			id: 3,
+			name: 'onSubmit',
+			placeholder: 'function',
+			size: { height: 100, width: 200 },
+			textarea: false
+		},
+		{
+			id: 4,
+			name: 'onKeyUp',
+			placeholder: 'function',
+			size: { height: 100, width: 200 },
+			textarea: false
+		},
+		{
+			id: 5,
+			name: 'onKeyDown',
+			placeholder: 'function',
+			size: { height: 100, width: 200 },
+			textarea: false
+		}
 	];
 	const hooksCards = [
-		{ id: 6, name: 'useState', placeholder: 'initial value', size: { height: 100, width: 200 } },
-		{ id: 7, name: 'useEffect', placeholder: 'dependencies', size: { height: 100, width: 200 } },
-		{ id: 8, name: 'useRef', placeholder: 'initial value', size: { height: 100, width: 200 } }
+		{
+			id: 6,
+			name: 'useState',
+			placeholder: 'initial value',
+			size: { height: 100, width: 200 },
+			textarea: false
+		},
+		{
+			id: 7,
+			name: 'useEffect',
+			placeholder: 'dependencies',
+			size: { height: 100, width: 200 },
+			textarea: false
+		},
+		{
+			id: 8,
+			name: 'useRef',
+			placeholder: 'initial value',
+			size: { height: 100, width: 200 },
+			textarea: false
+		}
 	];
 	const variables = [
-		{ id: 9, name: 'const', placeholder: 'value', size: { height: 100, width: 200 } },
-		{ id: 10, name: 'let', placeholder: 'value', size: { height: 100, width: 200 } }
+		{
+			id: 9,
+			name: 'const',
+			placeholder: 'value',
+			size: { height: 100, width: 200 },
+			textarea: false
+		},
+		{
+			id: 10,
+			name: 'let',
+			placeholder: 'value',
+			size: { height: 100, width: 200 },
+			textarea: false
+		}
 	];
 	const functions = [
-		{ id: 11, name: 'function', placeholder: 'argument', size: { height: 100, width: 200 } }
+		{
+			id: 11,
+			name: 'function',
+			placeholder: 'argument',
+			size: { height: 100, width: 200 },
+			textarea: false
+		}
+	];
+
+	const htmls = [
+		{
+			id: 12,
+			name: 'html',
+			placeholder: 'html code',
+			size: { height: 300, width: 300 },
+			textarea: true
+		}
 	];
 
 	function addNewCanvas() {
@@ -170,6 +252,16 @@
 						}}
 					>
 						<span class="mx-2 text-sm font-medium">Functions</span>
+					</button>
+
+					<button
+						class="flex w-[100%] items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:text-gray-200"
+						id="htmls"
+						on:click={() => {
+							updateCardStore(htmls);
+						}}
+					>
+						<span class="mx-2 text-sm font-medium">HTMLs</span>
 					</button>
 				</div>
 			</nav>
