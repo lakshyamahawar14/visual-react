@@ -7,7 +7,8 @@
 		updateNodeStore
 	} from '../stores/stores';
 	import { autosaveCanvas } from './LoadCanvas.svelte';
-	import { allCards } from './CardTemplates.svelte';
+	import { allCards } from './BottombarCards.svelte';
+	import { generalInputCard, generalTextareaCard } from './CardTemplates.svelte';
 
 	let cardCount;
 	let cardMap;
@@ -36,45 +37,19 @@
 		inputText = ''
 	) {
 		const cardsContainer = document.querySelector('.canvas');
-		const inputElementString = `<input id="text_${cardNum}" type="text" class="outline-none border-none rounded-lg bg-[#dddddd] bg-opacity-[0.8] text-[#101010] w-[80%] h-[30px] px-[5px] placeholder-[#333333] placeholder-opacity-[0.7]" placeholder="${card.placeholder}" value="${inputText}"></input>`;
-		const textareaElementString = `<textarea id="text_${cardNum}" class="outline-none border-none rounded-lg bg-[#dddddd] bg-opacity-[0.8] text-[#101010] w-[80%] h-[50%] max-h-[80%] min-h-[30%] p-[5px] placeholder-[#333333] placeholder-opacity-[0.7]" placeholder="${card.placeholder}" value="${inputText}"></textarea>`;
-		cardsContainer?.insertAdjacentHTML(
-			'beforeend',
-			`
-                <button class="card flex-col rounded-xl cursor-default absolute z-[35] bg-[#fcfcfc] bg-opacity-[0.4] shadow-md flex justify-start items-center backdrop-blur-[4px] id_${
-									card.id
-								}"
-                    id="card_${cardNum}"
-                    style="left: 20px; top: 20px; height: ${card.size.height}px; width: ${
-				card.size.width
-			}px;"
-                    >
-                    <p class="title absolute top-0 bg-[#dddddd] w-[100%] z-[20] text-center rounded-xl rounded-b-none cursor-move">
-                        ${card.name}
-                    </p>
-                    <p class="flex w-[100%] h-[100%] justify-between items-center text-[0.8rem] font-[600]">
-                        <span class="left flex flex-start items-center pl-[10px]">
-                            I/P<span class="inputs h-[10px] w-[10px] z-[38] rounded-full bg-[#ff0000] absolute left-[-5px] text-start cursor-pointer id_${
-															card.id
-														}" id="input_${cardNum}"></span>
-                        </span>
-						${card.textarea ? textareaElementString : inputElementString}
-                        <span class="right flex flex-start items-center pr-[10px]">
-                            O/P<span class="outputs h-[10px] w-[10px] z-[38] rounded-full bg-[#ff0000] absolute right-[-5px] text-start cursor-pointer id_${
-															card.id
-														}" id="output_${cardNum}"></span>
-                        </span>
-                    </p>
-                </button>
-            `
-		);
+		const cardHtmlString = card.textarea
+			? generalTextareaCard(card, cardNum)
+			: generalInputCard(card, cardNum);
+		console.log(cardHtmlString);
+		cardsContainer?.insertAdjacentHTML('beforeend', cardHtmlString);
 		const cardElement = document.getElementById(`card_${cardNum}`);
-		if (card.textarea) {
-			const textareaElement = document.getElementById(`text_${cardNum}`);
-			if (textareaElement) {
-				textareaElement.value = inputText;
+		const inputElement = document.getElementById(`text_${cardNum}`);
+		if (inputElement) {
+			if (inputElement) {
+				inputElement.value = inputText;
 			}
 		}
+
 		if (cardElement && (cardLocation[0] !== 0 || cardLocation[1] !== 0)) {
 			cardElement.style.top = `${cardLocation[1] - card.size.height / 2}px`;
 			if (!isInput) {

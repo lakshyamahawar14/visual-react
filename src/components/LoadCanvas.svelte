@@ -6,7 +6,7 @@
 		resetCanvasStore
 	} from '../stores/stores';
 	import { addElement, clearCanvas } from '../components/AddCard.svelte';
-	import { allCards } from './CardTemplates.svelte';
+	import { allCards } from './BottombarCards.svelte';
 
 	let currentCanvas;
 	CurrentCanvasStore.subscribe((data) => {

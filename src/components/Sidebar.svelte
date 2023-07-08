@@ -15,7 +15,7 @@
 		variables,
 		functions,
 		htmls
-	} from './CardTemplates.svelte';
+	} from './BottombarCards.svelte';
 
 	let currentCanvas;
 	CurrentCanvasStore.subscribe((data) => {

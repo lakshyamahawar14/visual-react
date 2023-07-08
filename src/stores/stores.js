@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store';
-import { hooksCards } from '../components/CardTemplates.svelte';
+import { hooksCards } from '../components/BottombarCards.svelte';
 
 const CardStore = writable(hooksCards);
 

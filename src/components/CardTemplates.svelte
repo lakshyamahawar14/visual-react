@@ -1,202 +1,47 @@
 <script context="module">
-	export const routesCards = [
-		{
-			id: 0,
-			name: 'route',
-			placeholder: 'name',
-			size: { height: 100, width: 200 },
-			textarea: false
-		}
-	];
-	export const componentsCards = [
-		{
-			id: 1,
-			name: 'components',
-			placeholder: 'name',
-			size: { height: 100, width: 200 },
-			textarea: false
-		}
-	];
-	export const listenersCards = [
-		{
-			id: 2,
-			name: 'onClick',
-			placeholder: 'function',
-			size: { height: 100, width: 200 },
-			textarea: false
-		},
-		{
-			id: 3,
-			name: 'onSubmit',
-			placeholder: 'function',
-			size: { height: 100, width: 200 },
-			textarea: false
-		},
-		{
-			id: 4,
-			name: 'onKeyUp',
-			placeholder: 'function',
-			size: { height: 100, width: 200 },
-			textarea: false
-		},
-		{
-			id: 5,
-			name: 'onKeyDown',
-			placeholder: 'function',
-			size: { height: 100, width: 200 },
-			textarea: false
-		}
-	];
-	export const hooksCards = [
-		{
-			id: 6,
-			name: 'useState',
-			placeholder: 'initial value',
-			size: { height: 100, width: 200 },
-			textarea: false
-		},
-		{
-			id: 7,
-			name: 'useEffect',
-			placeholder: 'dependencies',
-			size: { height: 100, width: 200 },
-			textarea: false
-		},
-		{
-			id: 8,
-			name: 'useRef',
-			placeholder: 'initial value',
-			size: { height: 100, width: 200 },
-			textarea: false
-		}
-	];
-	export const variables = [
-		{
-			id: 9,
-			name: 'const',
-			placeholder: 'value',
-			size: { height: 100, width: 200 },
-			textarea: false
-		},
-		{
-			id: 10,
-			name: 'let',
-			placeholder: 'value',
-			size: { height: 100, width: 200 },
-			textarea: false
-		}
-	];
-	export const functions = [
-		{
-			id: 11,
-			name: 'function',
-			placeholder: 'name',
-			size: { height: 100, width: 200 },
-			textarea: false
-		}
-	];
+	export function generalInputCard(card, cardNum) {
+		const inputElementString = `<input id="text_${cardNum}" type="text" class="outline-none border-none rounded-lg bg-[#dddddd] bg-opacity-[0.8] text-[#101010] w-[80%] h-[30px] px-[5px] placeholder-[#333333] placeholder-opacity-[0.7]" placeholder="${card.placeholder}"></input>`;
+		return `
+        <button class="card flex-col rounded-xl cursor-default absolute z-[35] bg-[#fcfcfc] bg-opacity-[0.4] shadow-md flex justify-start items-center backdrop-blur-[4px] id_${card.id}"
+                    id="card_${cardNum}"
+                    style="left: 20px; top: 20px; height: ${card.size.height}px; width: ${card.size.width}px;"
+                    >
+                    <p class="title absolute top-0 bg-[#dddddd] w-[100%] z-[20] text-center rounded-xl rounded-b-none cursor-move">
+                        ${card.name}
+                    </p>
+                    <p class="flex w-[100%] h-[100%] justify-between items-center text-[0.8rem] font-[600]">
+                        <span class="left flex flex-start items-center pl-[10px]">
+                            I/P<span class="inputs h-[10px] w-[10px] z-[38] rounded-full bg-[#ff0000] absolute left-[-5px] text-start cursor-pointer id_${card.id}" id="input_${cardNum}"></span>
+                        </span>
+						${inputElementString}
+                        <span class="right flex flex-start items-center pr-[10px]">
+                            O/P<span class="outputs h-[10px] w-[10px] z-[38] rounded-full bg-[#ff0000] absolute right-[-5px] text-start cursor-pointer id_${card.id}" id="output_${cardNum}"></span>
+                        </span>
+                    </p>
+                </button>
+        `;
+	}
 
-	export const htmls = [
-		{
-			id: 12,
-			name: 'html',
-			placeholder: 'html code',
-			size: { height: 300, width: 300 },
-			textarea: true
-		}
-	];
-
-	export const allCards = [
-		{
-			id: 0,
-			name: 'route',
-			placeholder: 'name',
-			size: { height: 100, width: 200 },
-			textarea: false
-		},
-		{
-			id: 1,
-			name: 'components',
-			placeholder: 'name',
-			size: { height: 100, width: 200 },
-			textarea: false
-		},
-		{
-			id: 2,
-			name: 'onClick',
-			placeholder: 'function',
-			size: { height: 100, width: 200 },
-			textarea: false
-		},
-		{
-			id: 3,
-			name: 'onSubmit',
-			placeholder: 'function',
-			size: { height: 100, width: 200 },
-			textarea: false
-		},
-		{
-			id: 4,
-			name: 'onKeyUp',
-			placeholder: 'function',
-			size: { height: 100, width: 200 },
-			textarea: false
-		},
-		{
-			id: 5,
-			name: 'onKeyDown',
-			placeholder: 'function',
-			size: { height: 100, width: 200 },
-			textarea: false
-		},
-		{
-			id: 6,
-			name: 'useState',
-			placeholder: 'initial value',
-			size: { height: 100, width: 200 },
-			textarea: false
-		},
-		{
-			id: 7,
-			name: 'useEffect',
-			placeholder: 'dependencies',
-			size: { height: 100, width: 200 },
-			textarea: false
-		},
-		{
-			id: 8,
-			name: 'useRef',
-			placeholder: 'initial value',
-			size: { height: 100, width: 200 },
-			textarea: false
-		},
-		{
-			id: 9,
-			name: 'const',
-			placeholder: 'value',
-			size: { height: 100, width: 200 },
-			textarea: false
-		},
-		{
-			id: 10,
-			name: 'let',
-			placeholder: 'value',
-			size: { height: 100, width: 200 },
-			textarea: false
-		},
-		{
-			id: 11,
-			name: 'function',
-			placeholder: 'name',
-			size: { height: 100, width: 200 },
-			textarea: false
-		},
-		{
-			id: 12,
-			name: 'html',
-			placeholder: 'html code',
-			size: { height: 300, width: 300 },
-			textarea: true
-		}
-	];
+	export function generalTextareaCard(card, cardNum) {
+		const textareaElementString = `<textarea id="text_${cardNum}" class="outline-none border-none rounded-lg bg-[#dddddd] bg-opacity-[0.8] text-[#101010] w-[80%] h-[50%] max-h-[80%] min-h-[30%] p-[5px] placeholder-[#333333] placeholder-opacity-[0.7]" placeholder="${card.placeholder}"></textarea>`;
+		return `
+        <button class="card flex-col rounded-xl cursor-default absolute z-[35] bg-[#fcfcfc] bg-opacity-[0.4] shadow-md flex justify-start items-center backdrop-blur-[4px] id_${card.id}"
+                    id="card_${cardNum}"
+                    style="left: 20px; top: 20px; height: ${card.size.height}px; width: ${card.size.width}px;"
+                    >
+                    <p class="title absolute top-0 bg-[#dddddd] w-[100%] z-[20] text-center rounded-xl rounded-b-none cursor-move">
+                        ${card.name}
+                    </p>
+                    <p class="flex w-[100%] h-[100%] justify-between items-center text-[0.8rem] font-[600]">
+                        <span class="left flex flex-start items-center pl-[10px]">
+                            I/P<span class="inputs h-[10px] w-[10px] z-[38] rounded-full bg-[#ff0000] absolute left-[-5px] text-start cursor-pointer id_${card.id}" id="input_${cardNum}"></span>
+                        </span>
+						${textareaElementString}
+                        <span class="right flex flex-start items-center pr-[10px]">
+                            O/P<span class="outputs h-[10px] w-[10px] z-[38] rounded-full bg-[#ff0000] absolute right-[-5px] text-start cursor-pointer id_${card.id}" id="output_${cardNum}"></span>
+                        </span>
+                    </p>
+                </button>
+        `;
+	}
 </script>
