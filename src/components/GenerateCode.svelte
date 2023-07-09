@@ -8,24 +8,36 @@
 		if (drawables.length === 0) {
 			return;
 		}
-		let canvasQueryString = '';
+		let canvasQueryString =
+			'This is the pseudocode in form of string of commands for React. You have to review each word the following string of commands, find a relation between them and generate the full code. You have to do exactly what is asked. You have to utilize the whole information given in the string of commands. ***You do not have to include unnecessary code apart from asked***.\n';
+
 		drawables.forEach((drawable) => {
 			const cards = drawable.cards;
 			const texts = drawable.inputs;
+			let inputCardName = allCards[cardIdMap[cards.input]].name;
 			let inputCardText = '';
+			texts.input.forEach((text, index) => {
+				if (index === texts.input.length - 1) {
+					inputCardText += `and ${text.name} is "${text.value}"`;
+				} else {
+					inputCardText += `${text.name} is "${text.value}", `;
+				}
+			});
+
+			let outputCardName = allCards[cardIdMap[cards.output]].name;
 			let outputCardText = '';
-			texts.input.forEach((text) => {
-				inputCardText += `{${text.name} : ${text.value}},\n`;
+			texts.output.forEach((text, index) => {
+				if (index === texts.output.length - 1) {
+					outputCardText += `and ${text.name} is "${text.value}"`;
+				} else {
+					outputCardText += `${text.name} is "${text.value}", `;
+				}
 			});
-			texts.output.forEach((text) => {
-				outputCardText += `{${text.name} : ${text.value}}\n`;
-			});
-			const inputCardName = `{${allCards[cardIdMap[cards.input]].name}, ${inputCardText}},\n`;
-			const outputCardName = `{${allCards[cardIdMap[cards.output]].name}, ${outputCardText}},\n`;
-			const inputCardQueryString = `${inputCardName}`;
-			const outputCardQueryString = `${outputCardName}`;
-			canvasQueryString += `{${inputCardQueryString}, ${outputCardQueryString}},\n`;
+			let inputCardQueryString = `${inputCardName}, whose ${inputCardText}`;
+			let outputCardQueryString = `${outputCardName}, whose ${outputCardText}`;
+			canvasQueryString += `${outputCardQueryString}, is inside ${inputCardQueryString}.\n`;
 		});
+		canvasQueryString.trim();
 		console.log(canvasQueryString);
 	}
 </script>
