@@ -1,9 +1,9 @@
 <script>
 	import Sidebar from '../components/Sidebar.svelte';
 	import Bottombar from '../components/Bottombar.svelte';
-	import Canvas from '../components/Canvas.svelte';
 	import { onMount } from 'svelte';
 	import { loadCanvas } from '../components/LoadCanvas.svelte';
+	import Canvas from '../components/Canvas.svelte';
 
 	onMount(() => {
 		loadCanvas('Canvas1');

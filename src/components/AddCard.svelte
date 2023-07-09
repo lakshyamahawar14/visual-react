@@ -37,7 +37,6 @@
 		inputText = []
 	) {
 		const card = allCards[cardId];
-		console.log(card.name, inputText);
 		const cardsContainer = document.querySelector('.canvas');
 		const cardHtmlString = card.textarea
 			? generalTextareaCard(cardId, cardNum)
@@ -46,7 +45,7 @@
 
 		const inputTagsContainer = document.querySelectorAll(`.cardInputs_${cardNum}`);
 		inputText.forEach((text, index) => {
-			inputTagsContainer[index].value = text;
+			inputTagsContainer[index].value = text.value;
 		});
 
 		const cardElement = document.getElementById(`card_${cardNum}`);
@@ -194,12 +193,12 @@
 					outputCardText = [];
 				const inputCardInputTags = document.querySelectorAll(`.cardInputs_${inputCardNumber}`);
 				inputCardInputTags?.forEach((inputTag) => {
-					inputCardText.push(inputTag.value);
+					inputCardText.push({ name: inputTag.placeholder, value: inputTag.value });
 				});
 
 				const outputCardInputTags = document.querySelectorAll(`.cardInputs_${outputCardNumber}`);
 				outputCardInputTags?.forEach((outputTag) => {
-					outputCardText.push(outputTag.value);
+					outputCardText.push({ name: outputTag.placeholder, value: outputTag.value });
 				});
 
 				const inputCardElement = document.getElementById(`input_${inputCardNumber}`);

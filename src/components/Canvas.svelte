@@ -1,6 +1,8 @@
 <script>
 	import { onMount } from 'svelte';
 	import { CanvasSizeStore, CanvasStore, updateCanvasSizeStore } from '../stores/stores';
+	import { generateCode } from './GenerateCode.svelte';
+	import { navigate } from 'svelte-routing';
 
 	let canvasSize;
 	CanvasSizeStore.subscribe((data) => {
@@ -23,6 +25,14 @@
 </script>
 
 <div class="flex flex-col w-[100%] overflow-auto">
+	<button
+		on:click={() => {
+			generateCode();
+		}}
+		class="absolute top-[10px] font-[500] right-[10px] px-[10px] py-[8px] z-[20] cursor-pointer hover:bg-[#cccccc] outline-none border-none rounded-lg text-[#101010] bg-[#dddddd] text-[0.8rem]"
+	>
+		Generate
+	</button>
 	<div class="canvas w-[100%] h-[75%] overflow-auto" bind:this={canvasRef}>
 		<svg class="lines z-[0]" height={canvasSize[0]} width={canvasSize[1]}>
 			{#each drawables as line}

@@ -11,7 +11,7 @@
 	export const componentsCards = [
 		{
 			id: 1,
-			name: 'components',
+			name: 'component',
 			placeholder: 'name',
 			size: { height: 200, width: 200 },
 			textarea: false
@@ -57,13 +57,20 @@
 		},
 		{
 			id: 7,
+			name: 'setState',
+			placeholder: 'prev',
+			size: { height: 100, width: 200 },
+			textarea: false
+		},
+		{
+			id: 8,
 			name: 'useEffect',
 			placeholder: 'dependencies',
 			size: { height: 100, width: 200 },
 			textarea: false
 		},
 		{
-			id: 8,
+			id: 9,
 			name: 'useRef',
 			placeholder: 'initial value',
 			size: { height: 200, width: 200 },
@@ -72,14 +79,14 @@
 	];
 	export const variables = [
 		{
-			id: 9,
+			id: 10,
 			name: 'const',
 			placeholder: 'value',
 			size: { height: 200, width: 200 },
 			textarea: false
 		},
 		{
-			id: 10,
+			id: 11,
 			name: 'let',
 			placeholder: 'value',
 			size: { height: 200, width: 200 },
@@ -88,7 +95,7 @@
 	];
 	export const functions = [
 		{
-			id: 11,
+			id: 12,
 			name: 'function',
 			placeholder: 'name',
 			size: { height: 200, width: 200 },
@@ -98,7 +105,7 @@
 
 	export const htmls = [
 		{
-			id: 12,
+			id: 13,
 			name: 'html',
 			placeholder: 'html code',
 			size: { height: 300, width: 300 },
@@ -108,14 +115,14 @@
 
 	export const timers = [
 		{
-			id: 13,
+			id: 14,
 			name: 'setTimeout',
 			placeholder: 'delay',
 			size: { height: 100, width: 200 },
 			textarea: false
 		},
 		{
-			id: 14,
+			id: 15,
 			name: 'setInterval',
 			placeholder: 'interval',
 			size: { height: 100, width: 200 },
@@ -133,7 +140,7 @@
 		},
 		{
 			id: 1,
-			name: 'components',
+			name: 'component',
 			placeholder: 'name',
 			size: { height: 200, width: 200 },
 			textarea: false
@@ -175,55 +182,62 @@
 		},
 		{
 			id: 7,
+			name: 'setState',
+			placeholder: 'prev',
+			size: { height: 100, width: 200 },
+			textarea: false
+		},
+		{
+			id: 8,
 			name: 'useEffect',
 			placeholder: 'dependencies',
 			size: { height: 100, width: 200 },
 			textarea: false
 		},
 		{
-			id: 8,
+			id: 9,
 			name: 'useRef',
 			placeholder: 'initial value',
 			size: { height: 200, width: 200 },
 			textarea: false
 		},
 		{
-			id: 9,
+			id: 10,
 			name: 'const',
 			placeholder: 'value',
 			size: { height: 200, width: 200 },
 			textarea: false
 		},
 		{
-			id: 10,
+			id: 11,
 			name: 'let',
 			placeholder: 'value',
 			size: { height: 200, width: 200 },
 			textarea: false
 		},
 		{
-			id: 11,
+			id: 12,
 			name: 'function',
 			placeholder: 'name',
 			size: { height: 200, width: 200 },
 			textarea: false
 		},
 		{
-			id: 12,
+			id: 13,
 			name: 'html',
 			placeholder: 'html code',
 			size: { height: 300, width: 300 },
 			textarea: true
 		},
 		{
-			id: 13,
+			id: 14,
 			name: 'setTimeout',
 			placeholder: 'delay',
 			size: { height: 100, width: 200 },
 			textarea: false
 		},
 		{
-			id: 14,
+			id: 15,
 			name: 'setInterval',
 			placeholder: 'interval',
 			size: { height: 100, width: 200 },
