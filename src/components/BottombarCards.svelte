@@ -98,14 +98,21 @@
 			id: 12,
 			name: 'function',
 			placeholder: 'name',
-			size: { height: 200, width: 200 },
+			size: { height: 300, width: 300 },
+			textarea: false
+		},
+		{
+			id: 13,
+			name: 'javascript',
+			placeholder: 'operation',
+			size: { height: 100, width: 200 },
 			textarea: false
 		}
 	];
 
 	export const htmls = [
 		{
-			id: 13,
+			id: 14,
 			name: 'html',
 			placeholder: 'html code',
 			size: { height: 300, width: 300 },
@@ -115,14 +122,14 @@
 
 	export const timers = [
 		{
-			id: 14,
+			id: 15,
 			name: 'setTimeout',
 			placeholder: 'delay',
 			size: { height: 100, width: 200 },
 			textarea: false
 		},
 		{
-			id: 15,
+			id: 16,
 			name: 'setInterval',
 			placeholder: 'interval',
 			size: { height: 100, width: 200 },
@@ -219,25 +226,33 @@
 			id: 12,
 			name: 'function',
 			placeholder: 'name',
-			size: { height: 200, width: 200 },
+			size: { height: 300, width: 300 },
+			textarea: false
+		},
+
+		{
+			id: 13,
+			name: 'javascript',
+			placeholder: 'operation',
+			size: { height: 100, width: 200 },
 			textarea: false
 		},
 		{
-			id: 13,
+			id: 14,
 			name: 'html',
 			placeholder: 'html code',
 			size: { height: 300, width: 300 },
 			textarea: true
 		},
 		{
-			id: 14,
+			id: 15,
 			name: 'setTimeout',
 			placeholder: 'delay',
 			size: { height: 100, width: 200 },
 			textarea: false
 		},
 		{
-			id: 15,
+			id: 16,
 			name: 'setInterval',
 			placeholder: 'interval',
 			size: { height: 100, width: 200 },
