@@ -1,6 +1,12 @@
 <script context="module">
-	import { getCanvasStore } from '../stores/stores';
+	import { OpenAPIStore, getCanvasStore } from '../stores/stores';
 	import { allCards } from './BottombarCards.svelte';
+	import { API_KEY } from './OpenAI.svelte';
+
+	let openaiObj;
+	OpenAPIStore.subscribe((data) => {
+		openaiObj = data;
+	});
 
 	export async function generateCode() {
 		const canvasData = getCanvasStore();
@@ -37,7 +43,38 @@
 			let outputCardQueryString = `${outputCardName}, whose ${outputCardText}`;
 			canvasQueryString += `${outputCardQueryString}, is inside ${inputCardQueryString}.\n`;
 		});
+
 		canvasQueryString.trim();
+		const requestOptions = {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: 'Bearer ' + String(API_KEY)
+			},
+			body: JSON.stringify({
+				prompt: canvasQueryString,
+				temperature: 0.1,
+				max_tokens: 30,
+				top_p: 1,
+				frequency_penalty: 0,
+				presence_penalty: 0.5,
+				stop: ['"""']
+			})
+		};
+
+		try {
+			fetch('https://api.openai.com/v1/engines/text-davinci-003/completions', requestOptions)
+				.then((response) => response.json())
+				.then((data) => {
+					console.log(data);
+				})
+				.catch((err) => {
+					console.log('Ran out of tokens for today! Try tomorrow!');
+				});
+		} catch (error) {
+			console.log(error);
+		}
+
 		return canvasQueryString;
 	}
 </script>
