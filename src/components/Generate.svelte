@@ -1,5 +1,8 @@
 <script>
 	import { GeneratedCodeStore } from '../stores/stores';
+	import { Highlight } from 'svelte-highlight';
+	import { javascript } from 'svelte-highlight/languages';
+	import { atomOneDark } from 'svelte-highlight/styles';
 
 	let code;
 	GeneratedCodeStore.subscribe((data) => {
@@ -29,6 +32,10 @@
 	}
 </script>
 
+<svelte:head>
+	{@html atomOneDark}
+</svelte:head>
+
 <div id="generate" class="bg-[#333333] w-[100%] max-h-[75vh] overflow-y-auto toggle-display">
 	<button
 		id="copybtn"
@@ -37,7 +44,7 @@
 	>
 		Copy
 	</button>
-	<div class="codeContainer">
-		<p id="code" class="text-[#fcfcfc] p-[20px] code">{code}</p>
+	<div class="codeContainer h-[100%] w-[100%]">
+		<Highlight language={javascript} {code} />
 	</div>
 </div>
