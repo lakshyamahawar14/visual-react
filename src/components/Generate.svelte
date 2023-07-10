@@ -10,24 +10,20 @@
 	});
 
 	function copyText() {
-		const codeElement = document.getElementById('code');
-		if (codeElement) {
-			const textToCopy = codeElement.innerText;
-			const tempTextArea = document.createElement('textarea');
-
-			tempTextArea.value = textToCopy;
-			document.body.appendChild(tempTextArea);
-			tempTextArea.select();
-			tempTextArea.setSelectionRange(0, 99999);
-			document.execCommand('copy');
-			document.body.removeChild(tempTextArea);
-			const copyElement = document.getElementById('copybtn');
-			if (copyElement) {
-				copyElement.innerText = 'Copied';
-				setTimeout(() => {
-					copyElement.innerText = 'Copy';
-				}, 2000);
-			}
+		const textToCopy = code;
+		const tempTextArea = document.createElement('textarea');
+		tempTextArea.value = textToCopy;
+		document.body.appendChild(tempTextArea);
+		tempTextArea.select();
+		tempTextArea.setSelectionRange(0, 99999);
+		document.execCommand('copy');
+		document.body.removeChild(tempTextArea);
+		const copyElement = document.getElementById('copybtn');
+		if (copyElement) {
+			copyElement.innerText = 'Copied';
+			setTimeout(() => {
+				copyElement.innerText = 'Copy';
+			}, 2000);
 		}
 	}
 </script>
