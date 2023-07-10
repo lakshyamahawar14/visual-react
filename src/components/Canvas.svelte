@@ -58,6 +58,9 @@
 			{/each}
 		</svg>
 	</div>
+	<div id="autosave" class="absolute top-[70vh] right-0 hidden">
+		<p class="text-[0.7rem] text-[#101010] p-[10px] font-[500]">Autosaving...</p>
+	</div>
 </div>
 
 <style>

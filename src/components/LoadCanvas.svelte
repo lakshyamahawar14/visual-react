@@ -13,8 +13,15 @@
 	});
 
 	export function autosaveCanvas() {
+		const autosaveElement = document.getElementById('autosave');
 		let canvasData = getCanvasStore();
 		localStorage.setItem(currentCanvas, JSON.stringify(canvasData));
+		if (autosaveElement) {
+			autosaveElement.classList.remove('hidden');
+			setTimeout(() => {
+				autosaveElement.classList.add('hidden');
+			}, 1000);
+		}
 	}
 
 	function getCanvasStoreValue(name) {
