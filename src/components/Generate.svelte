@@ -18,12 +18,20 @@
 			tempTextArea.setSelectionRange(0, 99999);
 			document.execCommand('copy');
 			document.body.removeChild(tempTextArea);
+			const copyElement = document.getElementById('copybtn');
+			if (copyElement) {
+				copyElement.innerText = 'Copied';
+				setTimeout(() => {
+					copyElement.innerText = 'Copy';
+				}, 2000);
+			}
 		}
 	}
 </script>
 
-<div id="generate" class="bg-[#333333] w-[100%] toggle-display">
+<div id="generate" class="bg-[#333333] w-[100%] max-h-[75vh] overflow-y-auto toggle-display">
 	<button
+		id="copybtn"
 		on:click={copyText}
 		class="absolute top-[10px] font-[500] right-[10px] px-[10px] py-[8px] z-[20] cursor-pointer hover:bg-[#cccccc] outline-none border-none rounded-lg text-[#101010] bg-[#dddddd] text-[0.8rem]"
 	>
