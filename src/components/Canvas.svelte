@@ -1,8 +1,12 @@
 <script>
 	import { onMount } from 'svelte';
-	import { CanvasSizeStore, CanvasStore, updateCanvasSizeStore } from '../stores/stores';
+	import {
+		CanvasSizeStore,
+		CanvasStore,
+		GeneratedCodeStore,
+		updateCanvasSizeStore
+	} from '../stores/stores';
 	import { generateCode } from './GenerateCode.svelte';
-	import { navigate } from 'svelte-routing';
 
 	let canvasSize;
 	CanvasSizeStore.subscribe((data) => {
@@ -26,8 +30,16 @@
 
 <div class="flex flex-col w-[100%] overflow-auto">
 	<button
-		on:click={() => {
-			generateCode();
+		on:click={async () => {
+			if (drawables.length === 0) return;
+			const generateElement = document.getElementById('generate');
+			if (generateElement) {
+				generateElement.classList.toggle('toggle-display');
+			}
+			const code = await generateCode();
+			GeneratedCodeStore.update((prevCode) => {
+				return code;
+			});
 		}}
 		class="absolute top-[10px] font-[500] right-[10px] px-[10px] py-[8px] z-[20] cursor-pointer hover:bg-[#cccccc] outline-none border-none rounded-lg text-[#101010] bg-[#dddddd] text-[0.8rem]"
 	>

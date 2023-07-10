@@ -38,6 +38,6 @@
 			canvasQueryString += `${outputCardQueryString}, is inside ${inputCardQueryString}.\n`;
 		});
 		canvasQueryString.trim();
-		console.log(canvasQueryString);
+		return canvasQueryString;
 	}
 </script>

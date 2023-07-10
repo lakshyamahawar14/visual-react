@@ -115,6 +115,8 @@ const CanvasListStore = writable(['Canvas1']);
 
 const CurrentCanvasStore = writable('Canvas1');
 
+const GeneratedCodeStore = writable('');
+
 export {
 	CardStore,
 	CanvasSizeStore,
@@ -122,6 +124,7 @@ export {
 	CanvasStore,
 	CanvasListStore,
 	CurrentCanvasStore,
+	GeneratedCodeStore,
 	getCardStore,
 	updateCardStore,
 	getCanvasSizeStore,

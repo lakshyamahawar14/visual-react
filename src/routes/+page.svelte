@@ -4,6 +4,7 @@
 	import { onMount } from 'svelte';
 	import { loadCanvas } from '../components/LoadCanvas.svelte';
 	import Canvas from '../components/Canvas.svelte';
+	import Generate from '../components/Generate.svelte';
 
 	onMount(() => {
 		loadCanvas('Canvas1');
@@ -13,5 +14,6 @@
 <div class="main min-h-[100vh] min-w-[100vw] flex overflow-hidden">
 	<Sidebar />
 	<Canvas />
+	<Generate />
 	<Bottombar />
 </div>
