@@ -2,7 +2,7 @@
 	import { GeneratedCodeStore } from '../stores/stores';
 	import { Highlight } from 'svelte-highlight';
 	import { javascript } from 'svelte-highlight/languages';
-	import { atomOneDark } from 'svelte-highlight/styles';
+	import { a11yDark } from 'svelte-highlight/styles';
 
 	let code;
 	GeneratedCodeStore.subscribe((data) => {
@@ -29,7 +29,7 @@
 </script>
 
 <svelte:head>
-	{@html atomOneDark}
+	{@html a11yDark}
 </svelte:head>
 
 <div id="generate" class="bg-[#333333] w-[100%] max-h-[75vh] overflow-y-auto toggle-display">
