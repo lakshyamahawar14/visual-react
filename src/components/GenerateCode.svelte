@@ -1,7 +1,6 @@
 <script context="module">
 	import { GeneratedCodeStore, OpenAPIStore, getCanvasStore } from '../stores/stores';
 	import { allCards } from './BottombarCards.svelte';
-	import { API_KEY } from './OpenAI.svelte';
 
 	let openaiObj;
 	OpenAPIStore.subscribe((data) => {
@@ -49,7 +48,7 @@
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
-				Authorization: 'Bearer ' + String(API_KEY)
+				Authorization: 'Bearer ' + String(process.env.API_KEY)
 			},
 			body: JSON.stringify({
 				prompt: canvasQueryString,
