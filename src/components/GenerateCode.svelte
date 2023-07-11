@@ -1,5 +1,5 @@
 <script context="module">
-	import { OpenAPIStore, getCanvasStore } from '../stores/stores';
+	import { GeneratedCodeStore, OpenAPIStore, getCanvasStore } from '../stores/stores';
 	import { allCards } from './BottombarCards.svelte';
 	import { API_KEY } from './OpenAI.svelte';
 
@@ -66,7 +66,16 @@
 			fetch('https://api.openai.com/v1/engines/text-davinci-003/completions', requestOptions)
 				.then((response) => response.json())
 				.then((data) => {
-					console.log(data);
+					if (data.choices) {
+						const responseText = data.choices[0].text;
+						GeneratedCodeStore.update((prevCode) => {
+							return responseText.slice(1);
+						});
+					} else {
+						GeneratedCodeStore.update((prevCode) => {
+							return 'server down...';
+						});
+					}
 				})
 				.catch((err) => {
 					console.log('Ran out of tokens for today! Try tomorrow!');
@@ -75,6 +84,6 @@
 			console.log(error);
 		}
 
-		return canvasQueryString;
+		return 'Loading...';
 	}
 </script>
